@@ -11,7 +11,7 @@
         </div>
         <div class="navbar-collapse collapse">  
           <ul class="nav navbar-nav">
-            <li class="active"><a href="<c:url value="/" />">Home</a></li>
+            <li class="active"><a href="<c:url value="/" />">第一菜单</a></li>
             <li><a href="<c:url value="/getstarted" />">Get started</a></li>
             <li><a href="<c:url value="/errors-validations" />">Errors &amp; Validations</a></li>
             <li><a href="<c:url value="/form" />">Forms</a></li>
