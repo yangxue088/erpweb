@@ -24,14 +24,9 @@
       <form id="form" class="form-signin" action="signin" method="post" role="form">
         <h2 class="form-signin-heading">请登录</h2>
         <label for="inputUsername" class="sr-only">Username</label>
-        <input type="input" id="inputUsername" class="form-control" placeholder="Username" required="required" autofocus="">
+        <input type="input" id="inputUsername" name="username" class="form-control" placeholder="用户名" required="required" autofocus=""/>
         <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="required">
-        <div class="checkbox">
-          <label>
-            <input type="checkbox" value="remember-me"> 记住我
-          </label>
-        </div>
+        <input type="password" id="inputPassword" name="password" class="form-control" placeholder="密码" required="required"/>
         <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
       </form>
 
