@@ -15,7 +15,9 @@
 
 	<context:component-scan base-package="com.erp.mvc" />
 	
-	<!--Routes -->
-	<mvc:view-controller path="/" view-name="index"/>
-
+	<!--static routes -->
+	<mvc:view-controller path="/login" view-name="login"/>
+	
+	<!--redirect routes -->
+	<mvc:redirect-view-controller path="/" redirect-url="login"/>
 </beans>
