@@ -1,9 +1,9 @@
 package com.erp.bean.authority;
 
 public class User {
-	private String id;
-	private String username;
-	private String password;
+	protected String id;
+	protected String username;
+	protected String password;
 	
 	public String getId() {
 		return id;

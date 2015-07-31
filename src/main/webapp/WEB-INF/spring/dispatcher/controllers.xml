@@ -18,6 +18,8 @@
 	<!--static routes -->
 	<mvc:view-controller path="/login" view-name="login"/>
 	
+	<mvc:view-controller path="/home" view-name="home"/>
+	
 	<!--redirect routes -->
 	<mvc:redirect-view-controller path="/" redirect-url="login"/>
 </beans>
