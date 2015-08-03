@@ -2,6 +2,6 @@
     pageEncoding="UTF-8"%>
 <html>
 <body>
-	我是中文
+	我是主页
 </body>
 </html>

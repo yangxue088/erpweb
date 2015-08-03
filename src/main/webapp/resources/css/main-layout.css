@@ -1,0 +1,14 @@
+#top {
+  margin-bottom: 10px;
+}
+
+#footer{
+    position: relative;
+  height: 20px;
+  clear:both;
+}
+
+.soften{
+    margin-top: -10px;
+  margin-bottom: 10px
+}
