@@ -11,6 +11,23 @@
                            http://www.springframework.org/schema/mvc
                            http://www.springframework.org/schema/mvc/spring-mvc-4.1.xsd">
 
+	<context:component-scan base-package="com.erp" />
+
+	<mvc:annotation-driven>
+		<mvc:message-converters register-defaults="true">
+			<bean
+				class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+				<property name="objectMapper">
+					<bean class="com.fasterxml.jackson.databind.ObjectMapper">
+						<property name="serializationInclusion">
+							<value type="com.fasterxml.jackson.annotation.JsonInclude.Include">NON_NULL</value>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving 
 		up static resources in the ${webappRoot}/resources/ directory -->
 	<mvc:resources mapping="/resources/**" location="/resources/" />
@@ -27,7 +44,5 @@
 	<import resource="controllers.xml" />
 
 	<aop:aspectj-autoproxy />
-	
-	
 
 </beans>

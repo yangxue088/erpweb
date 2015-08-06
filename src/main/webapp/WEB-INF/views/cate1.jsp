@@ -17,9 +17,20 @@ pageEncoding="UTF-8"%>
 		</div>
 	</div>
 
-<link href="<c:url value="/resources/webix/webix.css" />"
+	<link href="<c:url value="/resources/webix/webix.css" />"
 	rel="stylesheet"  type="text/css" />
-<script type="text/javascript" src="<c:url value="/resources/webix/webix.js" />"></script>
+	<script type="text/javascript" src="<c:url value="/resources/webix/webix.js" />"></script>
+
+	<style type="text/css">
+			.webix_drag_handle{
+				background-image:url("<c:url value="/resources/webix/webix.js" />");
+				background-repeat: no-repeat;
+				background-position: -2px 3px;
+				width:20px;
+				height:20px;
+				cursor:n-resize;
+			}
+	</style>
 
 	<script type="text/javascript">
 
@@ -28,15 +39,20 @@ pageEncoding="UTF-8"%>
 			container:"treeview",
 			view:"treetable",
 			columns:[
-			{ id:"id",	header:"", css:{"text-align":"right"},  	width:50},
-			{ id:"value",	header:"Film title",	width:250,
-			template:"{common.treetable()} #value#" },
-			{ id:"chapter",	header:"Mode",	width:200}
+			{ id:"value", editor:"text", header:"产品组", width:400, template:"{common.treetable()} #value#" },
+			{ id:"id", header:"展开分组", css:{"text-align":"right"}, width:100},
+			{ id:"chapter", header:"组内产品管理", width:145},
+			{ id:"op", header:"操作", width:82}
 			],
 			autoheight:true,
 			autowidth:true,
+			/*editable:true,*/
+			select:"row",
+			drag:true,
 
-			data: [
+			url:"cate/tree"
+
+			/*data: [
 			{ "id":"1", "value":"The Shawshank Redemption", "open":true, "data":[
 			{ "id":"1.1", "value":"Part 1", "chapter":"alpha"},
 			{ "id":"1.2", "value":"Part 2", "chapter":"beta", "open":true, "data":[
@@ -49,7 +65,7 @@ pageEncoding="UTF-8"%>
 			{ "id":"2.1", "value":"Part 1", "chapter":"alpha" },
 			{ "id":"2.2", "value":"Part 2", "chapter":"beta" }
 			]}
-			]
+			]*/
 		});	
 	});
 
