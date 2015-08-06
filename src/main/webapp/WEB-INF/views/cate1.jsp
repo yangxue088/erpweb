@@ -42,6 +42,11 @@ pageEncoding="UTF-8"%>
 			on:{
 				onBeforeDrag:function(data, e){
 					return (e.target||e.srcElement).className == "glyphicon glyphicon-move";
+				},
+
+				onEditorChange:function(id, value){
+					alert(value);
+					return true;
 				}
 			}
 		});
