@@ -4,16 +4,10 @@ pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <html>
-<head>
-	
-</head>
 <body>
 	<div class="row">
-		<div class="col-sm-3">
+		<div class="col-sm-5">
 			<div id="treeview" class="treeview"></div>
-		</div>
-		<div class="col-sm-9">
-			
 		</div>
 	</div>
 
@@ -21,52 +15,41 @@ pageEncoding="UTF-8"%>
 	rel="stylesheet"  type="text/css" />
 	<script type="text/javascript" src="<c:url value="/resources/webix/webix.js" />"></script>
 
-	<style type="text/css">
-			.webix_drag_handle{
-				background-image:url("<c:url value="/resources/webix/webix.js" />");
-				background-repeat: no-repeat;
-				background-position: -2px 3px;
-				width:20px;
-				height:20px;
-				cursor:n-resize;
-			}
-	</style>
-
 	<script type="text/javascript">
 
 	webix.ready(function(){
-		grida = webix.ui({
+		grid = webix.ui({
 			container:"treeview",
 			view:"treetable",
 			columns:[
-			{ id:"value", editor:"text", header:"产品组", width:400, template:"{common.treetable()} #value#" },
-			{ id:"id", header:"展开分组", css:{"text-align":"right"}, width:100},
-			{ id:"chapter", header:"组内产品管理", width:145},
-			{ id:"op", header:"操作", width:82}
+			{ id:"category", editor:"text", header:"产品组", width:400, template:"{common.treetable()} #category#" },
+			{ id:"createSubCategory", header:"创建子分组", width:145, template:"<a href='#'>#createSubCategory#</a>" },
+			{ id:"manageProduct", header:"组内产品管理", width:145, template:"<a href='#'>#manageProduct#</a>" },
+			{ id:"operation", header:"操作", width:82, template:"<div class='glyphicon glyphicon-move' style='padding:0px 5px 0px 5px;'></div><div class='glyphicon glyphicon-remove' style='padding:0px 5px 0px 5px;'></div>" }
 			],
 			autoheight:true,
 			autowidth:true,
-			/*editable:true,*/
-			select:"row",
-			drag:true,
 
-			url:"cate/tree"
+			editable:true,
+			editaction:"custom",
+			select:"cell",
+			navigation:true,
 
-			/*data: [
-			{ "id":"1", "value":"The Shawshank Redemption", "open":true, "data":[
-			{ "id":"1.1", "value":"Part 1", "chapter":"alpha"},
-			{ "id":"1.2", "value":"Part 2", "chapter":"beta", "open":true, "data":[
-			{ "id":"1.2.1", "value":"Part 1", "chapter":"beta-twin"},
-			{ "id":"1.2.2", "value":"Part 1", "chapter":"beta-twin"}
-			]},
-			{ "id":"1.3", "value":"Part 3", "chapter":"gamma" }
-			]},
-			{ "id":"2", "value":"The Godfather", "data":[
-			{ "id":"2.1", "value":"Part 1", "chapter":"alpha" },
-			{ "id":"2.2", "value":"Part 2", "chapter":"beta" }
-			]}
-			]*/
-		});	
+			url:"cate/tree",
+
+			drag:"order",
+
+			on:{
+				onBeforeDrag:function(data, e){
+					return (e.target||e.srcElement).className == "glyphicon glyphicon-move";
+				}
+			}
+		});
+
+		webix.UIManager.addHotKey("enter", function(view){
+			var pos = view.getSelectedId();
+			view.edit(pos);
+		}, grid);
 	});
 
 	</script>

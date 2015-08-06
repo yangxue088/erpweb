@@ -26,7 +26,9 @@ public class CateService {
 		Collections.reverse(cates);
 		for (Cate cate : cates) {
 			JsonNode<Cate> node = new JsonNode<Cate>(cate);
-			node.setAttribute("value", cate.getName());
+			node.setAttribute("category", cate.getName());
+			node.setAttribute("createSubCategory", cate.getName());
+			node.setAttribute("manageProduct", cate.getName());
 			node.setAttribute("open", true);
 			while (!stack.isEmpty()
 					&& cate.getDepth() < stack.peek().getT().getDepth()) {
