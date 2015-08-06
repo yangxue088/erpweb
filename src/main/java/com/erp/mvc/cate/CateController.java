@@ -11,6 +11,6 @@ public class CateController {
 
 	@RequestMapping(value = "/cate")
 	public String home(ModelMap modelMap) {
-		return "cate";
+		return "cate1";
 	}
 }

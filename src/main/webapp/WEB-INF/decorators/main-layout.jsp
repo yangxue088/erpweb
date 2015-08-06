@@ -11,13 +11,13 @@ pageEncoding="UTF-8"%>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="">
   <meta name="author" content="">
-  <link href="<c:url value="/resources/css/bootstrap.min.css" />"
+  <link href="<c:url value="/resources/bootstrap/bootstrap.min.css" />"
   rel="stylesheet"  type="text/css" />
-  <link href="<c:url value="/resources/css/main-layout.css" />"
+  <link href="<c:url value="/resources/erp/css/main-layout.css" />"
   rel="stylesheet"  type="text/css" />
 
-  <script type="text/javascript" src="<c:url value="/resources/js/jquery.min.js" />"></script>
-  <script type="text/javascript" src="<c:url value="/resources/js/bootstrap.min.js" />"></script>
+  <script type="text/javascript" src="<c:url value="/resources/jquery/jquery.min.js" />"></script>
+  <script type="text/javascript" src="<c:url value="/resources/bootstrap/bootstrap.min.js" />"></script>
 </head>
 
 <body>
