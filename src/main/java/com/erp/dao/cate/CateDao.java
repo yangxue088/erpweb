@@ -20,16 +20,43 @@ public class CateDao {
 		List<Cate> cates = Lists.newArrayList();
 
 		SqlRowSet rs = jdbcTemplate
-				.queryForRowSet("select node.name as name, (count(parent.name) - 1) as depth from category as node, category as parent where node.lft between parent.lft and parent.rgt group by node.name order by node.lft");
+				.queryForRowSet("select node.id as id, node.name as name, (count(parent.name) - 1) as depth, node.lft as lft, node.rgt as rgt from category as node, category as parent where node.lft between parent.lft and parent.rgt group by node.name order by node.lft");
 
 		while (rs.next()) {
 			Cate cate = new Cate();
+			cate.setId(rs.getString("id"));
 			cate.setName(rs.getString("name"));
 			cate.setDepth(rs.getInt("depth"));
+			cate.setLft(rs.getInt("lft"));
+			cate.setRgt(rs.getInt("rgt"));
 			cates.add(cate);
 		}
 
 		return cates;
+	}
+
+	public Cate getCate(String id) {
+		SqlRowSet rs = jdbcTemplate
+				.queryForRowSet(
+						"select node.id as id, node.name as name, node.lft as lft, node.rgt as rgt from category as node where node.id=?",
+						id);
+
+		while (rs.next()) {
+			Cate cate = new Cate();
+			cate.setId(rs.getString("id"));
+			cate.setName(rs.getString("name"));
+			cate.setLft(rs.getInt("lft"));
+			cate.setRgt(rs.getInt("rgt"));
+			return cate;
+		}
+
+		return null;
+	}
+
+	public void uptCate(String id, Cate cate) {
+		jdbcTemplate.update(
+				"update category set name=?, lft=?, rgt=? where id=?",
+				cate.getName(), cate.getLft(), cate.getRgt(), id);
 	}
 
 }

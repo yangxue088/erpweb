@@ -26,9 +26,11 @@ public class CateService {
 		Collections.reverse(cates);
 		for (Cate cate : cates) {
 			JsonNode<Cate> node = new JsonNode<Cate>(cate);
+			node.setAttribute("id", cate.getId());
 			node.setAttribute("category", cate.getName());
 			node.setAttribute("createSubCategory", cate.getName());
 			node.setAttribute("manageProduct", cate.getName());
+			node.setAttribute("depth", cate.getDepth());
 			node.setAttribute("open", true);
 			while (!stack.isEmpty()
 					&& cate.getDepth() < stack.peek().getT().getDepth()) {
@@ -42,5 +44,24 @@ public class CateService {
 		}
 
 		return jsonTree;
+	}
+	
+	public void exchange(String sid, String tid){
+		Cate scate = cateDao.getCate(sid);
+		Cate tcate = cateDao.getCate(tid);
+		
+		if(scate!=null && tcate!=null){
+			int slft = scate.getLft();
+			int srgt = scate.getRgt();
+			
+			scate.setLft(tcate.getLft());
+			scate.setRgt(tcate.getRgt());
+			
+			tcate.setLft(slft);
+			tcate.setRgt(srgt);
+			
+			cateDao.uptCate(scate.getId(), scate);
+			cateDao.uptCate(tcate.getId(), tcate);
+		}
 	}
 }

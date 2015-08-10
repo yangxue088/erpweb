@@ -1,0 +1,29 @@
+show procedure status;
+
+show create procedure create_brother;
+
+drop procedure category_create_brother;
+
+delete from category;
+
+call category_create_brother('','parent1');
+
+call category_create_child('parent1','p1_child1');
+
+call category_create_brother('p1_child1','p1_child2');
+
+call category_create_brother('parent1','parent2');
+
+call category_create_child('parent2','p2_child1');
+
+call category_create_brother('p2_child1','p2_child2');
+
+call category_create_brother('p2_child2','p2_child3');
+
+call category_create_brother('parent2','parent3');
+
+call category_create_child('parent3','p3_child1');
+
+call category_create_brother('p3_child1','p3_child2');
+
+call category_create_brother('p3_child2','p3_child3');

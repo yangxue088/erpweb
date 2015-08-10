@@ -1,0 +1,14 @@
+select 
+    node.id as id,
+    node.name as name,
+    (count(parent.name) - 1) as depth,
+    node.lft as lft,
+    node.rgt as rgt,
+	node.delete_flag as flag
+from
+    category as node,
+    category as parent
+where
+    node.lft between parent.lft and parent.rgt
+group by node.name
+order by node.lft
