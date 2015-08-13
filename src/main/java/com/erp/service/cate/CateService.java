@@ -16,6 +16,16 @@ public class CateService {
 	@Autowired
 	private CateDao cateDao;
 
+	private JsonNode<Cate> wrap(Cate cate) {
+		JsonNode<Cate> node = new JsonNode<Cate>(cate);
+		if (cate != null) {
+			node.setAttribute("cateid", cate.getId());
+			node.setAttribute("category", cate.getName());
+			node.setAttribute("manageProduct", cate.getName());
+		}
+		return node;
+	}
+
 	public JsonTree<Cate> queryCates() {
 		JsonTree<Cate> jsonTree = new JsonTree<Cate>();
 
@@ -25,13 +35,7 @@ public class CateService {
 
 		Collections.reverse(cates);
 		for (Cate cate : cates) {
-			JsonNode<Cate> node = new JsonNode<Cate>(cate);
-			node.setAttribute("id", cate.getId());
-			node.setAttribute("category", cate.getName());
-			node.setAttribute("createSubCategory", cate.getName());
-			node.setAttribute("manageProduct", cate.getName());
-			node.setAttribute("depth", cate.getDepth());
-			node.setAttribute("open", true);
+			JsonNode<Cate> node = wrap(cate);
 			while (!stack.isEmpty()
 					&& cate.getDepth() < stack.peek().getT().getDepth()) {
 				node.addChild(stack.pop());
@@ -45,23 +49,22 @@ public class CateService {
 
 		return jsonTree;
 	}
-	
-	public void exchange(String sid, String tid){
-		Cate scate = cateDao.getCate(sid);
-		Cate tcate = cateDao.getCate(tid);
-		
-		if(scate!=null && tcate!=null){
-			int slft = scate.getLft();
-			int srgt = scate.getRgt();
-			
-			scate.setLft(tcate.getLft());
-			scate.setRgt(tcate.getRgt());
-			
-			tcate.setLft(slft);
-			tcate.setRgt(srgt);
-			
-			cateDao.uptCate(scate.getId(), scate);
-			cateDao.uptCate(tcate.getId(), tcate);
-		}
+
+	public void sort(String sname, String tname) {
+		cateDao.sort(sname, tname);
+	}
+
+	public void upt(String id, String name) {
+		Cate cate = new Cate();
+		cate.setName(name);
+		cateDao.uptCate(id, cate);
+	}
+
+	public void del(String name) {
+		cateDao.delCate(name);
+	}
+
+	public JsonNode<Cate> add(String pname, String name, boolean child) {
+		return wrap(cateDao.addCate(pname, name, child));
 	}
 }

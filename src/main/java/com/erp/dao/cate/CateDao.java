@@ -53,10 +53,46 @@ public class CateDao {
 		return null;
 	}
 
+	public Cate getCateName(String name) {
+		SqlRowSet rs = jdbcTemplate
+				.queryForRowSet(
+						"select node.id as id, node.name as name, node.lft as lft, node.rgt as rgt from category as node where node.name=?",
+						name);
+
+		while (rs.next()) {
+			Cate cate = new Cate();
+			cate.setId(rs.getString("id"));
+			cate.setName(rs.getString("name"));
+			cate.setLft(rs.getInt("lft"));
+			cate.setRgt(rs.getInt("rgt"));
+			return cate;
+		}
+
+		return null;
+	}
+
 	public void uptCate(String id, Cate cate) {
-		jdbcTemplate.update(
-				"update category set name=?, lft=?, rgt=? where id=?",
-				cate.getName(), cate.getLft(), cate.getRgt(), id);
+		jdbcTemplate.update("update category set name=? where id=?",
+				cate.getName(), id);
+	}
+
+	public void sort(String sname, String tname) {
+		jdbcTemplate.update("{call category_sort_node(?, ?)}", sname, tname);
+	}
+
+	public void delCate(String name) {
+		jdbcTemplate.update("{call category_delete_node(?)}", name);
+	}
+
+	public Cate addCate(String pname, String name, boolean child) {
+		if (child) {
+			jdbcTemplate.update("{call category_create_child(?, ?)}", pname,
+					name);
+		} else {
+			jdbcTemplate.update("{call category_create_brother(?, ?)}", pname,
+					name);
+		}
+		return getCateName(name);
 	}
 
 }

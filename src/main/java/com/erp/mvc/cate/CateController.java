@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.erp.bean.cate.Cate;
 import com.erp.service.cate.CateService;
+import com.erp.service.cate.JsonNode;
 import com.erp.service.cate.JsonTree;
 
 @Controller
@@ -22,7 +23,7 @@ public class CateController {
 
 	@RequestMapping
 	public String cate(ModelMap modelMap) {
-		return "cate1";
+		return "cate";
 	}
 
 	@RequestMapping(value = "/tree")
@@ -31,9 +32,28 @@ public class CateController {
 		return cateService.queryCates();
 	}
 
-	@RequestMapping(value = "/exchange")
+	@RequestMapping(value = "/sort")
 	public @ResponseBody
-	void exchange(@RequestParam String sid, @RequestParam String tid) {
-		cateService.exchange(sid, tid);
+	void sort(@RequestParam String sname, @RequestParam String tname) {
+		cateService.sort(sname, tname);
+	}
+
+	@RequestMapping(value = "/upt")
+	public @ResponseBody
+	void upt(@RequestParam String id, @RequestParam String name) {
+		cateService.upt(id, name);
+	}
+
+	@RequestMapping(value = "/del")
+	public @ResponseBody
+	void del(@RequestParam String name) {
+		cateService.del(name);
+	}
+
+	@RequestMapping(value = "/add")
+	public @ResponseBody
+	JsonNode<Cate> add(@RequestParam String pname, @RequestParam String name,
+			@RequestParam boolean child) {
+		return cateService.add(pname, name, child);
 	}
 }

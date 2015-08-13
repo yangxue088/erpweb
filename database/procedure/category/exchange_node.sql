@@ -27,20 +27,20 @@ if slft > tlft then
 	set trgt = temp2 - trgt;
 end if;
 
-update category set delete_flag = 1 where lft >= slft and lft < tlft;
+update category set flag = 1 where lft >= slft and lft < tlft;
 
 set diff = (trgt - tlft) - (srgt - slft);
 
-update category set lft = lft + diff, rgt = rgt + diff, delete_flag = 0 where delete_flag = 1 and lft > srgt and rgt < tlft;
+update category set lft = lft + diff, rgt = rgt + diff, flag = 0 where flag = 1 and lft > srgt and rgt < tlft;
 
 set jiange = tlft - slft;
 
-update category set lft = lft - jiange, rgt = rgt - jiange where delete_flag = 0 and lft between tlft and trgt;
+update category set lft = lft - jiange, rgt = rgt - jiange where flag = 0 and lft between tlft and trgt;
 	
 update category set lft = lft + jiange + diff, rgt = rgt + jiange + diff 
-where delete_flag = 1 and lft between slft and srgt;
+where flag = 1 and lft between slft and srgt;
 
-update category set delete_flag = 0 where delete_flag = 1;
+update category set flag = 0 where flag = 1;
 
 END;
 //  
