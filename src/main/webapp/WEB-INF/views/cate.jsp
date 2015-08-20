@@ -6,7 +6,9 @@ pageEncoding="UTF-8"%>
 <html>
 <body>
 
-	<div id="treeview" class="treeview"></div>
+	<div>
+		<div id="treeview" class="treeview"></div>
+	</div>
 
 	<link href="<c:url value="/resources/webix/webix.css" />"
 	rel="stylesheet"  type="text/css" />
@@ -20,14 +22,15 @@ pageEncoding="UTF-8"%>
 			view:"treetable",
 			columns:[
 			{ id:"cateid", hidden:true},
-			{ id:"category", editor:"text", header:"产品组", width:400, template:"{common.treetable()} #category#",
+			{ id:"category", fillspace:2, editor:"text", header:"产品组", template:"{common.treetable()} #category#",
 			footer:{text:"<a href='javascript:void(0)' style='padding:0px 5px 0px 20px;' class='cbtn'>创建分组</a>"} },
-			{ id:"createSubCate", header:"创建子分组", width:200, template:"<a href='javascript:void(0)' class='cbtn'>#createSubCate#</a>" },
-			{ id:"manageProduct", header:"组内产品管理", width:200, template:"<a href='javascript:void(0)'>#manageProduct#</a>" },
-			{ id:"operation", header:"操作", width:200, template:"<div class='glyphicon glyphicon-move' style='padding:0px 10px 0px 5px;'></div><div class='glyphicon glyphicon-remove' style='padding:0px 5px 0px 5px;'></div>" }
+			{ id:"createSubCate", fillspace:1, header:"创建子分组", template:"<a href='javascript:void(0)' class='cbtn'>#createSubCate#</a>" },
+			{ id:"manageProduct", fillspace:1, header:"组内产品管理", template:"<a href='javascript:void(0)'>#manageProduct#</a>" },
+			{ id:"operation", fillspace:1, header:"操作", template:"<div class='glyphicon glyphicon-move' style='padding:0px 10px 0px 5px;'></div><div class='glyphicon glyphicon-remove' style='padding:0px 5px 0px 5px;'></div>" }
 			],
 			autoheight:true,
-			autowidth:true,
+			scrollX:false,
+			/*autowidth:true,*/
 			footer:true,
 
 			editable:true,
@@ -182,8 +185,8 @@ pageEncoding="UTF-8"%>
 			view.edit(pos);
 		}, grid);
 
-});
-
-</script>
+	});
+	
+	</script>
 </body>
 </html>

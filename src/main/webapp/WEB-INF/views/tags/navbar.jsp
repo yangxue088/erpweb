@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<nav id="top" class="navbar navbar-inverse navbar-default">
+<nav id="top" class="top navbar navbar-inverse navbar-default navbar-fixed-top">
   <div class="container">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -18,10 +18,16 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="cate">类别管理<span class="sr-only">(current)</span></a></li>
-        <li><a href="#">产品管理</a></li>
-        <li><a href="#">订单管理</a></li>
+        <li class="active"><a href="cate">主页<span class="sr-only">(current)</span></a></li>
+        <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">产品管理<span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="publish">发布产品</a></li>
+                <li><a href="cate">分组管理</a></li>
+              </ul>
+            </li>
         <li><a href="#">库存管理</a></li>
+        <li><a href="#">权限管理</a></li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">

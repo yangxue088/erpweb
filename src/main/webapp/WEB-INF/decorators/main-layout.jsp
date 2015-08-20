@@ -21,17 +21,19 @@ pageEncoding="UTF-8"%>
 </head>
 
 <body>
-  <div>
+  <c:import url="/WEB-INF/views/tags/navbar.jsp"/>
 
-    <c:import url="/WEB-INF/views/tags/navbar.jsp"/>
+  <div class="wrapper">
+    <div class="top_placeholder"></div>
 
     <div class="container">
-      <decorator:body />
-    </div>
+     <decorator:body />
+   </div>
 
-    <c:import url="/WEB-INF/views/tags/footer.jsp"/>
-    
-  </div>
+   <div class="footer_placeholder"></div>
+ </div>
+
+ <c:import url="/WEB-INF/views/tags/footer.jsp"/>
 
 </body>
 </html>
