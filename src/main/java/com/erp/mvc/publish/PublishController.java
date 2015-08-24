@@ -44,4 +44,11 @@ public class PublishController {
 		return lis;
 	}
 
+	@RequestMapping(value = "/edit")
+	public ModelAndView edit(ModelMap modelMap, @RequestParam String text) {
+		ModelAndView modelAndView = new ModelAndView("publish-edit");
+		modelAndView.addObject("choosetext", text);
+		return modelAndView;
+	}
+
 }

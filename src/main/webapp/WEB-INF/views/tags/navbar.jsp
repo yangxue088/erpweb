@@ -22,8 +22,8 @@
         <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">产品管理<span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="publish">发布产品</a></li>
-                <li><a href="cate">分组管理</a></li>
+                <li><a href="<c:url value="/publish" />">发布产品</a></li>
+                <li><a href="<c:url value="/cate" />">分组管理</a></li>
               </ul>
             </li>
         <li><a href="#">库存管理</a></li>
@@ -31,7 +31,7 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="signout">注销</a></li>
+        <li><a href="<c:url value="/signout" />">注销</a></li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->

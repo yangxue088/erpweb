@@ -5,6 +5,7 @@ pageEncoding="UTF-8"%>
 
 <html>
 <body>
+
 	<style type="text/css">
 	.scrollable {
 		height: 300px;
@@ -12,18 +13,33 @@ pageEncoding="UTF-8"%>
 		margin-bottom: 10px;
 	}
 
-	#showtext{
+	#choose-text{
 		color: #7A2D01;
 	}
+
+	#edit-panel{
+		border: hidden;
+	}
+
+	#edit-panel .panel-body .row{
+		margin-bottom: 10px;
+	}
+
+	#edit-panel .panel-body .row >div >label{
+		font-weight: 300;
+	}
+
+	#edit-panel .panel-body .row .col-sm-2{
+		text-align: right;
+	}
+
 	</style>
 
 	<div id="menupanel" class="panel panel-primary">
 		<div class="panel-heading">
-			<h2 class="panel-title">发布产品</h2>
+			<h2 class="panel-title"><strong>发布产品</strong></h2>
 		</div>
 		<div class="panel-body">
-			<div id="choosetext">
-			</div>
 			<div id="menulist">
 				<div class="row">
 					<div class="col-sm-12">
@@ -55,7 +71,7 @@ pageEncoding="UTF-8"%>
 				<div class="row">
 					<div class="col-sm-12">
 						<div id="showdiv" class="alert alert-info" role="alert">
-							您当前选择的类目：<span id="showtext"></span>
+							您当前选择的类目：<span id="choose-text"></span>
 						</div>
 					</div>
 				</div>
@@ -123,7 +139,7 @@ pageEncoding="UTF-8"%>
 				text = text + " > " + third;
 			}
 
-			$('#showtext').html(text);
+			$('#choose-text').html(text);
 
 			if(third){
 				$('#publishbtn').removeAttr('disabled');
@@ -141,13 +157,11 @@ pageEncoding="UTF-8"%>
 		});
 
 		$('#publishbtn').on('click', function(){
-			$('#menulist').hide()
-			$('#choosetext').html($('#showdiv').html());
-			$('#choosetext').show();
+			window.location.href="publish/edit?text=" + $('#choose-text').text().trim();
 		});
 
 	});
 
-	</script>
+</script>
 </body>
 </html>

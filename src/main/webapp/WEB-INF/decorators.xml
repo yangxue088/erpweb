@@ -3,6 +3,7 @@
 <decorators defaultdir="/WEB-INF/decorators">
 	<excludes>
         <pattern>/login*</pattern>
+        <pattern>/publish/edit</pattern>
     </excludes>
 	
 	<decorator name="main-layout" page="main-layout.jsp">
