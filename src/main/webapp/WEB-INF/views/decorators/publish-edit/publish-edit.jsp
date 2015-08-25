@@ -195,10 +195,11 @@ pageEncoding="UTF-8"%>
 				</div>
 				<div class="col-sm-10">
 					<select id="measure-unit">
-						<option>件/个 (piece/pieces)</option>
-						<option>包 (pack/packs)</option>
+						<option>件/个 (pieces/pieces)</option>
+						<option>包 (packs/packs)</option>
 						<option>双 (pair)</option>
 					</select>
+					<span class="hidden" name="measure-unit">件/个</span>
 				</div>
 			</div>
 			<div class="row">
@@ -208,7 +209,7 @@ pageEncoding="UTF-8"%>
 				<div class="col-sm-10">
 					<label>
 						<input type="radio" name="sale-type">
-						<span id="sale-type-unit">按件/个 (piece/pieces)出售</span>
+						<span>按<span name="measure-unit">件/个</span>出售</span>
 					</label>
 					<label>
 						<input type="radio" name="sale-type" id="sale-type-package">
@@ -217,7 +218,7 @@ pageEncoding="UTF-8"%>
 					<label id="num-per-package" class="hidden">
 						<span>每包</span>
 						<input type="text" size="10">
-						<span id="cn-sale-type-unit">件/个</span>
+						<span name="measure-unit">件/个</span>
 					</label>
 				</div>
 			</div>
@@ -286,7 +287,7 @@ pageEncoding="UTF-8"%>
 				<div class="col-sm-10">
 					<label>
 						<input type="text" size="5">
-						<span id="inventory-unit"> 件</span>
+						<span name="inventory-unit">件/个</span>
 					</label>
 				</div>
 			</div>
@@ -323,21 +324,26 @@ pageEncoding="UTF-8"%>
 
 		$('#measure-unit').on('change', function(){
 			var opt = $(this).val();
-			$('#sale-type-unit').text("按" + opt + "出售");
-			$('#cn-sale-type-unit').text(opt.substring(0, opt.indexOf(' ')));
+
+			$('span[name=measure-unit]').text(opt.substring(0, opt.indexOf(' ')));
 
 			$('input:radio[name="sale-type"]').trigger("change");
 		});
 
 		$('input:radio[name="sale-type"]').on('change', function(){
+			var inventory_unit = "";
 			if($('#sale-type-package').is(':checked')){
 				$('#num-per-package').removeClass("hidden");
-				$('#inventory-unit').text(" 包");
+				
+				inventory_unit = "包";
 			}
 			else{
 				$('#num-per-package').addClass("hidden");
-				$('#inventory-unit').text(" " + $('#cn-sale-type-unit').text());
+
+				inventory_unit = $('span[name=measure-unit]:first').text();
 			}
+
+			$('span[name=inventory-unit]').text(inventory_unit);
 		});
 
 		$('input:checkbox[name="sale-style"]').on('change', function(){
@@ -398,20 +404,20 @@ pageEncoding="UTF-8"%>
 					var sale_style = $(this).next().text();
 					$('input:checkbox[name="color"]:checked').each(function(){
 						var color = $(this).next().text();
-						table_body = table_body + "<tr><td>"+ sale_style +"</td><td>"+ color +"</td><td><input type='text' size='5'></td><td><input type='text' size='20'></td></tr>";
+						table_body = table_body + "<tr><td>"+ sale_style +"</td><td>"+ color +"</td><td><input type='text' size='5'><span name='inventory-unit'>"+ $('span[name=inventory-unit]:last').text() +"</span></td><td><input type='text' size='20'></td></tr>";
 					});
 				});
 			}
 			else if($('input:checkbox[name="sale-style"]:checked').length > 0){
 				$('input:checkbox[name="sale-style"]:checked').each(function(){
 					var sale_style = $(this).next().text();
-					table_body = table_body + "<tr><td>"+ sale_style +"</td><td class='hidden'></td><td><input type='text' size='5'></td><td><input type='text' size='20'></td></tr>";
+					table_body = table_body + "<tr><td>"+ sale_style +"</td><td class='hidden'></td><td><input type='text' size='5'><span name='inventory-unit'>"+ $('span[name=inventory-unit]:last').text() +"</span></td><td><input type='text' size='20'></td></tr>";
 				});
 			}
 			else if($('input:checkbox[name="color"]:checked').length > 0){
 				$('input:checkbox[name="color"]:checked').each(function(){
 					var color = $(this).next().text();
-					table_body = table_body + "<tr><td class='hidden'></td><td>"+ color +"</td><td><input type='text' size='5'></td><td><input type='text' size='20'></td></tr>";
+					table_body = table_body + "<tr><td class='hidden'></td><td>"+ color +"</td><td><input type='text' size='5'><span name='inventory-unit'>"+ $('span[name=inventory-unit]:last').text() +"</span></td><td><input type='text' size='20'></td></tr>";
 				});
 			}
 
