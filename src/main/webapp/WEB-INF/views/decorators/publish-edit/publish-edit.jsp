@@ -10,10 +10,11 @@ pageEncoding="UTF-8"%>
 <body>
 
 	<script type="text/javascript" src="<c:url value="/resources/holderjs/js/holder.js" />"></script>
+	
 	<link href="<c:url value="/resources/bootstrap-select/css/bootstrap-select.min.css" />"
 	rel="stylesheet"  type="text/css" />
 	<script type="text/javascript" src="<c:url value="/resources/bootstrap-select/js/bootstrap-select.min.js" />"></script>
-
+	
 	<style type="text/css">
 	.scrollable {
 		height: 300px;
@@ -29,28 +30,32 @@ pageEncoding="UTF-8"%>
 		color: #7A2D01;
 	}
 
-	#edit-panel{
+	.panel{
 		/*border: hidden;*/
 	}
 
-	#edit-panel .panel-body .row{
+	.panel .panel-body .row{
 		margin-bottom: 10px;
 	}
 
-	#edit-panel .panel-body .row >div >label{
+	.panel .panel-body .row >div >label{
 		font-weight: 300;
 	}
 
-	#edit-panel .panel-body .row .col-sm-2{
+	.panel .panel-body .row .col-sm-2{
 		text-align: right;
 	}
 
-	#edit-panel .panel-body .row .col-sm-10 >label{
+	.panel .panel-body .row .col-sm-10 >label{
 		margin-right: 30px;
 	}
 
-	#edit-panel .panel-body .row .col-sm-10 >label >input{
+	.panel .panel-body .row .col-sm-10 >label >input{
 		margin-right: 5px;
+	}
+
+	.panel .panel-body .row .col-sm-10.col-sm-offset-2{
+		margin-top: 10px;
 	}
 
 	.base-attr{
@@ -103,7 +108,7 @@ pageEncoding="UTF-8"%>
 		您当前选择的类目：<span id="choose-text">${choosetext}</span>
 	</div>
 
-	<div id="edit-panel" class="panel panel-primary">
+	<div id="product-info-panel" class="panel panel-primary">
 		<div class="panel-heading">
 			<h2 class="panel-title"><strong>1. 产品基本信息</strong></h2>
 		</div>
@@ -195,10 +200,11 @@ pageEncoding="UTF-8"%>
 				</div>
 				<div class="col-sm-10">
 					<select id="measure-unit">
-						<option>件/个 (piece/pieces)</option>
-						<option>包 (pack/packs)</option>
+						<option>件/个 (pieces/pieces)</option>
+						<option>包 (packs/packs)</option>
 						<option>双 (pair)</option>
 					</select>
+					<span class="hidden" name="measure-unit">件/个</span>
 				</div>
 			</div>
 			<div class="row">
@@ -208,7 +214,7 @@ pageEncoding="UTF-8"%>
 				<div class="col-sm-10">
 					<label>
 						<input type="radio" name="sale-type">
-						<span id="sale-type-unit">按件/个 (piece/pieces)出售</span>
+						<span>按<span name="measure-unit">件/个</span>出售</span>
 					</label>
 					<label>
 						<input type="radio" name="sale-type" id="sale-type-package">
@@ -217,7 +223,7 @@ pageEncoding="UTF-8"%>
 					<label id="num-per-package" class="hidden">
 						<span>每包</span>
 						<input type="text" size="10">
-						<span id="cn-sale-type-unit">件/个</span>
+						<span name="measure-unit">件/个</span>
 					</label>
 				</div>
 			</div>
@@ -286,7 +292,7 @@ pageEncoding="UTF-8"%>
 				<div class="col-sm-10">
 					<label>
 						<input type="text" size="5">
-						<span id="inventory-unit"> 件</span>
+						<span name="inventory-unit">件/个</span>
 					</label>
 				</div>
 			</div>
@@ -301,6 +307,86 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 		</div>
+	</div>
+
+	<div id="package-info-panel" class="panel panel-primary">
+		<div class="panel-heading">
+			<h2 class="panel-title"><strong>2. 包装信息</strong></h2>
+		</div>
+		<div class="panel-body">
+			<div class="row">
+				<div class="col-sm-2">
+					<label>产品包装后的重量:</label>
+				</div>
+				<div class="col-sm-10">
+					<label>
+						<input type="text" size="5">
+						<span>公斤/<span name="inventory-unit">件/个</span></span>
+					</label>
+				</div>
+				<div class="col-sm-10 col-sm-offset-2">
+					<label>
+						<input type='checkbox' data-target="#custom-weight-div" data-toggle="collapse">
+						<span>自定义计重</span>
+					</label>
+				</div>
+				<div class="col-sm-10 col-sm-offset-2">
+					<div id="custom-weight-div" class="well collapse">
+						<span>买家购买</span>
+						<input type='text' size="5">
+						<span name="inventory-unit">件/个</span>
+						<span>以内，按单件产品重量计算运费。</span><br/>
+						<span>在此基础上，买家每多买</span>
+						<input type='text' size="5">
+						<span name="inventory-unit">件/个</span>
+						<span>，重量增加</span>
+						<input type='text' size="5">
+						<span>kg。</span>
+					</div>
+				</div>
+				<div class="col-sm-2">
+					<label>产品包装后的尺寸:</label>
+				</div>
+				<div class="col-sm-10">
+					<label>
+						<input type="text" size="5" placeholder="长">
+						<span>  x  </span>
+						<input type="text" size="5" placeholder="宽">
+						<span>  x  </span>
+						<input type="text" size="5" placeholder="高">
+						<span>(单位：厘米,每件/个 0 cm3)</span>
+					</label>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="other-info-panel" class="panel panel-primary">
+		<div class="panel-heading">
+			<h2 class="panel-title"><strong>3. 其他信息</strong></h2>
+		</div>
+		<div class="panel-body">
+			<div class="row">
+				<div class="col-sm-2">
+					<label>产品组:</label>
+				</div>
+				<div class="col-sm-10">
+					<select id="product-group-selecter" class="selectpicker show-tick" data-live-search="true">
+					</select>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<hr class="dotten">
+
+	<div class="row">
+		<label class="col-sm-2 col-sm-offset-3">
+			<button type="button" class="btn btn-primary btn-md btn-block">提交</button>
+		</label>
+		<label class="col-sm-2 col-sm-offset-1">
+			<button type="button" class="btn btn-primary btn-md btn-block">预览</button>
+		</label>
 	</div>
 
 	<script type="text/javascript">
@@ -323,21 +409,26 @@ pageEncoding="UTF-8"%>
 
 		$('#measure-unit').on('change', function(){
 			var opt = $(this).val();
-			$('#sale-type-unit').text("按" + opt + "出售");
-			$('#cn-sale-type-unit').text(opt.substring(0, opt.indexOf(' ')));
+
+			$('span[name=measure-unit]').text(opt.substring(0, opt.indexOf(' ')));
 
 			$('input:radio[name="sale-type"]').trigger("change");
 		});
 
 		$('input:radio[name="sale-type"]').on('change', function(){
+			var inventory_unit = "";
 			if($('#sale-type-package').is(':checked')){
 				$('#num-per-package').removeClass("hidden");
-				$('#inventory-unit').text(" 包");
+				
+				inventory_unit = "包";
 			}
 			else{
 				$('#num-per-package').addClass("hidden");
-				$('#inventory-unit').text(" " + $('#cn-sale-type-unit').text());
+
+				inventory_unit = $('span[name=measure-unit]:first').text();
 			}
+
+			$('span[name=inventory-unit]').text(inventory_unit);
 		});
 
 		$('input:checkbox[name="sale-style"]').on('change', function(){
@@ -398,25 +489,41 @@ pageEncoding="UTF-8"%>
 					var sale_style = $(this).next().text();
 					$('input:checkbox[name="color"]:checked').each(function(){
 						var color = $(this).next().text();
-						table_body = table_body + "<tr><td>"+ sale_style +"</td><td>"+ color +"</td><td><input type='text' size='5'></td><td><input type='text' size='20'></td></tr>";
+						table_body = table_body + "<tr><td>"+ sale_style +"</td><td>"+ color +"</td><td><input type='text' size='5'><span name='inventory-unit'>"+ $('span[name=inventory-unit]:last').text() +"</span></td><td><input type='text' size='20'></td></tr>";
 					});
 				});
 			}
 			else if($('input:checkbox[name="sale-style"]:checked').length > 0){
 				$('input:checkbox[name="sale-style"]:checked').each(function(){
 					var sale_style = $(this).next().text();
-					table_body = table_body + "<tr><td>"+ sale_style +"</td><td class='hidden'></td><td><input type='text' size='5'></td><td><input type='text' size='20'></td></tr>";
+					table_body = table_body + "<tr><td>"+ sale_style +"</td><td class='hidden'></td><td><input type='text' size='5'><span name='inventory-unit'>"+ $('span[name=inventory-unit]:last').text() +"</span></td><td><input type='text' size='20'></td></tr>";
 				});
 			}
 			else if($('input:checkbox[name="color"]:checked').length > 0){
 				$('input:checkbox[name="color"]:checked').each(function(){
 					var color = $(this).next().text();
-					table_body = table_body + "<tr><td class='hidden'></td><td>"+ color +"</td><td><input type='text' size='5'></td><td><input type='text' size='20'></td></tr>";
+					table_body = table_body + "<tr><td class='hidden'></td><td>"+ color +"</td><td><input type='text' size='5'><span name='inventory-unit'>"+ $('span[name=inventory-unit]:last').text() +"</span></td><td><input type='text' size='20'></td></tr>";
 				});
 			}
 
 			$("#inventory-table >tbody").html(table_body);
+
 		};
+
+		$.post("select", function(nodes){
+			var html = "";
+			$.each(nodes, function(i, firstnode){
+				html += "<optgroup label='" + firstnode.group + "'>";
+				$.each(firstnode.data, function(j, secondnode){
+					html += "<option>" + secondnode.group + "</option>";
+				});
+				html += "</optgroup>";
+			});
+
+			$("#product-group-selecter").html(html);
+
+			$('#product-group-selecter').selectpicker('refresh');
+		});
 
 	});
 

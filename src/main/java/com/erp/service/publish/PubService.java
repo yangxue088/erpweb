@@ -8,11 +8,14 @@ import java.util.Queue;
 
 import org.springframework.stereotype.Service;
 
+import com.erp.bean.cate.Cate;
+import com.erp.service.cate.AbstCateService;
+import com.erp.service.cate.JsonNode;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
-public class PubService {
+public class PubService extends AbstCateService {
 
 	private long lastModified = 0;
 	private List<JsonMenu> menus = new ArrayList<JsonMenu>();
@@ -35,7 +38,7 @@ public class PubService {
 
 	public List<JsonMenu> nextMenus(int level, String name) {
 		readJson();
-		
+
 		Queue<JsonMenu> queue = new LinkedList<JsonMenu>();
 		for (JsonMenu menu : menus) {
 			queue.offer(menu);
@@ -50,6 +53,15 @@ public class PubService {
 			}
 		}
 		return new ArrayList<JsonMenu>();
+	}
+
+	@Override
+	public JsonNode<Cate> wrap(Cate cate) {
+		JsonNode<Cate> node = new JsonNode<Cate>(cate);
+		if (cate != null) {
+			node.setAttribute("group", cate.getName());
+		}
+		return node;
 	}
 
 }

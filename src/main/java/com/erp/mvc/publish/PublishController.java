@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.erp.bean.cate.Cate;
+import com.erp.service.cate.JsonTree;
 import com.erp.service.publish.JsonLi;
 import com.erp.service.publish.JsonMenu;
 import com.erp.service.publish.PubService;
@@ -46,9 +48,15 @@ public class PublishController {
 
 	@RequestMapping(value = "/edit")
 	public ModelAndView edit(ModelMap modelMap, @RequestParam String text) {
-		ModelAndView modelAndView = new ModelAndView("decorators/publish-edit/category/phone");
+		ModelAndView modelAndView = new ModelAndView(
+				"decorators/publish-edit/category/phone");
 		modelAndView.addObject("choosetext", text);
 		return modelAndView;
 	}
 
+	@RequestMapping(value = "/select")
+	public @ResponseBody
+	JsonTree<Cate> select() {
+		return pubService.queryCates();
+	}
 }

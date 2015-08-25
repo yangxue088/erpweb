@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.erp.bean.cate.Cate;
-import com.erp.service.cate.CateService;
+import com.erp.service.cate.AbstCateService;
 import com.erp.service.cate.JsonNode;
 import com.erp.service.cate.JsonTree;
 
@@ -19,7 +19,7 @@ import com.erp.service.cate.JsonTree;
 public class CateController {
 
 	@Autowired
-	private CateService cateService;
+	private AbstCateService cateService;
 
 	@RequestMapping
 	public String cate(ModelMap modelMap) {
