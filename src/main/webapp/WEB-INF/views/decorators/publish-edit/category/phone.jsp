@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
+<html>
+<body>
+	
 <div class="row">
 	<div class="col-sm-2">
 		<label>产品属性:</label>
@@ -112,6 +113,5 @@ pageEncoding="UTF-8"%>
 	</div>
 </div>
 
-<link href="<c:url value="/resources/bootstrap-select/css/bootstrap-select.min.css" />"
-	rel="stylesheet"  type="text/css" />
-<script type="text/javascript" src="<c:url value="/resources/bootstrap-select/js/bootstrap-select.min.js" />"></script>
+</body>
+</html>

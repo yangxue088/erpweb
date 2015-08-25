@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<decorators defaultdir="/WEB-INF/decorators">
+<decorators defaultdir="/WEB-INF/views/decorators/">
 	<excludes>
         <pattern>/login*</pattern>
-        <pattern>/publish/edit</pattern>
     </excludes>
-	
-	<decorator name="main-layout" page="main-layout.jsp">
+
+	<decorator name="publish-edit" page="publish-edit/publish-edit.jsp">
+        <pattern>/publish/edit*</pattern>
+    </decorator>
+
+	<decorator name="main-layout" page="main-layout/main-layout.jsp">
         <pattern>/*</pattern>     
-    </decorator>	
+    </decorator>
+    
 </decorators>

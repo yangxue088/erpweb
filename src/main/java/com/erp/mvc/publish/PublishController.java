@@ -46,7 +46,7 @@ public class PublishController {
 
 	@RequestMapping(value = "/edit")
 	public ModelAndView edit(ModelMap modelMap, @RequestParam String text) {
-		ModelAndView modelAndView = new ModelAndView("publish-edit");
+		ModelAndView modelAndView = new ModelAndView("decorators/publish-edit/category/phone");
 		modelAndView.addObject("choosetext", text);
 		return modelAndView;
 	}

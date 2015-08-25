@@ -21,7 +21,7 @@ pageEncoding="UTF-8"%>
 </head>
 
 <body>
-  <c:import url="/WEB-INF/views/tags/navbar.jsp"/>
+  <c:import url="/WEB-INF/views/decorators/main-layout/tags/navbar.jsp"/>
 
   <div class="wrapper">
     <div class="top_placeholder"></div>
@@ -33,7 +33,7 @@ pageEncoding="UTF-8"%>
    <div class="footer_placeholder"></div>
  </div>
 
- <c:import url="/WEB-INF/views/tags/footer.jsp"/>
+ <c:import url="/WEB-INF/views/decorators/main-layout/tags/footer.jsp"/>
 
 </body>
 </html>

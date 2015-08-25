@@ -17,22 +17,6 @@ pageEncoding="UTF-8"%>
 		color: #7A2D01;
 	}
 
-	#edit-panel{
-		border: hidden;
-	}
-
-	#edit-panel .panel-body .row{
-		margin-bottom: 10px;
-	}
-
-	#edit-panel .panel-body .row >div >label{
-		font-weight: 300;
-	}
-
-	#edit-panel .panel-body .row .col-sm-2{
-		text-align: right;
-	}
-
 	</style>
 
 	<div id="menupanel" class="panel panel-primary">
