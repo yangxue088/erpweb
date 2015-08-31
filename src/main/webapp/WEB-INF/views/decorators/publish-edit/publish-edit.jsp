@@ -80,8 +80,16 @@ pageEncoding="UTF-8"%>
 		padding-right: 15px;
 	}
 
-	.custom-attr{
+	.custom-attr-div{
 		padding-left: 150px;
+	}
+
+	.custom-attr-div .custom-attr-row{
+		margin-bottom: 10px;
+	}
+
+	.custom-attr-div .custom-attr-row > *{
+		margin-right: 20px;
 	}
 
 	.picture{
@@ -155,38 +163,38 @@ pageEncoding="UTF-8"%>
 				<div class="col-sm-10">
 					<div class="picture">
 						<div>
-							<a href="#">从我的电脑选取</a>
-							<a href="#">全部删除</a>
+							<a href="javascript:void(0)">从我的电脑选取</a>
+							<a href="javascript:void(0)">全部删除</a>
 						</div>
 						<hr class="dotten">
 						<div>
 							<label>
-								<a href="#" class="thumbnail">
+								<a href="javascript:void(0)" class="thumbnail">
 									<img data-src="holder.js/112x112?text=No Photo">
 								</a>
 							</label>
 							<label>
-								<a href="#" class="thumbnail">
+								<a href="javascript:void(0)" class="thumbnail">
 									<img data-src="holder.js/112x112?text=No Photo">
 								</a>
 							</label>
 							<label>
-								<a href="#" class="thumbnail">
+								<a href="javascript:void(0)" class="thumbnail">
 									<img data-src="holder.js/112x112?text=No Photo">
 								</a>
 							</label>
 							<label>
-								<a href="#" class="thumbnail">
+								<a href="javascript:void(0)" class="thumbnail">
 									<img data-src="holder.js/112x112?text=No Photo">
 								</a>
 							</label>
 							<label>
-								<a href="#" class="thumbnail">
+								<a href="javascript:void(0)" class="thumbnail">
 									<img data-src="holder.js/112x112?text=No Photo">
 								</a>
 							</label>
 							<label>
-								<a href="#" class="thumbnail">
+								<a href="javascript:void(0)" class="thumbnail">
 									<img data-src="holder.js/112x112?text=No Photo">
 								</a>
 							</label>
@@ -200,9 +208,42 @@ pageEncoding="UTF-8"%>
 				</div>
 				<div class="col-sm-10">
 					<select id="measure-unit">
-						<option>件/个 (pieces/pieces)</option>
-						<option>包 (packs/packs)</option>
+						<option>袋 (bag/bags)</option>
+						<option>桶 (barrel/barrels)</option>
+						<option>蒲式耳 (bushel/bushels)</option>
+						<option>箱 (carton)</option>
+						<option>厘米 (centimeter)</option>
+						<option>组合 (combo)</option>
+						<option>立方米 (cubic meter)</option>
+						<option>打 (dozen)</option>
+						<option>英尺 (feet)</option>
+						<option>加仑 (gallon)</option>
+						<option>克 (gram)</option>
+						<option>英寸 (inch)</option>
+						<option>千克 (kilogram)</option>
+						<option>千升 (kiloliter)</option>
+						<option>千米 (kilometer)</option>
+						<option>升 (liter/liters)</option>
+						<option>英吨 (long ton)</option>
+						<option>米 (meter)</option>
+						<option>公吨 (metric ton)</option>
+						<option>毫克 (milligram)</option>
+						<option>毫升 (milliliter)</option>
+						<option>毫米 (millimeter)</option>
+						<option>盎司 (ounce)</option>
+						<option>包 (pack/packs)</option>
 						<option>双 (pair)</option>
+						<option selected="selected">件/个 (piece/pieces)</option>
+						<option>磅 (pound)</option>
+						<option>夸脱 (quart)</option>
+						<option>套 (set/sets)</option>
+						<option>美吨 (short ton)</option>
+						<option>平方英尺 (square feet)</option>
+						<option>平方英寸 (square inch)</option>
+						<option>平方米 (square meter)</option>
+						<option>平方码 (square yard)</option>
+						<option>吨 (ton)</option>
+						<option>码 (yard/yards)</option>
 					</select>
 					<span class="hidden" name="measure-unit">件/个</span>
 				</div>
@@ -348,13 +389,13 @@ pageEncoding="UTF-8"%>
 					<label>产品包装后的尺寸:</label>
 				</div>
 				<div class="col-sm-10">
-					<label>
+					<label id="product-volume-div">
 						<input type="text" size="5" placeholder="长">
 						<span>  x  </span>
 						<input type="text" size="5" placeholder="宽">
 						<span>  x  </span>
 						<input type="text" size="5" placeholder="高">
-						<span>(单位：厘米,每件/个 0 cm3)</span>
+						<span>(单位：厘米,每<span name="inventory-unit">件/个</span> <span id="product-volume">0</span> cm3)</span>
 					</label>
 				</div>
 			</div>
@@ -509,6 +550,22 @@ pageEncoding="UTF-8"%>
 			$("#inventory-table >tbody").html(table_body);
 
 		};
+
+		$("#product-volume-div input").on("focusout", function(){
+			var length = $("#product-volume-div input:nth-child(1)").val();
+			var width = $("#product-volume-div input:nth-child(3)").val();
+			var hight = $("#product-volume-div input:nth-child(5)").val();
+			if(!length){
+				length = 0;
+			}
+			if(!width){
+				width = 0;
+			}
+			if(!hight){
+				hight = 0;
+			}
+			$("#product-volume").text(length * width * hight);
+		});
 
 		$.post("select", function(nodes){
 			var html = "";
