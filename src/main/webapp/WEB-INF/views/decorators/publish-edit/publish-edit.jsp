@@ -14,6 +14,10 @@ pageEncoding="UTF-8"%>
 	<link href="<c:url value="/resources/bootstrap-select/css/bootstrap-select.min.css" />"
 	rel="stylesheet"  type="text/css" />
 	<script type="text/javascript" src="<c:url value="/resources/bootstrap-select/js/bootstrap-select.min.js" />"></script>
+
+	<link href="<c:url value="/resources/bootstrap-fileinput/css/fileinput.min.css" />"
+	rel="stylesheet"  type="text/css" />
+	<script type="text/javascript" src="<c:url value="/resources/bootstrap-fileinput/js/fileinput.min.js" />"></script>
 	
 	<style type="text/css">
 	.scrollable {
@@ -92,22 +96,13 @@ pageEncoding="UTF-8"%>
 		margin-right: 20px;
 	}
 
-	.picture{
-		border: 1px solid #CCC;
-		padding: 10px;
+	.picture {
+		padding-left: 10px;
+		padding-top: 10px;
 	}
 
-	.picture >div >a{
-		margin-left: 20px;
-	}
-
-	.picture >div .thumbnail{
-		margin-bottom: 0px;
-	}
-
-	.picture >div >label{
-		margin-left: 15px;
-		margin-bottom: 0px;
+	.picture >a{
+		margin-right: 15px;
 	}
 
 	</style>
@@ -156,7 +151,7 @@ pageEncoding="UTF-8"%>
 					</span>
 				</div>
 			</div>
-			<div class="row">
+			<div class="row collapse">
 				<div class="col-sm-2">
 					<label>产品图片:</label>
 				</div>
@@ -202,6 +197,18 @@ pageEncoding="UTF-8"%>
 					</div>
 				</div>
 			</div>
+
+			<div class="row">
+				<div class="col-sm-2">
+					<label>产品图片:</label>
+				</div>
+				<div class="col-sm-10">
+					<div>
+						<input id="product-image-uploader" name="images" type="file" multiple=true class="file-loading">
+					</div>
+				</div>
+			</div>
+
 			<div class="row">
 				<div class="col-sm-2">
 					<label>最小计量单位:</label>
@@ -423,10 +430,10 @@ pageEncoding="UTF-8"%>
 
 	<div class="row">
 		<label class="col-sm-2 col-sm-offset-3">
-			<button type="button" class="btn btn-primary btn-md btn-block">提交</button>
+			<button id="product-submit" type="button" class="btn btn-primary btn-md btn-block">提交</button>
 		</label>
 		<label class="col-sm-2 col-sm-offset-1">
-			<button type="button" class="btn btn-primary btn-md btn-block">预览</button>
+			<button id="product-preview" type="button" class="btn btn-primary btn-md btn-block">预览</button>
 		</label>
 	</div>
 
@@ -582,7 +589,80 @@ pageEncoding="UTF-8"%>
 			$('#product-group-selecter').selectpicker('refresh');
 		});
 
-	});
+
+		$("#product-image-uploader").fileinput({
+			uploadUrl: "image/upload",
+			uploadAsync: false,
+			maxFileCount: 6,
+			layoutTemplates: {
+				main1: 
+				'{preview}\n' +
+				'<div class="input-group {class} hide">\n' +
+				'   {caption}\n' +
+				'   <div class="input-group-btn hide">\n' +
+				'       {remove}\n' +
+				'       {cancel}\n' +
+				'       {upload}\n' +
+				'       {browse}\n' +
+				'   </div>\n' +
+				'</div>\n',
+				preview: 	
+				'<div class="file-preview {class}">\n' +
+				'	<div class="picture">\n' + 
+				'		<a href="javascript:void(0)" name="browse">从我的电脑选取</a>\n'+
+				'		<a href="javascript:void(0)" name="delete">全部删除</a>\n'+
+				'	</div>\n'+
+				'   <div class="{dropClass}">\n' +
+				'   <div class="file-preview-thumbnails">\n' +
+				'   </div>\n' +
+				'   <div class="clearfix"></div>' +
+				'   <div class="file-preview-status text-center text-success"></div>\n' +
+				'   <div class="kv-fileinput-error"></div>\n' +
+				'   </div>\n' +
+				'</div>\n',
+				footer: 
+				'<div class="file-thumbnail-footer">\n' +
+				'    {actions}\n' +
+				'</div>\n',
+				actions: 
+				'<div class="file-actions">\n' +
+				'    <div class="file-footer-buttons">\n' +
+				'        {delete}' +
+				'    </div>\n' +
+				'    <div class="clearfix"></div>\n' +
+				'</div>\n',
+			},
+			initialPreview: [
+			"<img data-src='holder.js/160x114?text=No Photo'>",
+			"<img data-src='holder.js/160x114?text=No Photo'>",
+			"<img data-src='holder.js/160x114?text=No Photo'>",
+			"<img data-src='holder.js/160x114?text=No Photo'>",
+			"<img data-src='holder.js/160x114?text=No Photo'>",
+			"<img data-src='holder.js/160x114?text=No Photo'>"
+			]
+		});
+
+		$(".picture >a[name='browse']").click(function(){
+			$('#product-image-uploader').trigger('click');
+		});
+
+		$(".picture >a[name='delete']").click(function(){
+			$('#product-image-uploader').fileinput('clear');
+		});
+
+		$('#product-image-uploader').on('filebatchuploadcomplete', function(event, files, extra) {
+			$.each(files, function(i, file){
+				console.log(file.name);
+			});
+		});
+
+		$("#product-submit").click(function(){
+			$('#product-image-uploader').fileinput('upload');
+		});
+
+		
+
+});
 
 </script>
 </body>

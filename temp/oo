@@ -1,0 +1,18 @@
+<td class="attr-value-field"><label class="type-check-box-label"><input name="sysAttrValueIdAndValue217" type="checkbox" id="auto-id-checkbox-361825" value="361825-GPS Navigation"><span>GPS Navigation(GPS导航)<span>
+</label><label class="type-check-box-label"><input name="sysAttrValueIdAndValue217" type="checkbox" id="auto-id-checkbox-361823" value="361823-Email"><span>Email(邮件)<span>
+</label><label class="type-check-box-label"><input name="sysAttrValueIdAndValue217" type="checkbox" id="auto-id-checkbox-350436" value="350436-FM Radio"><span>FM Radio(FM收音机)<span>
+</label><label class="type-check-box-label"><input name="sysAttrValueIdAndValue217" type="checkbox" id="auto-id-checkbox-361826" value="361826-MP3 Playback"><span>MP3 Playback(MP3播放)<span>
+</label><label class="type-check-box-label"><input name="sysAttrValueIdAndValue217" type="checkbox" id="auto-id-checkbox-200003795" value="200003795-Touchscreen"><span>Touchscreen(触摸屏)<span>
+</label><label class="type-check-box-label"><input name="sysAttrValueIdAndValue217" type="checkbox" id="auto-id-checkbox-100009828" value="100009828-QWERTY Keyboard"><span>QWERTY Keyboard(全键盘)<span>
+</label><label class="type-check-box-label"><input name="sysAttrValueIdAndValue217" type="checkbox" id="auto-id-checkbox-271" value="271-Bluetooth"><span>Bluetooth(蓝牙)<span>
+</label><label class="type-check-box-label"><input name="sysAttrValueIdAndValue217" type="checkbox" id="auto-id-checkbox-200003796" value="200003796-Wi-Fi"><span>Wi-Fi(Wi-Fi)<span>
+</label><label class="type-check-box-label"><input name="sysAttrValueIdAndValue217" type="checkbox" id="auto-id-checkbox-200002478" value="200002478-Memory Card Slots"><span>Memory Card Slots(有记忆卡插槽)<span>
+</label><label class="type-check-box-label"><input name="sysAttrValueIdAndValue217" type="checkbox" id="auto-id-checkbox-200002479" value="200002479-Video Player"><span>Video Player(支持视频播放)<span>
+</label><label class="type-check-box-label"><input name="sysAttrValueIdAndValue217" type="checkbox" id="auto-id-checkbox-200002480" value="200002480-Gravity Response"><span>Gravity Response(支持重力感应)<span>
+</label><label class="type-check-box-label"><input name="sysAttrValueIdAndValue217" type="checkbox" id="auto-id-checkbox-200002481" value="200002481-Front Camera"><span>Front Camera(视频通话摄像头)<span>
+</label><label class="type-check-box-label"><input name="sysAttrValueIdAndValue217" type="checkbox" id="auto-id-checkbox-200002482" value="200002482-TV Receive"><span>TV Receive(支持电视接收)<span>
+</label><label class="type-check-box-label"><input name="sysAttrValueIdAndValue217" type="checkbox" id="auto-id-checkbox-200002858" value="200002858-Dustproof"><span>Dustproof(三防功能)<span>
+</label><label class="type-check-box-label"><input name="sysAttrValueIdAndValue217" type="checkbox" id="auto-id-checkbox-200002492" value="200002492-Message"><span>Message(短信)<span>
+</label><label class="type-check-box-label"><input name="sysAttrValueIdAndValue217" type="checkbox" id="auto-id-checkbox-200013840" value="200013840-HD Video Player"><span>HD Video Player(高清视频播放)<span>
+</label><label class="type-check-box-label"><input name="sysAttrValueIdAndValue217" type="checkbox" id="auto-id-checkbox-200013841" value="200013841-GPRS"><span>GPRS(GPRS上网)<span>
+</label></td>
