@@ -126,7 +126,7 @@ pageEncoding="UTF-8"%>
 					<label>产品标题:</label>
 				</div>
 				<div class="col-sm-10">
-					<input type="text" maxlength="128" size="70">
+					<input id="product-title-input" name="product-title" type="text" maxlength="128" size="70" required>
 				</div>
 			</div>
 			<div class="row">
@@ -134,7 +134,7 @@ pageEncoding="UTF-8"%>
 					<label>产品关键词:</label>
 				</div>
 				<div class="col-sm-10">
-					<input type="text">
+					<input id="product-keyword-input" name="product-keyword" type="text" required>
 					<label><a href="#more-key-words" data-toggle="collapse" role="button">添加更多关键字</a></label>
 				</div>
 			</div>
@@ -144,67 +144,20 @@ pageEncoding="UTF-8"%>
 				</div>
 				<div class="col-sm-10">
 					<span>
-						<input type="text">
+						<input id="product-more-keyword-input-1" name="product-more-keyword-1" type="text" required>
 					</span>
 					<span>
-						<input type="text">
+						<input id="product-more-keyword-input-2" name="product-more-keyword-2" type="text" required>
 					</span>
 				</div>
 			</div>
-			<div class="row collapse">
-				<div class="col-sm-2">
-					<label>产品图片:</label>
-				</div>
-				<div class="col-sm-10">
-					<div class="picture">
-						<div>
-							<a href="javascript:void(0)">从我的电脑选取</a>
-							<a href="javascript:void(0)">全部删除</a>
-						</div>
-						<hr class="dotten">
-						<div>
-							<label>
-								<a href="javascript:void(0)" class="thumbnail">
-									<img data-src="holder.js/112x112?text=No Photo">
-								</a>
-							</label>
-							<label>
-								<a href="javascript:void(0)" class="thumbnail">
-									<img data-src="holder.js/112x112?text=No Photo">
-								</a>
-							</label>
-							<label>
-								<a href="javascript:void(0)" class="thumbnail">
-									<img data-src="holder.js/112x112?text=No Photo">
-								</a>
-							</label>
-							<label>
-								<a href="javascript:void(0)" class="thumbnail">
-									<img data-src="holder.js/112x112?text=No Photo">
-								</a>
-							</label>
-							<label>
-								<a href="javascript:void(0)" class="thumbnail">
-									<img data-src="holder.js/112x112?text=No Photo">
-								</a>
-							</label>
-							<label>
-								<a href="javascript:void(0)" class="thumbnail">
-									<img data-src="holder.js/112x112?text=No Photo">
-								</a>
-							</label>
-						</div>
-					</div>
-				</div>
-			</div>
-
 			<div class="row">
 				<div class="col-sm-2">
 					<label>产品图片:</label>
 				</div>
 				<div class="col-sm-10">
 					<div>
-						<input id="product-image-uploader" name="images" type="file" multiple=true class="file-loading">
+						<input id="product-image-uploader" name="images" type="file" multiple class="file-loading">
 					</div>
 				</div>
 			</div>
@@ -214,7 +167,7 @@ pageEncoding="UTF-8"%>
 					<label>最小计量单位:</label>
 				</div>
 				<div class="col-sm-10">
-					<select id="measure-unit">
+					<select id="product-measure-unit-select" name="product-measure-unit">
 						<option>袋 (bag/bags)</option>
 						<option>桶 (barrel/barrels)</option>
 						<option>蒲式耳 (bushel/bushels)</option>
@@ -252,7 +205,7 @@ pageEncoding="UTF-8"%>
 						<option>吨 (ton)</option>
 						<option>码 (yard/yards)</option>
 					</select>
-					<span class="hidden" name="measure-unit">件/个</span>
+					<span class="hidden" name="product-measure-unit">件/个</span>
 				</div>
 			</div>
 			<div class="row">
@@ -261,17 +214,17 @@ pageEncoding="UTF-8"%>
 				</div>
 				<div class="col-sm-10">
 					<label>
-						<input type="radio" name="sale-type">
-						<span>按<span name="measure-unit">件/个</span>出售</span>
+						<input type="radio" name="sale-type" id="product-sale-type-per-unit">
+						<span>按<span name="product-measure-unit">件/个</span>出售</span>
 					</label>
 					<label>
-						<input type="radio" name="sale-type" id="sale-type-package">
+						<input type="radio" name="sale-type" id="product-sale-type-package">
 						<span>打包出售</span>
 					</label>
 					<label id="num-per-package" class="hidden">
 						<span>每包</span>
-						<input type="text" size="10">
-						<span name="measure-unit">件/个</span>
+						<input type="text" size="10" id="product-sale-type-num-per-package">
+						<span name="product-measure-unit">件/个</span>
 					</label>
 				</div>
 			</div>
@@ -339,7 +292,7 @@ pageEncoding="UTF-8"%>
 				</div>
 				<div class="col-sm-10">
 					<label>
-						<input type="text" size="5">
+						<input id="product-inventory-input" name="product-inventory" type="text" size="5">
 						<span name="inventory-unit">件/个</span>
 					</label>
 				</div>
@@ -350,7 +303,7 @@ pageEncoding="UTF-8"%>
 				</div>
 				<div class="col-sm-10">
 					<label>
-						<input type="text" size="20">
+						<input id="product-code-input" name="product-code" type="text" size="20">
 					</label>
 				</div>
 			</div>
@@ -368,7 +321,7 @@ pageEncoding="UTF-8"%>
 				</div>
 				<div class="col-sm-10">
 					<label>
-						<input type="text" size="5">
+						<input id="product-weight-input" name="product-weight" type="text" size="5">
 						<span>公斤/<span name="inventory-unit">件/个</span></span>
 					</label>
 				</div>
@@ -381,14 +334,14 @@ pageEncoding="UTF-8"%>
 				<div class="col-sm-10 col-sm-offset-2">
 					<div id="custom-weight-div" class="well collapse">
 						<span>买家购买</span>
-						<input type='text' size="5">
+						<input id="product-custom-weight-input-1" name="product-custom-weight-1" type='text' size="5">
 						<span name="inventory-unit">件/个</span>
 						<span>以内，按单件产品重量计算运费。</span><br/>
 						<span>在此基础上，买家每多买</span>
-						<input type='text' size="5">
+						<input id="product-custom-weight-input-2" name="product-custom-weight-2" type='text' size="5">
 						<span name="inventory-unit">件/个</span>
 						<span>，重量增加</span>
-						<input type='text' size="5">
+						<input id="product-custom-weight-input-3" name="product-custom-weight-3" type='text' size="5">
 						<span>kg。</span>
 					</div>
 				</div>
@@ -397,11 +350,11 @@ pageEncoding="UTF-8"%>
 				</div>
 				<div class="col-sm-10">
 					<label id="product-volume-div">
-						<input type="text" size="5" placeholder="长">
+						<input id="product-package-length-input" name="product-package-length" type="text" size="5" placeholder="长">
 						<span>  x  </span>
-						<input type="text" size="5" placeholder="宽">
+						<input id="product-package-width-input" name="product-package-width" type="text" size="5" placeholder="宽">
 						<span>  x  </span>
-						<input type="text" size="5" placeholder="高">
+						<input id="product-package-height-input" name="product-package-height" type="text" size="5" placeholder="高">
 						<span>(单位：厘米,每<span name="inventory-unit">件/个</span> <span id="product-volume">0</span> cm3)</span>
 					</label>
 				</div>
@@ -419,7 +372,7 @@ pageEncoding="UTF-8"%>
 					<label>产品组:</label>
 				</div>
 				<div class="col-sm-10">
-					<select id="product-group-selecter" class="selectpicker show-tick" data-live-search="true">
+					<select id="product-group-selecter" name="product-group" class="selectpicker show-tick" data-live-search="true">
 					</select>
 				</div>
 			</div>
@@ -455,17 +408,17 @@ pageEncoding="UTF-8"%>
 
 		init_single_div_table("color", ["白色", "黑色", "绿色", "红色", "灰色", "蓝色", "黄色", "粉色", "紫色", "银色", "金色", "多色", "褐色", "橙色", "卡其色", "透明"]);
 
-		$('#measure-unit').on('change', function(){
+		$('#product-measure-unit-select').on('change', function(){
 			var opt = $(this).val();
 
-			$('span[name=measure-unit]').text(opt.substring(0, opt.indexOf(' ')));
+			$('span[name=product-measure-unit]').text(opt.substring(0, opt.indexOf(' ')));
 
 			$('input:radio[name="sale-type"]').trigger("change");
 		});
 
 		$('input:radio[name="sale-type"]').on('change', function(){
 			var inventory_unit = "";
-			if($('#sale-type-package').is(':checked')){
+			if($('#product-sale-type-package').is(':checked')){
 				$('#num-per-package').removeClass("hidden");
 				
 				inventory_unit = "包";
@@ -473,7 +426,7 @@ pageEncoding="UTF-8"%>
 			else{
 				$('#num-per-package').addClass("hidden");
 
-				inventory_unit = $('span[name=measure-unit]:first').text();
+				inventory_unit = $('span[name=product-measure-unit]:first').text();
 			}
 
 			$('span[name=inventory-unit]').text(inventory_unit);
@@ -650,18 +603,78 @@ pageEncoding="UTF-8"%>
 			$('#product-image-uploader').fileinput('clear');
 		});
 
-		$('#product-image-uploader').on('filebatchuploadcomplete', function(event, files, extra) {
-			$.each(files, function(i, file){
-				console.log(file.name);
+		$('#product-image-uploader').on('filebatchuploadsuccess', function(event, data) {
+			var pics = [];
+
+			$.each(data.files, function(i, file){
+				pics[i] = file.name;
 			});
+
+			product_data(pics);
 		});
 
 		$("#product-submit").click(function(){
 			$('#product-image-uploader').fileinput('upload');
+
+			if($('#product-image-uploader').prop('files').length == 0){
+				product_data();
+			}
 		});
 
-		
+		function product_data(){
+			var pics = arguments[0];
 
+			var title = $('#product-title-input').val();
+			var keyword = $('#product-keyword-input').val();
+			var more_keyword_1 = $('#product-more-keyword-input-1').val();
+			var more_keyword_2 = $('#product-more-keyword-input-2').val();
+			var measure_unit = $('#product-measure-unit-select').val();
+
+			var sale_type;
+			var num_per_package;
+			if($('#product-sale-type-per-unit').is(':checked')){
+				sale_type = "by-unit";
+			}
+			else{
+				sale_type = "by-package";
+				num_per_package = $('#product-sale-type-num-per-package').val();
+			}	
+
+			var pic_files = [];
+			if(pics){
+				pic_files = pics;
+			}
+
+			var sale_styles = {};
+			$.each($('#sale-style-table tbody tr.collapse.in'), function(i, tr){
+				var name = $(tr).find('td:nth-child(1)').text();
+				var value = $(tr).find('td:nth-child(2) >input').val();
+
+				sale_styles[name] = value;
+			});
+
+			var colors = {};
+			$.each($('#color-table tbody tr.collapse.in'), function(i, tr){
+				var name = $(tr).find('td:nth-child(1)').text();
+				var value = $(tr).find('td:nth-child(2) >input').val();
+
+				colors[name] = value;
+			});
+
+			var inventories = [];
+			$.each($('#inventory-table >tbody >tr'), function(i, tr){
+				var inventory = [];
+				$.each($(tr).find('td:not(.hidden)'), function(j, td){
+					var value = $(this).find('input').val();
+					if(!value){
+						value = $(this).text();
+					}
+					inventory[j] = value;
+				});
+				inventories[i] = inventory;
+			});
+
+		}
 });
 
 </script>
