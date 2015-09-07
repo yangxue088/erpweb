@@ -18,8 +18,16 @@ pageEncoding="UTF-8"%>
 	<link href="<c:url value="/resources/bootstrap-fileinput/css/fileinput.min.css" />"
 	rel="stylesheet"  type="text/css" />
 	<script type="text/javascript" src="<c:url value="/resources/bootstrap-fileinput/js/fileinput.min.js" />"></script>
+
+	<link href="<c:url value="/resources/webix/webix.css" />"
+	rel="stylesheet"  type="text/css" />
+	<script type="text/javascript" src="<c:url value="/resources/webix/webix.js" />"></script>
 	
 	<style type="text/css">
+	.webix_message_area{
+		padding-top: 50px;
+	}
+
 	.scrollable {
 		height: 300px;
 		overflow: auto;
@@ -105,6 +113,10 @@ pageEncoding="UTF-8"%>
 		margin-right: 15px;
 	}
 
+	[data-required]::before{
+		content: "*";
+		color: red;
+	}
 	</style>
 
 	<div id="choose-div" class="alert alert-info" role="alert">
@@ -123,10 +135,10 @@ pageEncoding="UTF-8"%>
 
 			<div class="row">
 				<div class="col-sm-2">
-					<label>产品标题:</label>
+					<label data-required>产品标题:</label>
 				</div>
 				<div class="col-sm-10">
-					<input id="product-title-input" name="product-title" type="text" maxlength="128" size="70" required>
+					<input id="product-title-input" name="product-title" type="text" maxlength="128" size="70" data-alert="产品标题不能为空">
 				</div>
 			</div>
 			<div class="row">
@@ -134,7 +146,7 @@ pageEncoding="UTF-8"%>
 					<label>产品关键词:</label>
 				</div>
 				<div class="col-sm-10">
-					<input id="product-keyword-input" name="product-keyword" type="text" required>
+					<input id="product-keyword-input" name="product-keyword" type="text">
 					<label><a href="#more-key-words" data-toggle="collapse" role="button">添加更多关键字</a></label>
 				</div>
 			</div>
@@ -144,10 +156,10 @@ pageEncoding="UTF-8"%>
 				</div>
 				<div class="col-sm-10">
 					<span>
-						<input id="product-more-keyword-input-1" name="product-more-keyword-1" type="text" required>
+						<input id="product-more-keyword-input-1" name="product-more-keyword-1" type="text">
 					</span>
 					<span>
-						<input id="product-more-keyword-input-2" name="product-more-keyword-2" type="text" required>
+						<input id="product-more-keyword-input-2" name="product-more-keyword-2" type="text">
 					</span>
 				</div>
 			</div>
@@ -164,7 +176,7 @@ pageEncoding="UTF-8"%>
 
 			<div class="row">
 				<div class="col-sm-2">
-					<label>最小计量单位:</label>
+					<label data-required>最小计量单位:</label>
 				</div>
 				<div class="col-sm-10">
 					<select id="product-measure-unit-select" name="product-measure-unit">
@@ -214,7 +226,7 @@ pageEncoding="UTF-8"%>
 				</div>
 				<div class="col-sm-10">
 					<label>
-						<input type="radio" name="sale-type" id="product-sale-type-per-unit">
+						<input type="radio" name="sale-type" id="product-sale-type-per-unit" checked>
 						<span>按<span name="product-measure-unit">件/个</span>出售</span>
 					</label>
 					<label>
@@ -223,7 +235,7 @@ pageEncoding="UTF-8"%>
 					</label>
 					<label id="num-per-package" class="hidden">
 						<span>每包</span>
-						<input type="text" size="10" id="product-sale-type-num-per-package">
+						<input type="text" size="10" id="product-sale-type-num-per-package" data-alert="产品每包数不能为空">
 						<span name="product-measure-unit">件/个</span>
 					</label>
 				</div>
@@ -277,7 +289,7 @@ pageEncoding="UTF-8"%>
 							<tr>
 								<td class="hidden">套餐</td>
 								<td class="hidden">颜色</td>
-								<td>库存</td>
+								<td data-required>库存</td>
 								<td>商品编码</td>
 							</tr>
 						</thead>
@@ -288,11 +300,11 @@ pageEncoding="UTF-8"%>
 			</div>
 			<div class="row" id="inventory-unit-div">
 				<div class="col-sm-2">
-					<label>库存:</label>
+					<label data-required>库存:</label>
 				</div>
 				<div class="col-sm-10">
 					<label>
-						<input id="product-inventory-input" name="product-inventory" type="text" size="5">
+						<input id="product-inventory-input" name="product-inventory" type="text" size="5" data-alert='产品库存不能为空'>
 						<span name="inventory-unit">件/个</span>
 					</label>
 				</div>
@@ -317,44 +329,44 @@ pageEncoding="UTF-8"%>
 		<div class="panel-body">
 			<div class="row">
 				<div class="col-sm-2">
-					<label>产品包装后的重量:</label>
+					<label data-required>产品包装后的重量:</label>
 				</div>
 				<div class="col-sm-10">
 					<label>
-						<input id="product-weight-input" name="product-weight" type="text" size="5">
+						<input id="product-weight-input" name="product-weight" type="text" size="5" data-alert='产品重量不能为空'>
 						<span>公斤/<span name="inventory-unit">件/个</span></span>
 					</label>
 				</div>
 				<div class="col-sm-10 col-sm-offset-2">
 					<label>
-						<input type='checkbox' data-target="#custom-weight-div" data-toggle="collapse">
+						<input id="custom-weight-check" type='checkbox' data-target="#custom-weight-div" data-toggle="collapse">
 						<span>自定义计重</span>
 					</label>
 				</div>
 				<div class="col-sm-10 col-sm-offset-2">
 					<div id="custom-weight-div" class="well collapse">
 						<span>买家购买</span>
-						<input id="product-custom-weight-input-1" name="product-custom-weight-1" type='text' size="5">
+						<input id="product-custom-weight-input-1" name="product-custom-weight-1" type='text' size="5" data-alert='自定义计重不能为空'>
 						<span name="inventory-unit">件/个</span>
 						<span>以内，按单件产品重量计算运费。</span><br/>
 						<span>在此基础上，买家每多买</span>
-						<input id="product-custom-weight-input-2" name="product-custom-weight-2" type='text' size="5">
+						<input id="product-custom-weight-input-2" name="product-custom-weight-2" type='text' size="5" data-alert='自定义计重不能为空'>
 						<span name="inventory-unit">件/个</span>
 						<span>，重量增加</span>
-						<input id="product-custom-weight-input-3" name="product-custom-weight-3" type='text' size="5">
+						<input id="product-custom-weight-input-3" name="product-custom-weight-3" type='text' size="5" data-alert='自定义计重不能为空'>
 						<span>kg。</span>
 					</div>
 				</div>
 				<div class="col-sm-2">
-					<label>产品包装后的尺寸:</label>
+					<label data-required>产品包装后的尺寸:</label>
 				</div>
 				<div class="col-sm-10">
 					<label id="product-volume-div">
-						<input id="product-package-length-input" name="product-package-length" type="text" size="5" placeholder="长">
+						<input id="product-package-length-input" name="product-package-length" type="text" size="5" placeholder="长" data-alert='产品尺寸不能为空'>
 						<span>  x  </span>
-						<input id="product-package-width-input" name="product-package-width" type="text" size="5" placeholder="宽">
+						<input id="product-package-width-input" name="product-package-width" type="text" size="5" placeholder="宽" data-alert='产品尺寸不能为空'>
 						<span>  x  </span>
-						<input id="product-package-height-input" name="product-package-height" type="text" size="5" placeholder="高">
+						<input id="product-package-height-input" name="product-package-height" type="text" size="5" placeholder="高" data-alert='产品尺寸不能为空'>
 						<span>(单位：厘米,每<span name="inventory-unit">件/个</span> <span id="product-volume">0</span> cm3)</span>
 					</label>
 				</div>
@@ -369,10 +381,10 @@ pageEncoding="UTF-8"%>
 		<div class="panel-body">
 			<div class="row">
 				<div class="col-sm-2">
-					<label>产品组:</label>
+					<label data-required>产品分组:</label>
 				</div>
 				<div class="col-sm-10">
-					<select id="product-group-selecter" name="product-group" class="selectpicker show-tick" data-live-search="true">
+					<select id="product-group-selecter" name="product-group" class="selectpicker show-tick" data-live-search="true" title='---请选择---' data-alert='产品分组不能为空'>
 					</select>
 				</div>
 			</div>
@@ -394,6 +406,15 @@ pageEncoding="UTF-8"%>
 
 	$(function() {
 
+		init_single_div_table("sale-style", ["套餐1", "套餐2", "套餐3", "套餐4", "套餐5"]);
+
+		init_single_div_table("color", ["白色", "黑色", "绿色", "红色", "灰色", "蓝色", "黄色", "粉色", "紫色", "银色", "金色", "多色", "褐色", "橙色", "卡其色", "透明"]);
+
+		init_group_select();
+
+		init_image_fileinput();
+
+
 		function init_single_div_table(id, names){
 			var divid = id + '-div';
 			var tblid = id + '-table';
@@ -403,10 +424,6 @@ pageEncoding="UTF-8"%>
 				$('#' + tblid).find('tbody').append("<tr class='collapse'><td>"+ name +"</td><td><input type='text' size='15'></td></tr>");
 			});
 		};
-
-		init_single_div_table("sale-style", ["套餐1", "套餐2", "套餐3", "套餐4", "套餐5"]);
-
-		init_single_div_table("color", ["白色", "黑色", "绿色", "红色", "灰色", "蓝色", "黄色", "粉色", "紫色", "银色", "金色", "多色", "褐色", "橙色", "卡其色", "透明"]);
 
 		$('#product-measure-unit-select').on('change', function(){
 			var opt = $(this).val();
@@ -490,20 +507,20 @@ pageEncoding="UTF-8"%>
 					var sale_style = $(this).next().text();
 					$('input:checkbox[name="color"]:checked').each(function(){
 						var color = $(this).next().text();
-						table_body = table_body + "<tr><td>"+ sale_style +"</td><td>"+ color +"</td><td><input type='text' size='5'><span name='inventory-unit'>"+ $('span[name=inventory-unit]:last').text() +"</span></td><td><input type='text' size='20'></td></tr>";
+						table_body = table_body + "<tr><td>"+ sale_style +"</td><td>"+ color +"</td><td><input type='text' size='5' data-alert='产品库存不能为空'><span name='inventory-unit'>"+ $('span[name=inventory-unit]:last').text() +"</span></td><td><input type='text' size='20'></td></tr>";
 					});
 				});
 			}
 			else if($('input:checkbox[name="sale-style"]:checked').length > 0){
 				$('input:checkbox[name="sale-style"]:checked').each(function(){
 					var sale_style = $(this).next().text();
-					table_body = table_body + "<tr><td>"+ sale_style +"</td><td class='hidden'></td><td><input type='text' size='5'><span name='inventory-unit'>"+ $('span[name=inventory-unit]:last').text() +"</span></td><td><input type='text' size='20'></td></tr>";
+					table_body = table_body + "<tr><td>"+ sale_style +"</td><td class='hidden'></td><td><input type='text' size='5' data-alert='产品库存不能为空'><span name='inventory-unit'>"+ $('span[name=inventory-unit]:last').text() +"</span></td><td><input type='text' size='20'></td></tr>";
 				});
 			}
 			else if($('input:checkbox[name="color"]:checked').length > 0){
 				$('input:checkbox[name="color"]:checked').each(function(){
 					var color = $(this).next().text();
-					table_body = table_body + "<tr><td class='hidden'></td><td>"+ color +"</td><td><input type='text' size='5'><span name='inventory-unit'>"+ $('span[name=inventory-unit]:last').text() +"</span></td><td><input type='text' size='20'></td></tr>";
+					table_body = table_body + "<tr><td class='hidden'></td><td>"+ color +"</td><td><input type='text' size='5' data-alert='产品库存不能为空'><span name='inventory-unit'>"+ $('span[name=inventory-unit]:last').text() +"</span></td><td><input type='text' size='20'></td></tr>";
 				});
 			}
 
@@ -527,154 +544,308 @@ pageEncoding="UTF-8"%>
 			$("#product-volume").text(length * width * hight);
 		});
 
-		$.post("select", function(nodes){
-			var html = "";
-			$.each(nodes, function(i, firstnode){
-				html += "<optgroup label='" + firstnode.group + "'>";
-				$.each(firstnode.data, function(j, secondnode){
-					html += "<option>" + secondnode.group + "</option>";
+		function init_group_select(){
+			$.post("select", function(nodes){
+				var html = "";
+				$.each(nodes, function(i, firstnode){
+					html += "<optgroup label='" + firstnode.group + "'>";
+					$.each(firstnode.data, function(j, secondnode){
+						html += "<option value='"+ secondnode.groupid +"'>" + secondnode.group + "</option>";
+					});
+					html += "</optgroup>";
 				});
-				html += "</optgroup>";
+
+				$("#product-group-selecter").html(html);
+
+				$('#product-group-selecter').selectpicker('refresh');
 			});
-
-			$("#product-group-selecter").html(html);
-
-			$('#product-group-selecter').selectpicker('refresh');
-		});
-
-
-		$("#product-image-uploader").fileinput({
-			uploadUrl: "image/upload",
-			uploadAsync: false,
-			maxFileCount: 6,
-			layoutTemplates: {
-				main1: 
-				'{preview}\n' +
-				'<div class="input-group {class} hide">\n' +
-				'   {caption}\n' +
-				'   <div class="input-group-btn hide">\n' +
-				'       {remove}\n' +
-				'       {cancel}\n' +
-				'       {upload}\n' +
-				'       {browse}\n' +
-				'   </div>\n' +
-				'</div>\n',
-				preview: 	
-				'<div class="file-preview {class}">\n' +
-				'	<div class="picture">\n' + 
-				'		<a href="javascript:void(0)" name="browse">从我的电脑选取</a>\n'+
-				'		<a href="javascript:void(0)" name="delete">全部删除</a>\n'+
-				'	</div>\n'+
-				'   <div class="{dropClass}">\n' +
-				'   <div class="file-preview-thumbnails">\n' +
-				'   </div>\n' +
-				'   <div class="clearfix"></div>' +
-				'   <div class="file-preview-status text-center text-success"></div>\n' +
-				'   <div class="kv-fileinput-error"></div>\n' +
-				'   </div>\n' +
-				'</div>\n',
-				footer: 
-				'<div class="file-thumbnail-footer">\n' +
-				'    {actions}\n' +
-				'</div>\n',
-				actions: 
-				'<div class="file-actions">\n' +
-				'    <div class="file-footer-buttons">\n' +
-				'        {delete}' +
-				'    </div>\n' +
-				'    <div class="clearfix"></div>\n' +
-				'</div>\n',
-			},
-			initialPreview: [
-			"<img data-src='holder.js/160x114?text=No Photo'>",
-			"<img data-src='holder.js/160x114?text=No Photo'>",
-			"<img data-src='holder.js/160x114?text=No Photo'>",
-			"<img data-src='holder.js/160x114?text=No Photo'>",
-			"<img data-src='holder.js/160x114?text=No Photo'>",
-			"<img data-src='holder.js/160x114?text=No Photo'>"
-			]
-		});
-
-		$(".picture >a[name='browse']").click(function(){
-			$('#product-image-uploader').trigger('click');
-		});
-
-		$(".picture >a[name='delete']").click(function(){
-			$('#product-image-uploader').fileinput('clear');
-		});
-
-		$('#product-image-uploader').on('filebatchuploadsuccess', function(event, data) {
-			var pics = [];
-
-			$.each(data.files, function(i, file){
-				pics[i] = file.name;
-			});
-
-			product_data(pics);
-		});
-
-		$("#product-submit").click(function(){
-			$('#product-image-uploader').fileinput('upload');
-
-			if($('#product-image-uploader').prop('files').length == 0){
-				product_data();
-			}
-		});
-
-		function product_data(){
-			var pics = arguments[0];
-
-			var title = $('#product-title-input').val();
-			var keyword = $('#product-keyword-input').val();
-			var more_keyword_1 = $('#product-more-keyword-input-1').val();
-			var more_keyword_2 = $('#product-more-keyword-input-2').val();
-			var measure_unit = $('#product-measure-unit-select').val();
-
-			var sale_type;
-			var num_per_package;
-			if($('#product-sale-type-per-unit').is(':checked')){
-				sale_type = "by-unit";
-			}
-			else{
-				sale_type = "by-package";
-				num_per_package = $('#product-sale-type-num-per-package').val();
-			}	
-
-			var pic_files = [];
-			if(pics){
-				pic_files = pics;
-			}
-
-			var sale_styles = {};
-			$.each($('#sale-style-table tbody tr.collapse.in'), function(i, tr){
-				var name = $(tr).find('td:nth-child(1)').text();
-				var value = $(tr).find('td:nth-child(2) >input').val();
-
-				sale_styles[name] = value;
-			});
-
-			var colors = {};
-			$.each($('#color-table tbody tr.collapse.in'), function(i, tr){
-				var name = $(tr).find('td:nth-child(1)').text();
-				var value = $(tr).find('td:nth-child(2) >input').val();
-
-				colors[name] = value;
-			});
-
-			var inventories = [];
-			$.each($('#inventory-table >tbody >tr'), function(i, tr){
-				var inventory = [];
-				$.each($(tr).find('td:not(.hidden)'), function(j, td){
-					var value = $(this).find('input').val();
-					if(!value){
-						value = $(this).text();
-					}
-					inventory[j] = value;
-				});
-				inventories[i] = inventory;
-			});
-
 		}
+
+		function init_image_fileinput(){
+			$("#product-image-uploader").fileinput({
+				uploadUrl: "image/upload",
+				uploadAsync: false,
+				maxFileCount: 6,
+				layoutTemplates: {
+					main1: 
+					'{preview}\n' +
+					'<div class="input-group {class} hide">\n' +
+					'   {caption}\n' +
+					'   <div class="input-group-btn hide">\n' +
+					'       {remove}\n' +
+					'       {cancel}\n' +
+					'       {upload}\n' +
+					'       {browse}\n' +
+					'   </div>\n' +
+					'</div>\n',
+					preview: 	
+					'<div class="file-preview {class}">\n' +
+					'	<div class="picture">\n' + 
+					'		<a href="javascript:void(0)" name="browse">从我的电脑选取</a>\n'+
+					'		<a href="javascript:void(0)" name="delete">全部删除</a>\n'+
+					'	</div>\n'+
+					'   <div class="{dropClass}">\n' +
+					'   <div class="file-preview-thumbnails">\n' +
+					'   </div>\n' +
+					'   <div class="clearfix"></div>' +
+					'   <div class="file-preview-status text-center text-success"></div>\n' +
+					'   <div class="kv-fileinput-error"></div>\n' +
+					'   </div>\n' +
+					'</div>\n',
+					footer: 
+					'<div class="file-thumbnail-footer">\n' +
+					'    {actions}\n' +
+					'</div>\n',
+					actions: 
+					'<div class="file-actions">\n' +
+					'    <div class="file-footer-buttons">\n' +
+					'        {delete}' +
+					'    </div>\n' +
+					'    <div class="clearfix"></div>\n' +
+					'</div>\n',
+				},
+				initialPreview: [
+				"<img data-src='holder.js/160x114?text=No Photo'>",
+				"<img data-src='holder.js/160x114?text=No Photo'>",
+				"<img data-src='holder.js/160x114?text=No Photo'>",
+				"<img data-src='holder.js/160x114?text=No Photo'>",
+				"<img data-src='holder.js/160x114?text=No Photo'>",
+				"<img data-src='holder.js/160x114?text=No Photo'>"
+				]
+			});
+}
+
+$(".picture >a[name='browse']").click(function(){
+	$('#product-image-uploader').trigger('click');
+});
+
+$(".picture >a[name='delete']").click(function(){
+	$('#product-image-uploader').fileinput('clear');
+});
+
+$('#product-image-uploader').on('filebatchuploadsuccess', function(event, data) {
+	var pics = [];
+
+	$.each(data.files, function(i, file){
+		pics[i] = file.name;
+	});
+
+	product_data(pics);
+});
+
+$("#product-submit").click(function(){
+	$('#product-image-uploader').fileinput('upload');
+
+	if($('#product-image-uploader').prop('files').length == 0){
+		product_data();
+	}
+});
+
+function showbootbox(sel, msg){
+	sel.focus();
+	webix.message({
+		type:"default", 
+		text:msg,
+		expire:3000
+	});
+}
+
+function validate(){
+	var checknull = false;
+
+	$.each($("[data-alert]:visible"), function(i, sel){
+		if(!$(sel).val()){
+			checknull = true;
+			showbootbox($(sel), $(sel).attr("data-alert"));
+		}
+	});
+
+	return checknull;
+}
+
+function product_data(){
+
+	if(validate()){
+		return;
+	}
+
+	var pics = arguments[0];
+
+	var title = $('#product-title-input').val();
+
+	var keyword = $('#product-keyword-input').val();
+
+	var more_keyword_1 = $('#product-more-keyword-input-1').val();
+
+	var more_keyword_2 = $('#product-more-keyword-input-2').val();
+
+	var measure_unit = $('#product-measure-unit-select').val();
+
+	var sale_type;
+
+	var num_per_package = "";
+	if($('#product-sale-type-per-unit').is(':checked')){
+		sale_type = "by-unit";
+	}
+	else{
+		sale_type = "by-package";
+		num_per_package = $('#product-sale-type-num-per-package').val();
+	}	
+
+	var pic_files = [];
+	if(pics){
+		pic_files = pics;
+	}
+
+	var sale_styles = {};
+	$.each($('#sale-style-table:visible tbody tr.collapse.in'), function(i, tr){
+		var name = $(tr).find('td:nth-child(1)').text();
+		var value = $(tr).find('td:nth-child(2) >input').val();
+
+		sale_styles[name] = value;
+	});
+
+	var colors = {};
+	$.each($('#color-table:visible tbody tr.collapse.in'), function(i, tr){
+		var name = $(tr).find('td:nth-child(1)').text();
+		var value = $(tr).find('td:nth-child(2) >input').val();
+
+		colors[name] = value;
+	});
+
+	var inventories = [];
+	$.each($('#inventory-table:visible >tbody >tr'), function(i, tr){
+		var inventory = [];
+		$.each($(tr).find('td:visible'), function(j, td){
+			var isinput = $(this).find('input').length;
+
+			var value;
+			if(isinput){
+				value = $(this).find('input').val();
+			}
+
+			if(!value){
+				value = $(this).text();
+			}
+			inventory[j] = value;
+		});
+		inventories[i] = inventory;
+	});
+
+	var inventory = "";
+	if($('#product-inventory-input:visible')){
+		inventory = $('#product-inventory-input').val();
+	}
+	
+	var code = "";
+	if($('#product-code-input:visible')){
+		code = $('#product-code-input').val();
+	}
+
+	var weight = $('#product-weight-input').val();
+
+	var custom_weight = [];
+
+	if($('#custom-weight-check').is(':checked')){
+
+		custom_weight[0] = $('#product-custom-weight-input-1').val();
+
+		custom_weight[1] = $('#product-custom-weight-input-2').val();
+
+		custom_weight[2] = $('#product-custom-weight-input-3').val();
+
+	}
+	var package_size = [];
+
+	package_size[0] = $('#product-package-length-input').val();
+
+	package_size[1] = $('#product-package-width-input').val();
+
+	package_size[2] = $('#product-package-height-input').val();
+
+	var group_id = $('#product-group-selecter').val();
+
+	var attrs = {};
+	$.each($('td.attr-name'), function(i, namesel){
+		var name;
+		if($(namesel).children().length){
+			name = $(namesel).children().val().trim();
+		}
+		else{
+			name = $(namesel).text().trim();
+		}
+
+		var valsel = $(this).next('.attr-value');
+		
+		var value;
+		if(valsel.children().length){
+			value = valsel.children().val().trim();	
+		}
+		else{
+			value = valsel.text().trim();
+		}
+
+		attrs[name] = value;
+	});
+
+	var cattrs = {};
+	$.each($('span.attr-name'), function(i, namesel){
+		var name;
+		if($(namesel).children().length){
+			name = $(namesel).children().val().trim();
+		}
+		else{
+			name = $(namesel).text().trim();
+		}
+
+		var valsel = $(this).next('.attr-value');
+		
+		var value;
+		if(valsel.children().length){
+			value = valsel.children().val().trim();	
+		}
+		else{
+			value = valsel.text().trim();
+		}
+
+		cattrs[name] = value;
+	});
+
+	var type = $('#choose-text').text().trim();
+
+	var product = {};
+
+	product['type'] = type;
+	product['attrs'] = attrs;
+	product['cattrs'] = cattrs;
+
+	product['title'] = title;
+	product['keyword'] = keyword;
+	product['morekeyword1'] = more_keyword_1;
+	product['morekeyword2'] = more_keyword_2;
+	product['measureunit'] = measure_unit;
+	product['saletype'] = sale_type;
+	product['numofpackage'] = num_per_package;
+	product['pictures'] = pic_files;
+	product['salestyles'] = sale_styles;
+	product['colors'] = colors;
+	product['inventories'] = inventories;
+	product['inventory'] = inventory;
+	product['code'] = code;
+	product['weight'] = weight;
+	product['customweight'] = custom_weight;
+	product['packagesize'] = package_size;
+	product['groupid'] = group_id;
+
+	var json = JSON.stringify(product);
+
+	alert(json);
+
+	$.post("submit", {product: json}, function(result){
+		alert(result);
+	});
+}
+
 });
 
 </script>

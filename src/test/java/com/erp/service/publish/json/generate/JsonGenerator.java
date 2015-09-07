@@ -23,12 +23,14 @@ public class JsonGenerator {
 		List<JsonMenu> menus = new ArrayList<JsonMenu>();
 
 		JsonMenu menu1 = new JsonMenu("电话和通讯");
-		menu1.addSubMenu("手机配件和零件").addSubMenus("移动电源", "手机耳机", "手机机壳");
-		menu1.addSubMenu("手机");
+		menu1.addSubMenu("手机配件和零件").addSubMenus("移动电源", "", "手机耳机", "", "手机机壳",
+				"");
+		menu1.addSubMenu("手机", "phone");
 
 		JsonMenu menu2 = new JsonMenu("旅游及度假");
 		menu2.addSubMenu("交通卡劵");
-		menu2.addSubMenu("旅游相关商品").addSubMenus("地图", "明信片", "代客烧香/还愿", "旅游攻略");
+		menu2.addSubMenu("旅游相关商品").addSubMenus("地图", "", "明信片", "", "代客烧香/还愿",
+				"", "旅游攻略", "");
 
 		menus.add(menu1);
 		menus.add(menu2);

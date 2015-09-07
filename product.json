@@ -1,52 +1,65 @@
 [ {
   "level" : 1,
   "menu" : "电话和通讯",
+  "page" : "",
   "submenus" : [ {
     "level" : 2,
     "menu" : "手机配件和零件",
+    "page" : "",
     "submenus" : [ {
       "level" : 3,
       "menu" : "移动电源",
+      "page" : "",
       "submenus" : [ ]
     }, {
       "level" : 3,
       "menu" : "手机耳机",
+      "page" : "",
       "submenus" : [ ]
     }, {
       "level" : 3,
       "menu" : "手机机壳",
+      "page" : "",
       "submenus" : [ ]
     } ]
   }, {
     "level" : 2,
     "menu" : "手机",
+    "page" : "phone",
     "submenus" : [ ]
   } ]
 }, {
   "level" : 1,
   "menu" : "旅游及度假",
+  "page" : "",
   "submenus" : [ {
     "level" : 2,
     "menu" : "交通卡劵",
+    "page" : "",
     "submenus" : [ ]
   }, {
     "level" : 2,
     "menu" : "旅游相关商品",
+    "page" : "",
     "submenus" : [ {
       "level" : 3,
       "menu" : "地图",
+      "page" : "",
       "submenus" : [ ]
     }, {
       "level" : 3,
       "menu" : "明信片",
+      "page" : "",
       "submenus" : [ ]
     }, {
       "level" : 3,
       "menu" : "代客烧香/还愿",
+      "page" : "",
       "submenus" : [ ]
     }, {
       "level" : 3,
       "menu" : "旅游攻略",
+      "page" : "",
       "submenus" : [ ]
     } ]
   } ]

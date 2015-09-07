@@ -55,7 +55,7 @@ pageEncoding="UTF-8"%>
 				<div class="row">
 					<div class="col-sm-12">
 						<div id="showdiv" class="alert alert-info" role="alert">
-							您当前选择的类目：<span id="choose-text"></span>
+							您当前选择的类目：<span id="choose-text"></span><span id="choose-page" class="hide"></span>
 						</div>
 					</div>
 				</div>
@@ -81,9 +81,9 @@ pageEncoding="UTF-8"%>
 				var html = '';
 				$.each(data, function(i, menu){
 					if(menu.hasSon){
-						html = html + ('<a href="javascript:void(0)" class="list-group-item"><span class="badge glyphicon glyphicon-menu-right"> </span>' + menu.name + '</a>');
+						html = html + ('<a href="javascript:void(0)" class="list-group-item" data-page="' + menu.page + '"><span class="badge glyphicon glyphicon-menu-right"> </span>' + menu.name + '</a>');
 					}else{
-						html = html + ('<a href="javascript:void(0)" class="list-group-item">' + menu.name + '</a>');
+						html = html + ('<a href="javascript:void(0)" class="list-group-item" data-page="' + menu.page + '">' + menu.name + '</a>');
 					}
 				});
 				$('#second-menu').html(html);
@@ -98,9 +98,9 @@ pageEncoding="UTF-8"%>
 				var html = '';
 				$.each(data, function(i, menu){
 					if(menu.hasSon){
-						html = html + ('<a href="javascript:void(0)" class="list-group-item"><span class="badge glyphicon glyphicon-menu-right"> </span>' + menu.name + '</a>');
+						html = html + ('<a href="javascript:void(0)" class="list-group-item" data-page="' + menu.page + '"><span class="badge glyphicon glyphicon-menu-right"> </span>' + menu.name + '</a>');
 					}else{
-						html = html + ('<a href="javascript:void(0)" class="list-group-item">' + menu.name + '</a>');
+						html = html + ('<a href="javascript:void(0)" class="list-group-item" data-page="' + menu.page + '">' + menu.name + '</a>');
 					}
 				});
 				$('#third-menu').html(html);
@@ -115,15 +115,19 @@ pageEncoding="UTF-8"%>
 			var second = $('#second-menu .active').text().trim();
 			var third = $('#third-menu .active').text().trim();
 
+			var page = "";
 			var text = first;
 			if(second){
 				text = text + " > " + second;
+				page = $('#second-menu .active').attr("data-page").trim();
 			}
 			if(third){
 				text = text + " > " + third;
+				page = $('#third-menu .active').attr("data-page").trim();
 			}
 
 			$('#choose-text').html(text);
+			$('#choose-page').html(page);
 
 			if(third){
 				$('#publishbtn').removeAttr('disabled');
@@ -141,7 +145,7 @@ pageEncoding="UTF-8"%>
 		});
 
 		$('#publishbtn').on('click', function(){
-			window.location.href="publish/edit?text=" + $('#choose-text').text().trim();
+			window.location.href="publish/edit?text=" + $('#choose-text').text().trim() + "&page=" + $('#choose-page').text().trim();
 		});
 
 	});

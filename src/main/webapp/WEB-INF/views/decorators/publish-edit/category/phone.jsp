@@ -710,13 +710,13 @@ pageEncoding="UTF-8"%>
 	</div>
 
 	<script type="text/javascript">
-		$("#custom-attr-a").click(function(){
-			$(this).before("<div class='custom-attr-row'><span class='attr-name'><input type='text' size='30' placeholder='属性名 - 例如：Color'></span><span class='attr-value'><input type='text' size='30' placeholder='属性值 - 例如：Red'></span><a href='javascript:void(0)'>删除</a></div>");
-			$(this).parent().find("div > a").off("click");
-			$(this).parent().find("div > a").on("click", null, function(){
-				$(this).parent().remove();
-			});
+	$("#custom-attr-a").click(function(){
+		$(this).before("<div class='custom-attr-row'><span class='attr-name'><input type='text' size='30' placeholder='属性名 - 例如：Color'></span><span class='attr-value'><input type='text' size='30' placeholder='属性值 - 例如：Red'></span><a href='javascript:void(0)'>删除</a></div>");
+		$(this).parent().find("div > a").off("click");
+		$(this).parent().find("div > a").on("click", null, function(){
+			$(this).parent().remove();
 		});
+	});
 	</script>
 
 </body>

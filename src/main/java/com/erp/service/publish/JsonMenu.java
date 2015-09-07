@@ -7,7 +7,8 @@ public class JsonMenu {
 
 	private int level = 1;
 	private String menu = "";
-	
+	private String page = "";
+
 	private List<JsonMenu> submenus = new ArrayList<JsonMenu>();
 
 	public JsonMenu() {
@@ -17,6 +18,11 @@ public class JsonMenu {
 		this.menu = menu;
 	}
 
+	public JsonMenu(String menu, String page) {
+		this.menu = menu;
+		this.page = page;
+	}
+	
 	public JsonMenu addSubMenu(String menu) {
 		JsonMenu submenu = new JsonMenu(menu);
 		submenu.level = this.level + 1;
@@ -24,9 +30,18 @@ public class JsonMenu {
 		return submenu;
 	}
 
-	public void addSubMenus(String... menus) {
-		for (String menu : menus) {
-			addSubMenu(menu);
+	public JsonMenu addSubMenu(String menu, String page) {
+		JsonMenu submenu = new JsonMenu(menu, page);
+		submenu.level = this.level + 1;
+		this.submenus.add(submenu);
+		return submenu;
+	}
+
+	public void addSubMenus(String... pairs) {
+		for (int i = 0; i + 1 < pairs.length; i += 2) {
+			String menu = pairs[i];
+			String page = pairs[i + 1];
+			addSubMenu(menu, page);
 		}
 	}
 
@@ -52,6 +67,14 @@ public class JsonMenu {
 
 	public void setSubmenus(List<JsonMenu> submenus) {
 		this.submenus = submenus;
+	}
+
+	public String getPage() {
+		return page;
+	}
+
+	public void setPage(String page) {
+		this.page = page;
 	}
 
 }
