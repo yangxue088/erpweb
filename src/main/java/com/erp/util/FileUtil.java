@@ -17,9 +17,9 @@ public class FileUtil {
 
 	public static String uuidFileName(String originfilename) {
 		return genUUID()
-				+ originfilename.substring(originfilename.indexOf('.') + 1);
+				+ originfilename.substring(originfilename.indexOf('.'));
 	}
-
+	
 	public static File createNewFile(String filepath, boolean overwrite) {
 		File file = new File(filepath);
 		try {

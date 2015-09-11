@@ -535,11 +535,13 @@ pageEncoding="UTF-8"%>
 
 			// TODO inventories
 
+			if(req.stocks.length == 1 && (req.stocks[0][0] == "" && req.stocks[0][1] == "")){
+			
+				$('#product-inventory-input').val(req.stocks[0][2]);
 
-			/*$('#product-inventory-input').val(product.inventory);
-
-			$('#product-code-input').val(product.code);*/
-
+				$('#product-code-input').val(req.stocks[0][3]);
+			}
+			
 			$('#product-weight-input').val(product.weight);
 
 			if(product.customweight[0] || product.customweight[1] || product.customweight[2]){
@@ -723,6 +725,8 @@ pageEncoding="UTF-8"%>
 				initialPreviewCount: 6,
 				validateInitialCount: true,
 				showPreview: true,
+				allowedFileTypes: ['image'],
+				allowedFileExtensions: ['jpeg', 'jpg', 'jpe'],
 				defaultPreviewContent: "<label class='origin'><img data-src='holder.js/160x160?text=No Photo'></label><label class='origin'><img data-src='holder.js/160x160?text=No Photo'></label><label class='origin'><img data-src='holder.js/160x160?text=No Photo'></label><label class='origin'><img data-src='holder.js/160x160?text=No Photo'></label><label class='origin'><img data-src='holder.js/160x160?text=No Photo'></label><label class='origin'><img data-src='holder.js/160x160?text=No Photo'></label>",
 				initialPreview:initialPreview,
 				initialPreviewConfig: initialPreviewConfig,
@@ -776,11 +780,7 @@ $(".picture >a[name='delete']").click(function(){
 });
 
 $('#product-image-uploader').on('filebatchuploadsuccess', function(event, data) {
-	var pics = [];
-
-	$.each(data.files, function(i, file){
-		pics[i] = file.name;
-	});
+	var pics = data.response;
 
 	product_data(pics);
 });
@@ -1020,9 +1020,12 @@ function product_data(){
 
 	var json = JSON.stringify(product);
 
-	alert(json);
+	var data = {product: json};
+	if(req.pid){
+		data.productId = req.pid;
+	}
 
-	$.post("submit", {product: json}, function(result){
+	$.post("submit", data, function(result){
 		alert(result);
 	});
 }

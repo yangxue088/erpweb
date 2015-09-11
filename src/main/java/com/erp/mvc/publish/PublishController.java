@@ -25,7 +25,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.erp.bean.cate.Cate;
 import com.erp.service.cate.JsonTree;
-import com.erp.service.publish.JsonImage;
 import com.erp.service.publish.JsonLi;
 import com.erp.service.publish.JsonMenu;
 import com.erp.service.publish.Product;
@@ -46,6 +45,27 @@ public class PublishController {
 
 	@Autowired
 	private ServletContext servletContext;
+
+	@InitBinder
+	public void initBinder(WebDataBinder binder) {
+		binder.registerCustomEditor(Product.class, new PropertyEditorSupport() {
+
+			public void setAsText(String text) throws IllegalArgumentException {
+				ObjectMapper mapper = new ObjectMapper();
+				try {
+					Product product = mapper.readValue(text, Product.class);
+					this.setValue(product);
+				} catch (JsonParseException e) {
+					e.printStackTrace();
+				} catch (JsonMappingException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+
+		});
+	}
 
 	@RequestMapping
 	public String publish(ModelMap modelMap) {
@@ -69,10 +89,8 @@ public class PublishController {
 	}
 
 	@RequestMapping(value = "/edit")
-	public ModelAndView edit(ModelMap modelMap, @RequestParam String text,
-			@RequestParam String page) {
-		ModelAndView modelAndView = new ModelAndView(
-				"decorators/publish-edit/category/" + page);
+	public ModelAndView edit(ModelMap modelMap, @RequestParam String text, @RequestParam String page) {
+		ModelAndView modelAndView = new ModelAndView("decorators/publish-edit/category/" + page);
 		modelAndView.addObject("choosetext", text);
 		return modelAndView;
 	}
@@ -87,72 +105,48 @@ public class PublishController {
 
 	@RequestMapping(value = "/image/upload")
 	public @ResponseBody
-	JsonImage image_upload(@RequestParam MultipartFile[] images,
-			HttpServletRequest request) {
-
-		JsonImage jsonImage = new JsonImage();
-
-		String rooturl = request.getScheme() + "://" + request.getServerName()
-				+ ":" + request.getServerPort() + request.getContextPath();
-
+	List<String> image_upload(@RequestParam MultipartFile[] images, HttpServletRequest request) {
+		List<String> uploadFiles = new ArrayList<String>();
 		for (MultipartFile image : images) {
+			String filename = FileUtil.genUUID() + ".jpg";
 
-			String filename = image.getOriginalFilename();
-
-			String filepath = servletContext.getRealPath(uploadpath)
-					+ File.separator + filename;
-
+			String filepath = servletContext.getRealPath(uploadpath) + File.separator + filename;
 			File file = FileUtil.createNewFile(filepath, true);
 
 			try {
 				image.transferTo(file);
+				uploadFiles.add(filename);
 			} catch (IllegalStateException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-
-			String imgsrc = rooturl + uploadpath + filename;
-
-			jsonImage.addInitialPreview(imgsrc);
-
-			jsonImage.setAppend(false);
 		}
-
-		return jsonImage;
+		return uploadFiles;
 	}
 
-	@InitBinder
-	public void initBinder(WebDataBinder binder) {
-		binder.registerCustomEditor(Product.class, new PropertyEditorSupport() {
-
-			public void setAsText(String text) throws IllegalArgumentException {
-				ObjectMapper mapper = new ObjectMapper();
-				try {
-					Product product = mapper.readValue(text, Product.class);
-					this.setValue(product);
-				} catch (JsonParseException e) {
-					e.printStackTrace();
-				} catch (JsonMappingException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-
-		});
+	@RequestMapping(value = "/image/delete")
+	public @ResponseBody
+	String image_delete(@RequestParam("key") int pictureId) {
+		pubService.deletePicture(pictureId);
+		return "";
 	}
 
 	@RequestMapping(value = "/submit")
 	public @ResponseBody
-	String submit(@RequestParam Product product) {
-		int productId = pubService.createProduct(product);
-		
+	String submit(@RequestParam(required = false) Integer productId, @RequestParam Product product) {
+		// means create product
+		if (productId == null) {
+			productId = pubService.createProduct(product);
+		}
+		// means update product
+		else {
+			pubService.updateProduct(productId, product);
+		}
+
 		for (String picture : product.getPictures()) {
 			try {
-				FileInputStream is = new FileInputStream(
-						servletContext.getRealPath(uploadpath) + File.separator
-								+ picture);
+				FileInputStream is = new FileInputStream(servletContext.getRealPath(uploadpath) + File.separator + picture);
 				pubService.createPicture(picture, is, productId);
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
@@ -161,41 +155,39 @@ public class PublishController {
 
 		return "success";
 	}
-	
+
 	private String picturepath = "/resources/tmp/picture/";
-	
+
 	@RequestMapping(value = "/reedit")
 	public ModelAndView reedit(ModelMap modelMap, HttpServletRequest request, @RequestParam int productid) {
-		
+
 		Product product = pubService.getProduct(productid);
-		
+
 		List<String[]> stocks = pubService.getStocks(productid);
-		
+
 		String page = pubService.getPage(product.getType());
-		
-		String rooturl = request.getScheme() + "://" + request.getServerName()
-				+ ":" + request.getServerPort() + request.getContextPath();
-		
+
+		String rooturl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+
 		List<String> imgids = new ArrayList<String>();
 		List<String> imgsrcs = new ArrayList<String>();
 		String filepath = servletContext.getRealPath(picturepath);
 		List<String> pictures = pubService.getPictures(productid, filepath);
-		for(String picture : pictures){
+		for (String picture : pictures) {
 			imgids.add(picture.substring(0, picture.indexOf(".")));
 			imgsrcs.add(rooturl + picturepath + picture);
 		}
-		
-		ModelAndView modelAndView = new ModelAndView(
-				"decorators/publish-edit/category/" + page);
-		
+
+		ModelAndView modelAndView = new ModelAndView("decorators/publish-edit/category/" + page);
+
 		modelAndView.addObject("choosetext", product.getType());
-		
+
 		modelAndView.addObject("productId", productid);
 		modelAndView.addObject("product", product.getJson());
-		modelAndView.addObject("imgids", JSONUtil.tojson(pictures));
+		modelAndView.addObject("imgids", JSONUtil.tojson(imgids));
 		modelAndView.addObject("imgsrcs", JSONUtil.tojson(imgsrcs));
 		modelAndView.addObject("stocks", JSONUtil.tojson(stocks));
-		
+
 		return modelAndView;
 	}
 

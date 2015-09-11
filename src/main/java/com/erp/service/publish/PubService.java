@@ -91,10 +91,14 @@ public class PubService extends AbstCateService {
 
 	public int createProduct(Product product) {
 		int productId = publishDao.createProduct(product);
-		
 		publishDao.createStocks(productId, product.getStocks());
-		
 		return productId;
+	}
+	
+	public void updateProduct(int id, Product product) {
+		publishDao.updateProduct(id, product);
+		
+		publishDao.updateStocks(id, product.getStocks());
 	}
 
 	public Product getProduct(int productId) {
@@ -107,5 +111,9 @@ public class PubService extends AbstCateService {
 	
 	public List<String[]> getStocks(int productId){
 		return publishDao.getStocks(productId);
+	}
+
+	public void deletePicture(int id) {
+		publishDao.deletePicture(id);
 	}
 }

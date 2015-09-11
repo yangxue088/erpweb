@@ -35,51 +35,50 @@ public class PublishDao {
 
 	private final LobHandler lobHandler = new DefaultLobHandler();
 
-	public void savePicture(final String filename, final InputStream is,
-			final int productId) {
-		jdbcTemplate
-				.execute(
-						"insert into picture(name, file, pid, create_time, update_time) values (?, ?, ?, null, null)",
-						new AbstractLobCreatingPreparedStatementCallback(
-								lobHandler) {
+	public void savePicture(final String filename, final InputStream is, final int productId) {
+		jdbcTemplate.execute("insert into picture(type, file, pid, create_time, update_time) values (?, ?, ?, null, null)", new AbstractLobCreatingPreparedStatementCallback(lobHandler) {
 
-							protected void setValues(PreparedStatement ps,
-									LobCreator lobCreator) throws SQLException,
-									DataAccessException {
-								try {
-									ps.setString(1, filename);
-									lobCreator.setBlobAsBinaryStream(ps, 2, is,
-											is.available());
-									ps.setInt(3, productId);
-								} catch (IOException e) {
-									e.printStackTrace();
-								}
-							}
+			protected void setValues(PreparedStatement ps, LobCreator lobCreator) throws SQLException, DataAccessException {
+				try {
+					ps.setString(1, filename.substring(filename.lastIndexOf('.') + 1));
+					lobCreator.setBlobAsBinaryStream(ps, 2, is, is.available());
+					ps.setInt(3, productId);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 
-						});
+		});
 	}
 
 	public int createProduct(final Product product) {
-		jdbcTemplate
-				.update("insert into product(type, title, json, gid, create_time, update_time) values (?, ?, ?, ?, null, null)",
-						new PreparedStatementSetter() {
-							public void setValues(PreparedStatement ps)
-									throws SQLException {
-								ps.setString(1, product.getType());
-								ps.setString(2, product.getTitle());
-								ps.setString(3, product.getJson());
-								ps.setInt(4, product.getGid());
-							}
-						});
+		jdbcTemplate.update("insert into product(type, title, json, gid, create_time, update_time) values (?, ?, ?, ?, null, null)", new PreparedStatementSetter() {
+			public void setValues(PreparedStatement ps) throws SQLException {
+				ps.setString(1, product.getType());
+				ps.setString(2, product.getTitle());
+				ps.setString(3, product.getJson());
+				ps.setInt(4, product.getGid());
+			}
+		});
 
-		return jdbcTemplate.queryForObject("select last_insert_id()",
-				Integer.class);
+		return jdbcTemplate.queryForObject("select last_insert_id()", Integer.class);
 	}
-	
+
+	public void updateProduct(final int id, final Product product) {
+		jdbcTemplate.update("update product set type=?, title=?, json=?, gid=? where id=?", new PreparedStatementSetter() {
+			public void setValues(PreparedStatement ps) throws SQLException {
+				ps.setString(1, product.getType());
+				ps.setString(2, product.getTitle());
+				ps.setString(3, product.getJson());
+				ps.setInt(4, product.getGid());
+				ps.setInt(5, id);
+			}
+		});
+	}
+
 	public void createStocks(final int productId, List<String[]> stocks) {
-		for(final String[] stock : stocks){
+		for (final String[] stock : stocks) {
 			jdbcTemplate.update("insert into stock(product_id, sale, color, inventory, code, create_time, update_time) values(?, ?, ?, ?, ?, null, null)", new PreparedStatementSetter() {
-				
 				public void setValues(PreparedStatement ps) throws SQLException {
 					ps.setInt(1, productId);
 					ps.setString(2, stock[0]);
@@ -91,11 +90,14 @@ public class PublishDao {
 		}
 	}
 
+	public void updateStocks(int productId, List<String[]> stocks) {
+		jdbcTemplate.update("delete from stock where product_id=?", new Object[] { productId });
+		
+		createStocks(productId, stocks);
+	}
+
 	public Product getProduct(int id) {
-		SqlRowSet rowSet = jdbcTemplate
-				.queryForRowSet(
-						"select type, title, json, gid from product where id=?",
-						new Object[] { id });
+		SqlRowSet rowSet = jdbcTemplate.queryForRowSet("select type, title, json, gid from product where id=?", new Object[] { id });
 
 		while (rowSet.next()) {
 			Product product = new Product();
@@ -108,59 +110,55 @@ public class PublishDao {
 
 		return null;
 	}
-	
+
 	public List<String[]> getStocks(int productId) {
-		SqlRowSet rowSet = jdbcTemplate
-				.queryForRowSet(
-						"select sale, color, inventory, code from stock where product_id=?",
-						new Object[] { productId });
+		SqlRowSet rowSet = jdbcTemplate.queryForRowSet("select sale, color, inventory, code from stock where product_id=?", new Object[] { productId });
 
 		List<String[]> stocks = new ArrayList<String[]>();
 		while (rowSet.next()) {
 			String[] stock = new String[4];
-			
+
 			stock[0] = rowSet.getString("sale");
 			stock[1] = rowSet.getString("color");
 			stock[2] = String.valueOf(rowSet.getInt("inventory"));
 			stock[3] = rowSet.getString("code");
-			
+
 			stocks.add(stock);
 		}
 
 		return stocks;
 	}
-	
-	public List<String> getPictures(final int productId,final  String topath) {
-		return jdbcTemplate.query(
-				"select id, name, file from picture where pid=?",
-				new Object[] { productId }, new RowMapper<String>() {
 
-					public String mapRow(ResultSet rs, int rowNum)
-							throws SQLException {
-						int id = rs.getInt("id");
-						String name = rs.getString("name");
-						InputStream is = lobHandler.getBlobAsBinaryStream(rs,
-								"file");
-						
-						String filename = String.valueOf(id)
-								+ name.substring(name.indexOf('.'));
-						
-						File file = new File(topath + File.separator + filename);
-						
-						FileUtil.createNewFile(file.getAbsolutePath(), true);
-						
-						try {
-							IOUtils.copy(is, new FileOutputStream(file));
-						} catch (FileNotFoundException e) {
-							e.printStackTrace();
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-						
-						return filename;
-					}
+	public List<String> getPictures(final int productId, final String topath) {
+		return jdbcTemplate.query("select id, type, file from picture where pid=?", new Object[] { productId }, new RowMapper<String>() {
 
-				});
+			public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+				int id = rs.getInt("id");
+				String type = rs.getString("type");
+				InputStream is = lobHandler.getBlobAsBinaryStream(rs, "file");
+
+				String filename = String.valueOf(id) + "." + type;
+
+				File file = new File(topath + File.separator + filename);
+
+				FileUtil.createNewFile(file.getAbsolutePath(), true);
+
+				try {
+					IOUtils.copy(is, new FileOutputStream(file));
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
+				return filename;
+			}
+
+		});
+	}
+
+	public void deletePicture(int id) {
+		jdbcTemplate.update("delete from picture where id=?", new Object[] { id });
 	}
 
 }
