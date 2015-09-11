@@ -16,7 +16,7 @@ pageEncoding="UTF-8"%>
 							<td class="attr-name">
 								是否是无锁电话
 							</td>
-							<td class="attr-value">
+							<td class="attr-value" data-type="text">
 								Yes
 							</td>
 						</tr>
@@ -24,8 +24,9 @@ pageEncoding="UTF-8"%>
 							<td class="attr-name">
 								品牌
 							</td>
-							<td class="attr-value">
-								<select class="selectpicker" data-live-search="true" title='---请选择---'>
+							<td class="attr-value" data-type="select">
+								<select class="selectpicker" data-live-search="true">
+									<option value="">---请选择---</option>
 									<option>Acer(宏碁)</option>
 									<option>ACT(安科讯)</option>
 									<option>AiBeiDuo(爱贝多)</option>
@@ -330,8 +331,9 @@ pageEncoding="UTF-8"%>
 							<td class="attr-name">
 								手机存储（手机硬盘）
 							</td>
-							<td class="attr-value">
-								<select class="selectpicker" data-live-search="true" title='---请选择---'>
+							<td class="attr-value" data-type="select">
+								<select class="selectpicker" data-live-search="true">
+									<option value="">---请选择---</option>
 									<option>&lt;2G(小于2G)</option>
 									<option>2G(2G)</option>
 									<option>4G(4G)</option>
@@ -347,8 +349,9 @@ pageEncoding="UTF-8"%>
 							<td class="attr-name">
 								手机内存
 							</td>
-							<td class="attr-value">
-								<select class="selectpicker" data-live-search="true" title='---请选择---'>
+							<td class="attr-value" data-type="select">
+								<select class="selectpicker" data-live-search="true">
+									<option value="">---请选择---</option>
 									<option>&lt;128M(小于128M)</option>
 									<option>128M(128M)</option>
 									<option>256M(256M)</option>
@@ -367,8 +370,9 @@ pageEncoding="UTF-8"%>
 							<td class="attr-name">
 								手机中央处理器
 							</td>
-							<td class="attr-value">
-								<select class="selectpicker" data-live-search="true" title='---请选择---'>
+							<td class="attr-value" data-type="select">
+								<select class="selectpicker" data-live-search="true">
+									<option value="">---请选择---</option>
 									<option>Single Core(单核)</option>
 									<option>Dual Core(双核)</option>
 									<option>Quad Core(四核)</option>
@@ -382,8 +386,9 @@ pageEncoding="UTF-8"%>
 							<td class="attr-name">
 								外观样式
 							</td>
-							<td class="attr-value">
-								<select class="selectpicker" data-live-search="true" title='---请选择---'>
+							<td class="attr-value" data-type="select">
+								<select class="selectpicker" data-live-search="true">
+									<option value="">---请选择---</option>
 									<option>Bar(直板机)</option>
 									<option>Flip(翻盖机)</option>
 									<option>Rotatable(旋转机)</option>
@@ -396,8 +401,9 @@ pageEncoding="UTF-8"%>
 							<td class="attr-name">
 								产品成色
 							</td>
-							<td class="attr-value">
-								<select class="selectpicker" data-live-search="true" title='---请选择---'>
+							<td class="attr-value" data-type="select">
+								<select class="selectpicker" data-live-search="true">
+									<option value="">---请选择---</option>
 									<option>New(全新)</option>
 									<option>Used(二手)</option>
 									<option>Refurbished(翻新)</option>
@@ -408,8 +414,9 @@ pageEncoding="UTF-8"%>
 							<td class="attr-name">
 								操作系统
 							</td>
-							<td class="attr-value">
-								<select class="selectpicker" data-live-search="true" title='---请选择---'>
+							<td class="attr-value" data-type="select">
+								<select class="selectpicker" data-live-search="true">
+									<option value="">---请选择---</option>
 									<option>Android(Android)</option>
 									<option>Linux(Linux)</option>
 									<option>Symbian(Symbian)</option>
@@ -433,8 +440,9 @@ pageEncoding="UTF-8"%>
 							<td class="attr-name">
 								移动通讯技术
 							</td>
-							<td class="attr-value">
-								<select class="selectpicker" data-live-search="true" title='---请选择---'>
+							<td class="attr-value" data-type="select">
+								<select class="selectpicker" data-live-search="true">
+									<option value="">---请选择---</option>
 									<option>GSM(GSM)</option>
 									<option>CDMA(CDMA)</option>
 									<option>WCDMA(WCDMA)</option>
@@ -453,7 +461,7 @@ pageEncoding="UTF-8"%>
 							<td class="attr-name">
 								特性
 							</td>
-							<td class="attr-value">
+							<td class="attr-value" data-type="check">
 								<label>
 									<input type="checkbox">
 									<span>GPS Navigation(GPS导航)</span>
@@ -528,8 +536,9 @@ pageEncoding="UTF-8"%>
 							<td class="attr-name">
 								CPU品牌
 							</td>
-							<td class="attr-value">
-								<select class="selectpicker" data-live-search="true" title='---请选择---'>
+							<td class="attr-value" data-type="select">
+								<select class="selectpicker" data-live-search="true">
+									<option value="">---请选择---</option>
 									<option>MTK(联发科)</option>
 									<option>Qualcomm(高通)</option>
 									<option>Texas Instruments(德州仪器)</option>
@@ -545,8 +554,9 @@ pageEncoding="UTF-8"%>
 							<td class="attr-name">
 								屏幕尺寸
 							</td>
-							<td class="attr-value">
-								<select class="selectpicker" data-live-search="true" title='---请选择---'>
+							<td class="attr-value" data-type="select">
+								<select class="selectpicker" data-live-search="true">
+									<option value="">---请选择---</option>
 									<option>1.8(1.8英寸)</option>
 									<option>2.0(2.0英寸)</option>
 									<option>2.2(2.2英寸)</option>
@@ -590,8 +600,9 @@ pageEncoding="UTF-8"%>
 							<td class="attr-name">
 								屏幕颜色
 							</td>
-							<td class="attr-value">
-								<select class="selectpicker" data-live-search="true" title='---请选择---'>
+							<td class="attr-value" data-type="select">
+								<select class="selectpicker" data-live-search="true">
+									<option value="">---请选择---</option>
 									<option>Black / White(黑白屏)</option>
 									<option>Color(彩屏)</option>
 								</select>
@@ -601,7 +612,7 @@ pageEncoding="UTF-8"%>
 							<td class="attr-name">
 								系统语言
 							</td>
-							<td class="attr-value">
+							<td class="attr-value" data-type="check">
 								<label>
 									<input type="checkbox">
 									<span>English(英语)</span>
@@ -652,8 +663,9 @@ pageEncoding="UTF-8"%>
 							<td class="attr-name">
 								视频拍摄画质
 							</td>
-							<td class="attr-value">
-								<select class="selectpicker" data-live-search="true" title='---请选择---'>
+							<td class="attr-value" data-type="select">
+								<select class="selectpicker" data-live-search="true">
+									<option value="">---请选择---</option>
 									<option>360P(360P)</option>
 									<option>480I(480I)</option>
 									<option>480P(480P)</option>
@@ -667,8 +679,9 @@ pageEncoding="UTF-8"%>
 							<td class="attr-name">
 								厚度
 							</td>
-							<td class="attr-value">
-								<select class="selectpicker" data-live-search="true" title='---请选择---'>
+							<td class="attr-value" data-type="select">
+								<select class="selectpicker" data-live-search="true">
+									<option value="">---请选择---</option>
 									<option>Ultra Slim(&lt;9mm)(超薄(小于9mm))</option>
 									<option>Slim(9mm-10mm)(薄(9mm~10mm))</option>
 									<option>Normal(&gt;10mm)(普通(大于10mm))</option>
@@ -679,7 +692,7 @@ pageEncoding="UTF-8"%>
 							<td class="attr-name">
 								电池容量(mAh)
 							</td>
-							<td class="attr-value">
+							<td class="attr-value" data-type="input">
 								<input type="text" size="20">
 							</td>
 						</tr>
@@ -687,8 +700,9 @@ pageEncoding="UTF-8"%>
 							<td class="attr-name">
 								支持多少SIM卡
 							</td>
-							<td class="attr-value">
-								<select class="selectpicker" data-live-search="true" title='---请选择---'>
+							<td class="attr-value" data-type="select">
+								<select class="selectpicker" data-live-search="true">
+									<option value="">---请选择---</option>
 									<option>Single SIM Card(单卡单待)</option>
 									<option>Dual SIM Cards(双卡双待)</option>
 									<option>Three SIM Cards(三卡三待)</option>
@@ -710,13 +724,19 @@ pageEncoding="UTF-8"%>
 	</div>
 
 	<script type="text/javascript">
-	$("#custom-attr-a").click(function(){
-		$(this).before("<div class='custom-attr-row'><span class='attr-name'><input type='text' size='30' placeholder='属性名 - 例如：Color'></span><span class='attr-value'><input type='text' size='30' placeholder='属性值 - 例如：Red'></span><a href='javascript:void(0)'>删除</a></div>");
-		$(this).parent().find("div > a").off("click");
-		$(this).parent().find("div > a").on("click", null, function(){
+
+	function insert_custom_attr(name, value){
+		$("#custom-attr-a").before("<div class='custom-attr-row'><span class='attr-name'><input type='text' size='30' placeholder='属性名 - 例如：Color' value='" + name + "'></span><span class='attr-value' data-type='input' ><input type='text' size='30' placeholder='属性值 - 例如：Red' value='" + value + "'></span><a href='javascript:void(0)'>删除</a></div>");
+		$("#custom-attr-a").parent().find("div > a").off("click");
+		$("#custom-attr-a").parent().find("div > a").on("click", null, function(){
 			$(this).parent().remove();
 		});
+	}
+
+	$("#custom-attr-a").click(function(){
+		insert_custom_attr('', '');
 	});
+
 	</script>
 
 </body>

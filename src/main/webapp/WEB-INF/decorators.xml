@@ -7,6 +7,7 @@
 
 	<decorator name="publish-edit" page="publish-edit/publish-edit.jsp">
         <pattern>/publish/edit*</pattern>
+        <pattern>/publish/reedit*</pattern>
     </decorator>
 
 	<decorator name="main-layout" page="main-layout/main-layout.jsp">

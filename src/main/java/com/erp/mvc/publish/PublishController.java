@@ -31,6 +31,7 @@ import com.erp.service.publish.JsonMenu;
 import com.erp.service.publish.Product;
 import com.erp.service.publish.PubService;
 import com.erp.util.FileUtil;
+import com.erp.util.JSONUtil;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -82,9 +83,7 @@ public class PublishController {
 		return pubService.queryCates();
 	}
 
-	private String relativepath = "/resources/tmp/upload/";
-
-	private String tmpdir = servletContext.getRealPath(relativepath);
+	private String uploadpath = "/resources/tmp/upload/";
 
 	@RequestMapping(value = "/image/upload")
 	public @ResponseBody
@@ -100,7 +99,8 @@ public class PublishController {
 
 			String filename = image.getOriginalFilename();
 
-			String filepath = tmpdir + File.separator + filename;
+			String filepath = servletContext.getRealPath(uploadpath)
+					+ File.separator + filename;
 
 			File file = FileUtil.createNewFile(filepath, true);
 
@@ -112,7 +112,7 @@ public class PublishController {
 				e.printStackTrace();
 			}
 
-			String imgsrc = rooturl + relativepath + filename;
+			String imgsrc = rooturl + uploadpath + filename;
 
 			jsonImage.addInitialPreview(imgsrc);
 
@@ -146,23 +146,57 @@ public class PublishController {
 	@RequestMapping(value = "/submit")
 	public @ResponseBody
 	String submit(@RequestParam Product product) {
-		List<Integer> picids = new ArrayList<Integer>();
+		int productId = pubService.createProduct(product);
 		
-		List<String> pics = product.getPictures();
-		for (String pic : pics) {
+		for (String picture : product.getPictures()) {
 			try {
-				String filename = pic;
-				FileInputStream is = new FileInputStream(tmpdir
-						+ File.separator + filename);
-				picids.add(pubService.savepic(filename, is));
+				FileInputStream is = new FileInputStream(
+						servletContext.getRealPath(uploadpath) + File.separator
+								+ picture);
+				pubService.createPicture(picture, is, productId);
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
 		}
-		
-		pubService.saveproduct(product, picids);
-		
+
 		return "success";
+	}
+	
+	private String picturepath = "/resources/tmp/picture/";
+	
+	@RequestMapping(value = "/reedit")
+	public ModelAndView reedit(ModelMap modelMap, HttpServletRequest request, @RequestParam int productid) {
+		
+		Product product = pubService.getProduct(productid);
+		
+		List<String[]> stocks = pubService.getStocks(productid);
+		
+		String page = pubService.getPage(product.getType());
+		
+		String rooturl = request.getScheme() + "://" + request.getServerName()
+				+ ":" + request.getServerPort() + request.getContextPath();
+		
+		List<String> imgids = new ArrayList<String>();
+		List<String> imgsrcs = new ArrayList<String>();
+		String filepath = servletContext.getRealPath(picturepath);
+		List<String> pictures = pubService.getPictures(productid, filepath);
+		for(String picture : pictures){
+			imgids.add(picture.substring(0, picture.indexOf(".")));
+			imgsrcs.add(rooturl + picturepath + picture);
+		}
+		
+		ModelAndView modelAndView = new ModelAndView(
+				"decorators/publish-edit/category/" + page);
+		
+		modelAndView.addObject("choosetext", product.getType());
+		
+		modelAndView.addObject("productId", productid);
+		modelAndView.addObject("product", product.getJson());
+		modelAndView.addObject("imgids", JSONUtil.tojson(pictures));
+		modelAndView.addObject("imgsrcs", JSONUtil.tojson(imgsrcs));
+		modelAndView.addObject("stocks", JSONUtil.tojson(stocks));
+		
+		return modelAndView;
 	}
 
 }

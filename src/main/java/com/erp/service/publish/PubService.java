@@ -60,6 +60,20 @@ public class PubService extends AbstCateService {
 		}
 		return new ArrayList<JsonMenu>();
 	}
+	
+	public String getPage(String type) {
+		String[] menus = type.split(" > ");
+
+		List<JsonMenu> nmenus = nextMenus(menus.length - 1,
+				menus[menus.length - 2]);
+		for (JsonMenu menu : nmenus) {
+			if (menu.getMenu().equals(menus[menus.length - 1])) {
+				return menu.getPage();
+			}
+		}
+
+		return "";
+	}
 
 	@Override
 	public JsonNode<Cate> wrap(Cate cate) {
@@ -71,11 +85,27 @@ public class PubService extends AbstCateService {
 		return node;
 	}
 
-	public int savepic(String filename, InputStream is) {
-		return publishDao.savepic(filename, is);
+	public void createPicture(String filename, InputStream is, int productId) {
+		publishDao.savePicture(filename, is, productId);
 	}
 
-	public void saveproduct(Product product, List<Integer> picids) {
+	public int createProduct(Product product) {
+		int productId = publishDao.createProduct(product);
 		
+		publishDao.createStocks(productId, product.getStocks());
+		
+		return productId;
+	}
+
+	public Product getProduct(int productId) {
+		return publishDao.getProduct(productId);
+	}
+
+	public List<String> getPictures(int productId, String topath) {
+		return publishDao.getPictures(productId, topath);
+	}
+	
+	public List<String[]> getStocks(int productId){
+		return publishDao.getStocks(productId);
 	}
 }

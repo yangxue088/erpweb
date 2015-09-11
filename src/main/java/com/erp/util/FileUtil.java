@@ -5,10 +5,20 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.UUID;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
 public class FileUtil {
+
+	public static String genUUID() {
+		return UUID.randomUUID().toString().replaceAll("-", "");
+	}
+
+	public static String uuidFileName(String originfilename) {
+		return genUUID()
+				+ originfilename.substring(originfilename.indexOf('.') + 1);
+	}
 
 	public static File createNewFile(String filepath, boolean overwrite) {
 		File file = new File(filepath);
