@@ -1,4 +1,4 @@
-package com.erp.mvc.cate;
+package com.erp.mvc.category;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.erp.bean.cate.Cate;
-import com.erp.service.cate.AbstCateService;
-import com.erp.service.cate.JsonNode;
-import com.erp.service.cate.JsonTree;
+import com.erp.bean.category.Cate;
+import com.erp.service.category.AbstCateService;
+import com.erp.service.category.JsonNode;
+import com.erp.service.category.JsonTree;
 
 @Controller
 @SessionAttributes("userVo")

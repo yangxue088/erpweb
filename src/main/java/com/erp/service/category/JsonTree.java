@@ -1,4 +1,4 @@
-package com.erp.service.cate;
+package com.erp.service.category;
 
 import java.util.ArrayList;
 import java.util.List;

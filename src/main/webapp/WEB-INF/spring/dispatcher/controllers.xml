@@ -13,5 +13,5 @@
 	<mvc:view-controller path="/login" view-name="login"/>
 	
 	<!--redirect routes -->
-	<mvc:redirect-view-controller path="/" redirect-url="login"/>
+	<mvc:redirect-view-controller path="/" redirect-url="home"/>
 </beans>

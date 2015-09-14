@@ -1,4 +1,4 @@
-package com.erp.bean.cate;
+package com.erp.bean.category;
 
 public class Cate {
 

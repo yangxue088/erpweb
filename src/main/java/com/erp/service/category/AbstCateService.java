@@ -1,4 +1,4 @@
-package com.erp.service.cate;
+package com.erp.service.category;
 
 import java.util.Collections;
 import java.util.List;
@@ -6,8 +6,8 @@ import java.util.Stack;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.erp.bean.cate.Cate;
-import com.erp.dao.cate.CateDao;
+import com.erp.bean.category.Cate;
+import com.erp.dao.category.CateDao;
 
 public abstract class AbstCateService {
 

@@ -1,4 +1,4 @@
-package com.erp.dao.cate.publish;
+package com.erp.dao.product;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -28,7 +28,7 @@ import com.erp.service.publish.Product;
 import com.erp.util.FileUtil;
 
 @Repository
-public class PublishDao {
+public class ProductDao {
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;

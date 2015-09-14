@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <nav id="top" class="top navbar navbar-inverse navbar-default navbar-fixed-top">
@@ -18,16 +18,17 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="cate">主页<span class="sr-only">(current)</span></a></li>
-        <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">产品管理<span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li><a href="<c:url value="/publish" />">发布产品</a></li>
-                <li><a href="<c:url value="/cate" />">分组管理</a></li>
-              </ul>
-            </li>
-        <li><a href="#">库存管理</a></li>
-        <li><a href="#">权限管理</a></li>
+        <li class="active"><a href="<c:url value="/search" />">主页<span class="sr-only">(current)</span></a></li>
+        <!-- <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">产品管理<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="<c:url value="/publish" />">发布产品</a></li>
+            <li><a href="<c:url value="/cate" />">分组管理</a></li>
+          </ul>
+        </li> -->
+        <li><a href="<c:url value="/search" />">浏览产品</a></li>
+        <li><a href="<c:url value="/publish" />">发布产品</a></li>
+        <li><a href="<c:url value="/cate" />">管理分组</a></li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">

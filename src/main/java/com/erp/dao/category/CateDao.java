@@ -1,4 +1,4 @@
-package com.erp.dao.cate;
+package com.erp.dao.category;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
-import com.erp.bean.cate.Cate;
+import com.erp.bean.category.Cate;
 import com.google.common.collect.Lists;
 
 @Repository

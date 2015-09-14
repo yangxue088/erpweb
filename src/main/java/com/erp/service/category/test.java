@@ -1,6 +1,6 @@
-package com.erp.service.cate;
+package com.erp.service.category;
 
-import com.erp.bean.cate.Cate;
+import com.erp.bean.category.Cate;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class test {

@@ -23,8 +23,9 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.erp.bean.cate.Cate;
-import com.erp.service.cate.JsonTree;
+import com.erp.bean.category.Cate;
+import com.erp.service.category.JsonTree;
+import com.erp.service.product.ProductService;
 import com.erp.service.publish.JsonLi;
 import com.erp.service.publish.JsonMenu;
 import com.erp.service.publish.Product;
@@ -42,6 +43,9 @@ public class PublishController {
 
 	@Autowired
 	private PubService pubService;
+	
+	@Autowired
+	private ProductService productService;
 
 	@Autowired
 	private ServletContext servletContext;
@@ -128,7 +132,7 @@ public class PublishController {
 	@RequestMapping(value = "/image/delete")
 	public @ResponseBody
 	String image_delete(@RequestParam("key") int pictureId) {
-		pubService.deletePicture(pictureId);
+		productService.deletePicture(pictureId);
 		return "";
 	}
 
@@ -137,17 +141,17 @@ public class PublishController {
 	String submit(@RequestParam(required = false) Integer productId, @RequestParam Product product) {
 		// means create product
 		if (productId == null) {
-			productId = pubService.createProduct(product);
+			productId = productService.createProduct(product);
 		}
 		// means update product
 		else {
-			pubService.updateProduct(productId, product);
+			productService.updateProduct(productId, product);
 		}
 
 		for (String picture : product.getPictures()) {
 			try {
 				FileInputStream is = new FileInputStream(servletContext.getRealPath(uploadpath) + File.separator + picture);
-				pubService.createPicture(picture, is, productId);
+				productService.createPicture(picture, is, productId);
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
@@ -161,9 +165,9 @@ public class PublishController {
 	@RequestMapping(value = "/reedit")
 	public ModelAndView reedit(ModelMap modelMap, HttpServletRequest request, @RequestParam int productid) {
 
-		Product product = pubService.getProduct(productid);
+		Product product = productService.getProduct(productid);
 
-		List<String[]> stocks = pubService.getStocks(productid);
+		List<String[]> stocks = productService.getStocks(productid);
 
 		String page = pubService.getPage(product.getType());
 
@@ -172,7 +176,7 @@ public class PublishController {
 		List<String> imgids = new ArrayList<String>();
 		List<String> imgsrcs = new ArrayList<String>();
 		String filepath = servletContext.getRealPath(picturepath);
-		List<String> pictures = pubService.getPictures(productid, filepath);
+		List<String> pictures = productService.getPictures(productid, filepath);
 		for (String picture : pictures) {
 			imgids.add(picture.substring(0, picture.indexOf(".")));
 			imgsrcs.add(rooturl + picturepath + picture);

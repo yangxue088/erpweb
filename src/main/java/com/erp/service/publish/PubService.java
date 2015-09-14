@@ -1,19 +1,16 @@
 package com.erp.service.publish;
 
 import java.io.File;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.erp.bean.cate.Cate;
-import com.erp.dao.cate.publish.PublishDao;
-import com.erp.service.cate.AbstCateService;
-import com.erp.service.cate.JsonNode;
+import com.erp.bean.category.Cate;
+import com.erp.service.category.AbstCateService;
+import com.erp.service.category.JsonNode;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -22,9 +19,6 @@ public class PubService extends AbstCateService {
 
 	private long lastModified = 0;
 	private List<JsonMenu> menus = new ArrayList<JsonMenu>();
-
-	@Autowired
-	private PublishDao publishDao;
 
 	public void readJson() {
 		File file = new File("product.json");
@@ -83,37 +77,5 @@ public class PubService extends AbstCateService {
 			node.setAttribute("group", cate.getName());
 		}
 		return node;
-	}
-
-	public void createPicture(String filename, InputStream is, int productId) {
-		publishDao.savePicture(filename, is, productId);
-	}
-
-	public int createProduct(Product product) {
-		int productId = publishDao.createProduct(product);
-		publishDao.createStocks(productId, product.getStocks());
-		return productId;
-	}
-	
-	public void updateProduct(int id, Product product) {
-		publishDao.updateProduct(id, product);
-		
-		publishDao.updateStocks(id, product.getStocks());
-	}
-
-	public Product getProduct(int productId) {
-		return publishDao.getProduct(productId);
-	}
-
-	public List<String> getPictures(int productId, String topath) {
-		return publishDao.getPictures(productId, topath);
-	}
-	
-	public List<String[]> getStocks(int productId){
-		return publishDao.getStocks(productId);
-	}
-
-	public void deletePicture(int id) {
-		publishDao.deletePicture(id);
 	}
 }

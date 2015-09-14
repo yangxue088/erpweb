@@ -1,8 +1,8 @@
-package com.erp.service.cate;
+package com.erp.service.category;
 
 import org.springframework.stereotype.Service;
 
-import com.erp.bean.cate.Cate;
+import com.erp.bean.category.Cate;
 
 @Service
 public class CateService extends AbstCateService {

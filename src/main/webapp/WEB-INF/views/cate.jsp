@@ -7,6 +7,12 @@ pageEncoding="UTF-8"%>
 <body>
 
 	<div>
+		<div>
+			<h4>管理分组</h4>
+		</div>
+
+		<hr class="soften"></hr>
+
 		<div id="treeview" class="treeview"></div>
 	</div>
 

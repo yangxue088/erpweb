@@ -399,14 +399,12 @@ pageEncoding="UTF-8"%>
 		</div>
 	</div>
 
-	<hr class="dotten">
-
 	<div class="row">
 		<label class="col-sm-2 col-sm-offset-3">
-			<button id="product-submit" type="button" class="btn btn-primary btn-md btn-block">提交</button>
+			<button id="product-preview" type="button" class="btn btn-primary btn-md btn-block btn-warning">取消发布</button>
 		</label>
 		<label class="col-sm-2 col-sm-offset-1">
-			<button id="product-preview" type="button" class="btn btn-primary btn-md btn-block">预览</button>
+			<button id="product-submit" type="button" class="btn btn-primary btn-md btn-block btn-success">发布产品</button>
 		</label>
 	</div>
 
@@ -1039,7 +1037,7 @@ function product_data(){
 	}
 
 	$.post("submit", data, function(result){
-		alert(result);
+		// alert(result);
 	});
 }
 
