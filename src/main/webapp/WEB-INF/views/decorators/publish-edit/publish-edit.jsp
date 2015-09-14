@@ -533,15 +533,28 @@ pageEncoding="UTF-8"%>
 				$(checkbox.attr('data-target')).find('input').val(value);
 			});
 
-			// TODO inventories
-
 			if(req.stocks.length == 1 && (req.stocks[0][0] == "" && req.stocks[0][1] == "")){
 			
 				$('#product-inventory-input').val(req.stocks[0][2]);
 
 				$('#product-code-input').val(req.stocks[0][3]);
-			}
 			
+			}
+			else{
+
+				var stocks = req.stocks;
+
+				$.each(stocks, function(i, stock){
+
+					$('#inventory-table >tbody >tr:nth-child('+ (i+1) +')').find('td:nth-child(3) >input').val(stock[2]);
+
+					$('#inventory-table >tbody >tr:nth-child('+ (i+1) +')').find('td:nth-child(4) >input').val(stock[3]);
+
+				})
+
+			}
+
+
 			$('#product-weight-input').val(product.weight);
 
 			if(product.customweight[0] || product.customweight[1] || product.customweight[2]){
@@ -1003,8 +1016,8 @@ function product_data(){
 
 	var stocks = [];
 
-	if(sale_styles.length || colors.length){
-		stocks.push(inventories);
+	if(!$.isEmptyObject(sale_styles) || !$.isEmptyObject(colors)){
+		stocks = inventories;
 	}else{
 		stocks.push(['', '', inventory, code]);		
 	}
