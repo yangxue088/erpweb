@@ -1,5 +1,11 @@
 package com.erp.mvc.product;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -20,6 +26,9 @@ public class ProductController {
 	@Autowired
 	private ProductService productService;
 
+	@Autowired
+	private ServletContext servletContext;
+
 	@RequestMapping(value = "/detail")
 	public ModelAndView detail(ModelMap modelMap, @RequestParam int productid) {
 		ModelAndView modelAndView = new ModelAndView("detail");
@@ -27,9 +36,26 @@ public class ProductController {
 		return modelAndView;
 	}
 
-	@RequestMapping(value = "/get")
+	@RequestMapping(value = "/getProduct")
 	public @ResponseBody
 	Product getProduct(@RequestParam int productId) {
 		return productService.getProduct(productId);
+	}
+
+	private String picturepath = "/resources/tmp/picture/";
+
+	@RequestMapping(value = "/getPictures")
+	public @ResponseBody
+	List<String> getPictures(@RequestParam int productId, HttpServletRequest request) {
+		String rooturl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+
+		List<String> imgsrcs = new ArrayList<String>();
+		String filepath = servletContext.getRealPath(picturepath);
+		List<String> pictures = productService.getPictures(productId, filepath);
+		for (String picture : pictures) {
+			imgsrcs.add(rooturl + picturepath + picture);
+		}
+
+		return imgsrcs;
 	}
 }

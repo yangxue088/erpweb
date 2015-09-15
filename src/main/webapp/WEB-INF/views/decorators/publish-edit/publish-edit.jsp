@@ -177,7 +177,7 @@ pageEncoding="UTF-8"%>
 				</div>
 				<div class="col-sm-10">
 					<div>
-						<input id="product-image-uploader" name="images" type="file" multiple class="file-loading">
+						<input id="product-image-uploader" name="images" type="file" multiple class="file-loading" accept="image/*">
 					</div>
 				</div>
 			</div>
@@ -736,6 +736,7 @@ pageEncoding="UTF-8"%>
 				initialPreviewCount: 6,
 				validateInitialCount: true,
 				showPreview: true,
+				previewFileType: "image",
 				allowedFileTypes: ['image'],
 				allowedFileExtensions: ['jpeg', 'jpg', 'jpe'],
 				defaultPreviewContent: "<label class='origin'><img data-src='holder.js/160x160?text=No Photo'></label><label class='origin'><img data-src='holder.js/160x160?text=No Photo'></label><label class='origin'><img data-src='holder.js/160x160?text=No Photo'></label><label class='origin'><img data-src='holder.js/160x160?text=No Photo'></label><label class='origin'><img data-src='holder.js/160x160?text=No Photo'></label><label class='origin'><img data-src='holder.js/160x160?text=No Photo'></label>",
