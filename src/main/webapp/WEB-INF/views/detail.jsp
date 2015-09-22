@@ -179,6 +179,10 @@ pageEncoding="UTF-8"%>
 	</div>
 </div>
 
+<div style="position:fixed; bottom:50px; right:105px; float: right;">
+	<a href="<c:url value="/publish/reedit?productid=${productId}" />" class="btn btn-primary btn-md btn-block btn-success" role="button">编辑</a>
+</div>
+
 <script type="text/javascript">
 
 $(function() {
@@ -198,7 +202,7 @@ $(function() {
 
 		$.each(product.attrs, function(name, value){
 			if(value){
-				$('#product-attr-table').append("<tr><td>" + name + "</td><td>" + value + "</td></tr>");
+				$('#product-attr-table').append("<tr><td width='20%'>" + name + "</td><td width='80%'>" + value + "</td></tr>");
 			}
 		});
 

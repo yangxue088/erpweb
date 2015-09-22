@@ -43,7 +43,7 @@ pageEncoding="UTF-8"%>
 	}
 
 	.panel{
-		/*border: hidden;*/
+		opacity: 0.9;
 	}
 
 	.panel .panel-body .row{
@@ -125,13 +125,14 @@ pageEncoding="UTF-8"%>
 		content: "*";
 		color: red;
 	}
+
 	</style>
 
 	<div id="choose-div" class="alert alert-info" role="alert">
 		您当前选择的类目：<span id="choose-text">${choosetext}</span>
 	</div>
 
-	<div id="product-info-panel" class="panel panel-primary">
+	<div id="product-info-panel" class="panel panel-default">
 		<div class="panel-heading">
 			<h2 class="panel-title"><strong>1. 产品基本信息</strong></h2>
 		</div>
@@ -330,7 +331,7 @@ pageEncoding="UTF-8"%>
 		</div>
 	</div>
 
-	<div id="package-info-panel" class="panel panel-primary">
+	<div id="package-info-panel" class="panel panel-default">
 		<div class="panel-heading">
 			<h2 class="panel-title"><strong>2. 包装信息</strong></h2>
 		</div>
@@ -382,7 +383,7 @@ pageEncoding="UTF-8"%>
 		</div>
 	</div>
 
-	<div id="other-info-panel" class="panel panel-primary">
+	<div id="other-info-panel" class="panel panel-default">
 		<div class="panel-heading">
 			<h2 class="panel-title"><strong>3. 其他信息</strong></h2>
 		</div>

@@ -28,6 +28,11 @@ public class ProductController {
 
 	@Autowired
 	private ServletContext servletContext;
+	
+	@RequestMapping
+	public String list(ModelMap modelMap) {
+		return "product";
+	}
 
 	@RequestMapping(value = "/detail")
 	public ModelAndView detail(ModelMap modelMap, @RequestParam int productid) {
