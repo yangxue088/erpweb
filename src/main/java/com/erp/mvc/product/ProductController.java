@@ -58,4 +58,10 @@ public class ProductController {
 
 		return imgsrcs;
 	}
+
+	@RequestMapping(value = "/getStocks")
+	public @ResponseBody
+	List<String[]> getStocks(@RequestParam int productId) {
+		return productService.getStocks(productId);
+	}
 }
