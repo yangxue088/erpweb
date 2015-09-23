@@ -28,10 +28,20 @@ public class ProductController {
 
 	@Autowired
 	private ServletContext servletContext;
-	
+
 	@RequestMapping
 	public String list(ModelMap modelMap) {
 		return "product";
+	}
+
+	@RequestMapping(value = "/search")
+	public @ResponseBody
+	List<Product> search(@RequestParam String title, @RequestParam String code, @RequestParam String group, @RequestParam String inventory) {
+		List<Product> products = new ArrayList<Product>();
+
+		products.add(productService.getProduct(19));
+
+		return products;
 	}
 
 	@RequestMapping(value = "/detail")
@@ -69,4 +79,5 @@ public class ProductController {
 	List<String[]> getStocks(@RequestParam int productId) {
 		return productService.getStocks(productId);
 	}
+
 }

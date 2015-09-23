@@ -11,16 +11,13 @@ pageEncoding="UTF-8"%>
 
 	<script type="text/javascript" src="<c:url value="/resources/holderjs/js/holder.js" />"></script>
 	
-	<link href="<c:url value="/resources/bootstrap-select/css/bootstrap-select.min.css" />"
-	rel="stylesheet"  type="text/css" />
+	<link href="<c:url value="/resources/bootstrap-select/css/bootstrap-select.min.css" />" rel="stylesheet"  type="text/css" />
 	<script type="text/javascript" src="<c:url value="/resources/bootstrap-select/js/bootstrap-select.min.js" />"></script>
 
-	<link href="<c:url value="/resources/bootstrap-fileinput/css/fileinput.min.css" />"
-	rel="stylesheet"  type="text/css" />
+	<link href="<c:url value="/resources/bootstrap-fileinput/css/fileinput.min.css" />" rel="stylesheet"  type="text/css" />
 	<script type="text/javascript" src="<c:url value="/resources/bootstrap-fileinput/js/fileinput.min.js" />"></script>
 
-	<link href="<c:url value="/resources/webix/webix.css" />"
-	rel="stylesheet"  type="text/css" />
+	<link href="<c:url value="/resources/webix/webix.css" />" rel="stylesheet"  type="text/css" />
 	<script type="text/javascript" src="<c:url value="/resources/webix/webix.js" />"></script>
 	
 	<style type="text/css">
