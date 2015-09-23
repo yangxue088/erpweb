@@ -1,7 +1,9 @@
 package com.erp.mvc.product;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.erp.service.product.JsonTable;
 import com.erp.service.product.ProductService;
 import com.erp.service.publish.Product;
 
@@ -28,10 +31,16 @@ public class ProductController {
 
 	@Autowired
 	private ServletContext servletContext;
-	
+
 	@RequestMapping
 	public String list(ModelMap modelMap) {
 		return "product";
+	}
+
+	@RequestMapping(value = "/search")
+	public @ResponseBody
+	JsonTable search(@RequestParam String title, @RequestParam String code, @RequestParam String group, @RequestParam String inventory, @RequestParam int offset, @RequestParam int limit) {
+		return productService.getProductTable(title, code, group, inventory, offset, limit);
 	}
 
 	@RequestMapping(value = "/detail")
@@ -69,4 +78,5 @@ public class ProductController {
 	List<String[]> getStocks(@RequestParam int productId) {
 		return productService.getStocks(productId);
 	}
+
 }
