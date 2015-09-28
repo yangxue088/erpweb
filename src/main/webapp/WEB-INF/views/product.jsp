@@ -187,6 +187,7 @@ pageEncoding="UTF-8"%>
 	function title_format(value, row, index){
 		return '<a href="' + detail_url + row.id + '">' + value + '</a>';
 	}
+	
 
 	</script>
 
