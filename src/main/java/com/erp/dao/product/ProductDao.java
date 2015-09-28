@@ -92,7 +92,7 @@ public class ProductDao {
 
 	public void updateStocks(int productId, List<String[]> stocks) {
 		jdbcTemplate.update("delete from stock where product_id=?", new Object[] { productId });
-		
+
 		createStocks(productId, stocks);
 	}
 
@@ -159,6 +159,24 @@ public class ProductDao {
 
 	public void deletePicture(int id) {
 		jdbcTemplate.update("delete from picture where id=?", new Object[] { id });
+	}
+
+	public List<String[]> getProductBrief(String paramQuery1, String paramQuery2, int offset, int limit) {
+		List<String[]> result = new ArrayList<String[]>();
+		
+		String sql = String.format("select bp.id as id, bp.title as title, bp.gname as cate, sum(bp.stock) as stock from (select p.id as id, p.title as title, p.gid as gid, c.name as gname, s.code as code, s.inventory as stock, p.create_time as crtime from product as p, stock as s, category as c where p.id = s.product_id and p.gid = c.id) as bp where (%s) group by bp.id having (%s) order by bp.crtime desc limit %d offset %d", paramQuery1, paramQuery2, limit, offset);
+		SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql);
+		while (rowSet.next()) {
+			String[] res = new String[4];
+
+			res[0] = rowSet.getString("id");
+			res[1] = rowSet.getString("title");
+			res[2] = rowSet.getString("cate");
+			res[3] = String.valueOf(rowSet.getInt("stock"));
+
+			result.add(res);
+		}
+		return result;
 	}
 
 }

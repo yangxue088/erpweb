@@ -1,12 +1,13 @@
 package com.erp.service.product;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.erp.dao.product.ProductDao;
 import com.erp.service.publish.Product;
@@ -50,20 +51,49 @@ public class ProductService {
 	}
 
 	public JsonTable getProductTable(String title, String code, String group, String inventory, int offset, int limit) {
+		StringBuffer paramQuery1 = new StringBuffer();
+		StringBuffer paramQuery2 = new StringBuffer();
+
+		List<String> psub1 = new ArrayList<String>();
+		if (StringUtils.isNotEmpty(title)) {
+			psub1.add("bp.title like '%" + title + "%'");
+		}
+
+		if (StringUtils.isNotEmpty(code)) {
+			psub1.add("bp.code like '%" + code + "%'");
+		}
+
+		if (!"all".equals(group.toLowerCase())) {
+			psub1.add("bp.gid=" + group);
+		}
+
+		paramQuery1.append(StringUtils.join(psub1, " and "));
+
+		if (!"all".equals(inventory.toLowerCase())) {
+			paramQuery2.append("sum(bp.stock)=" + Integer.valueOf(inventory));
+		}
+
+		if (paramQuery1.length() == 0) {
+			paramQuery1.append("1=1");
+		}
+
+		if (paramQuery2.length() == 0) {
+			paramQuery2.append("1=1");
+		}
+
+		List<String[]> products = productDao.getProductBrief(paramQuery1.toString(), paramQuery2.toString(), offset, limit);
+
 		JsonTable table = new JsonTable();
+		table.setTotal(products.size());
+		for (final String[] product : products) {
 
-		table.setTotal(200);
-
-		for (int i = offset; i < offset + limit; ++i) {
-			final int j = i;
 			table.getRows().add(new HashMap<String, String>() {
 				private static final long serialVersionUID = 1L;
-
 				{
-					put("id", String.valueOf(19));
-					put("title", "newtitle" + j);
-					put("group", "newgroup" + j);
-					put("inventory", "333" + j);
+					put("id", product[0]);
+					put("title", product[1]);
+					put("group", product[2]);
+					put("inventory", product[3]);
 				}
 			});
 		}
