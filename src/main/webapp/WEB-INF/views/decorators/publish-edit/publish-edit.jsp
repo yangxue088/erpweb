@@ -406,6 +406,7 @@ pageEncoding="UTF-8"%>
 			<button id="product-preview" type="button" class="btn btn-primary btn-md btn-block btn-warning">取消发布</button>
 		</label>
 		<label class="col-sm-2 col-sm-offset-1">
+			<!-- <a id="product-submit" href="" role="button" class="btn btn-md btn-block btn-success">发布产品</a> -->
 			<button id="product-submit" type="button" class="btn btn-primary btn-md btn-block btn-success">发布产品</button>
 		</label>
 	</div>
@@ -1040,7 +1041,9 @@ function product_data(){
 	}
 
 	$.post("submit", data, function(result){
-		// alert(result);
+		if(result == "success"){
+			window.location.href="../product";
+		}
 	});
 }
 

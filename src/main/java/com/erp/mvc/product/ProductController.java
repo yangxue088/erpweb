@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -39,6 +40,12 @@ public class ProductController {
 	public @ResponseBody
 	JsonTable search(@RequestParam String title, @RequestParam String code, @RequestParam String group, @RequestParam String inventory, @RequestParam int offset, @RequestParam int limit) {
 		return productService.getProductTable(title, code, group, inventory, offset, limit);
+	}
+
+	@RequestMapping(value = "/delete")
+	public @ResponseBody
+	String delete(@RequestParam List<String> ids) {
+		return "success";
 	}
 
 	@RequestMapping(value = "/detail")

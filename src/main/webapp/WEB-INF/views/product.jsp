@@ -18,10 +18,6 @@ pageEncoding="UTF-8"%>
 
 	<style type="text/css">
 
-	.webix_message_area{
-		padding-top: 50px;
-	}
-
 	input[type="input"]{
 		padding: 6px 12px;
 		margin-bottom: 0;
@@ -115,6 +111,10 @@ pageEncoding="UTF-8"%>
 		detail_url = '<c:url value="/product/detail?productid=" />';
 
 		edit_url = '<c:url value="/publish/reedit?productid=" />';
+
+		$("div[name='toolbar'] button:contains('删除')").on("click", delete_btn_click);
+
+		$("div[name='toolbar'] button:contains('调整产品组')").on("click", group_btn_click);	
 	});
 
 	function init_group_select(){
@@ -187,7 +187,46 @@ pageEncoding="UTF-8"%>
 	function title_format(value, row, index){
 		return '<a href="' + detail_url + row.id + '">' + value + '</a>';
 	}
-	
+
+	function getCheckedIds(){
+		var ids = [];
+		$.each($('#selling-table').bootstrapTable('getSelections'), function(i, item){
+			ids.push(item.id);
+		});
+		return ids;
+	}
+
+	function delete_btn_click(){
+		var ids = getCheckedIds();
+
+		if(ids.length > 0){
+			$.ajax("delete", [ids: ids], function(result){
+				$('#selling-table').bootstrapTable('remove', {field: "id", values: ids});
+			});
+		}
+		else{
+			webix.message({
+				type:"default", 
+				text:'至少选择一个',
+				expire:3000
+			});
+		}
+	}
+
+	function group_btn_click(){
+		var ids = getCheckedIds();
+
+		if(ids.length > 0){
+			alert(ids);
+		}
+		else{
+			webix.message({
+				type:"default", 
+				text:'至少选择一个',
+				expire:3000
+			});
+		}
+	}
 
 	</script>
 

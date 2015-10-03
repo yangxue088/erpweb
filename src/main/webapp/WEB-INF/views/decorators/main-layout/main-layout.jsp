@@ -18,9 +18,16 @@ pageEncoding="UTF-8"%>
 
   <script type="text/javascript" src="<c:url value="/resources/jquery/jquery.min.js" />"></script>
   <script type="text/javascript" src="<c:url value="/resources/bootstrap/js/bootstrap.min.js" />"></script>
+
+  <style type="text/css">
+      .webix_message_area{
+        padding-top: 50px;
+      }
+  </style>
 </head>
 
 <body>
+
   <c:import url="/WEB-INF/views/decorators/main-layout/tags/navbar.jsp"/>
 
   <div class="wrapper">
