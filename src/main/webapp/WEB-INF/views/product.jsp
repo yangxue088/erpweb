@@ -200,7 +200,7 @@ pageEncoding="UTF-8"%>
 		var ids = getCheckedIds();
 
 		if(ids.length > 0){
-			$.ajax("delete", [ids: ids], function(result){
+			$.post("product/delete", { ids: JSON.stringify(ids) }, function(result){
 				$('#selling-table').bootstrapTable('remove', {field: "id", values: ids});
 			});
 		}

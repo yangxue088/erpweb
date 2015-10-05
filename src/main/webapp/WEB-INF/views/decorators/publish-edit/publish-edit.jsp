@@ -688,8 +688,16 @@ pageEncoding="UTF-8"%>
 				});
 			}
 
+			var inputs = $("#inventory-table").find("input");
+
 			$("#inventory-table >tbody").html(table_body);
 
+			$.each(inputs, function(i, input){
+
+				var nip = $("#inventory-table").find("input")[i];
+
+				$(nip).val($(input).val());				
+			});
 		};
 
 		$("#product-volume-div input").on("focusout", function(){
