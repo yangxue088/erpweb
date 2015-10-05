@@ -88,7 +88,7 @@ pageEncoding="UTF-8"%>
 								<th data-field="title" data-formatter="title_format">产品信息</th>
 								<th data-field="group">产品组</th>
 								<th data-field="inventory">库存</th>
-								<th data-formatter="edit_format">操作</th>
+								<th data-formatter="edit_format" data-events="stock_manage">操作</th>
 							</tr>
 						</thead>
 					</table>
@@ -114,7 +114,8 @@ pageEncoding="UTF-8"%>
 
 		$("div[name='toolbar'] button:contains('删除')").on("click", delete_btn_click);
 
-		$("div[name='toolbar'] button:contains('调整产品组')").on("click", group_btn_click);	
+		$("div[name='toolbar'] button:contains('调整产品组')").on("click", group_btn_click);
+
 	});
 
 	function init_group_select(){
@@ -181,12 +182,22 @@ pageEncoding="UTF-8"%>
 	}
 
 	function edit_format(value, row, index){
-		return '<a href="' + edit_url + row.id + '">编辑</a>';
+		return '<a href="' + edit_url + row.id + '">编辑产品</a><a style="padding-left: 8px;" href="javascript:void(0)">管理库存</a>';
 	}
 
 	function title_format(value, row, index){
 		return '<a href="' + detail_url + row.id + '">' + value + '</a>';
 	}
+
+	window.stock_manage = {
+        'click a:contains("管理库存")': function (e, value, row, index) {
+        	show_stock_modal(row.id);
+        }
+    };
+
+    function show_stock_modal(id){
+    	alert('You click like icon, row: ' + id);
+    }
 
 	function getCheckedIds(){
 		var ids = [];
@@ -200,7 +211,7 @@ pageEncoding="UTF-8"%>
 		var ids = getCheckedIds();
 
 		if(ids.length > 0){
-			$.ajax("delete", [ids: ids], function(result){
+			$.post("product/delete", { ids: JSON.stringify(ids) }, function(result){
 				$('#selling-table').bootstrapTable('remove', {field: "id", values: ids});
 			});
 		}

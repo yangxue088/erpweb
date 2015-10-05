@@ -299,7 +299,7 @@ pageEncoding="UTF-8"%>
 							<tr>
 								<td class="hidden">套餐</td>
 								<td class="hidden">颜色</td>
-								<td data-required>库存</td>
+								<td class="hidden">库存</td>
 								<td>商品编码</td>
 							</tr>
 						</thead>
@@ -308,13 +308,13 @@ pageEncoding="UTF-8"%>
 					</table>
 				</div>
 			</div>
-			<div class="row" id="inventory-unit-div">
+			<div class="row hidden" id="inventory-unit-div">
 				<div class="col-sm-2">
-					<label data-required>库存:</label>
+					<label>库存:</label>
 				</div>
 				<div class="col-sm-10">
 					<label>
-						<input id="product-inventory-input" name="product-inventory" type="text" size="5" data-alert='产品库存不能为空'>
+						<input id="product-inventory-input" name="product-inventory" type="text" size="5">
 						<span name="inventory-unit">件/个</span>
 					</label>
 				</div>
@@ -535,11 +535,11 @@ pageEncoding="UTF-8"%>
 			});
 
 			if(req.stocks.length == 1 && (req.stocks[0][0] == "" && req.stocks[0][1] == "")){
-			
+
 				$('#product-inventory-input').val(req.stocks[0][2]);
 
 				$('#product-code-input').val(req.stocks[0][3]);
-			
+
 			}
 			else{
 
@@ -620,7 +620,7 @@ pageEncoding="UTF-8"%>
 
 					init_inventory_table();
 
-					$('#inventory-unit-div').addClass("hidden");
+					// $('#inventory-unit-div').addClass("hidden");
 					$('#code-div').addClass("hidden");
 				}
 				else{
@@ -630,7 +630,7 @@ pageEncoding="UTF-8"%>
 					if($('input:checkbox[name="color"]:checked').length == 0){
 						$('#inventory-table').parent().parent().addClass("hidden");
 
-						$('#inventory-unit-div').removeClass("hidden");
+						// $('#inventory-unit-div').removeClass("hidden");
 						$('#code-div').removeClass("hidden");
 					}
 				}
@@ -645,7 +645,7 @@ pageEncoding="UTF-8"%>
 
 					init_inventory_table();
 
-					$('#inventory-unit-div').addClass("hidden");
+					// $('#inventory-unit-div').addClass("hidden");
 					$('#code-div').addClass("hidden");
 				}
 				else{
@@ -655,7 +655,7 @@ pageEncoding="UTF-8"%>
 					if($('input:checkbox[name="sale-style"]:checked').length == 0){
 						$('#inventory-table').parent().parent().addClass("hidden");
 
-						$('#inventory-unit-div').removeClass("hidden");
+						// $('#inventory-unit-div').removeClass("hidden");
 						$('#code-div').removeClass("hidden");
 					}
 				}
@@ -671,25 +671,33 @@ pageEncoding="UTF-8"%>
 					var sale_style = $(this).next().text();
 					$('input:checkbox[name="color"]:checked').each(function(){
 						var color = $(this).next().text();
-						table_body = table_body + "<tr><td>"+ sale_style +"</td><td>"+ color +"</td><td><input type='text' size='5' data-alert='产品库存不能为空'><span name='inventory-unit'>"+ $('span[name=inventory-unit]:last').text() +"</span></td><td><input type='text' size='20'></td></tr>";
+						table_body = table_body + "<tr><td>"+ sale_style +"</td><td>"+ color +"</td><td class='hidden'><input type='text' size='5' data-alert='产品库存不能为空'><span name='inventory-unit'>"+ $('span[name=inventory-unit]:last').text() +"</span></td><td><input type='text' size='20'></td></tr>";
 					});
 				});
 			}
 			else if($('input:checkbox[name="sale-style"]:checked').length > 0){
 				$('input:checkbox[name="sale-style"]:checked').each(function(){
 					var sale_style = $(this).next().text();
-					table_body = table_body + "<tr><td>"+ sale_style +"</td><td class='hidden'></td><td><input type='text' size='5' data-alert='产品库存不能为空'><span name='inventory-unit'>"+ $('span[name=inventory-unit]:last').text() +"</span></td><td><input type='text' size='20'></td></tr>";
+					table_body = table_body + "<tr><td>"+ sale_style +"</td><td class='hidden'></td><td class='hidden'><input type='text' size='5' data-alert='产品库存不能为空'><span name='inventory-unit'>"+ $('span[name=inventory-unit]:last').text() +"</span></td><td><input type='text' size='20'></td></tr>";
 				});
 			}
 			else if($('input:checkbox[name="color"]:checked').length > 0){
 				$('input:checkbox[name="color"]:checked').each(function(){
 					var color = $(this).next().text();
-					table_body = table_body + "<tr><td class='hidden'></td><td>"+ color +"</td><td><input type='text' size='5' data-alert='产品库存不能为空'><span name='inventory-unit'>"+ $('span[name=inventory-unit]:last').text() +"</span></td><td><input type='text' size='20'></td></tr>";
+					table_body = table_body + "<tr><td class='hidden'></td><td>"+ color +"</td><td class='hidden'><input type='text' size='5' data-alert='产品库存不能为空'><span name='inventory-unit'>"+ $('span[name=inventory-unit]:last').text() +"</span></td><td><input type='text' size='20'></td></tr>";
 				});
 			}
 
+			var inputs = $("#inventory-table").find("input");
+
 			$("#inventory-table >tbody").html(table_body);
 
+			$.each(inputs, function(i, input){
+
+				var nip = $("#inventory-table").find("input")[i];
+
+				$(nip).val($(input).val());				
+			});
 		};
 
 		$("#product-volume-div input").on("focusout", function(){
@@ -902,7 +910,12 @@ function product_data(){
 			inventory.push('');
 		}
 
-		inventory.push($(tr).find('td:nth-child(3) >input').val());
+		var fr = $(tr).find('td:nth-child(3) >input').val();
+		if(fr == ""){
+			fr = 0;
+		}
+
+		inventory.push(fr);
 		inventory.push($(tr).find('td:nth-child(4) >input').val());
 
 		inventories[i] = inventory;
