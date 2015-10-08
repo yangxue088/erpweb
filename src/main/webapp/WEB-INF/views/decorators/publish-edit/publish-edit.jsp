@@ -19,7 +19,7 @@ pageEncoding="UTF-8"%>
 
 	<link href="<c:url value="/resources/webix/webix.css" />" rel="stylesheet"  type="text/css" />
 	<script type="text/javascript" src="<c:url value="/resources/webix/webix.js" />"></script>
-	
+
 	<style type="text/css">
 	.webix_message_area{
 		padding-top: 50px;
@@ -406,7 +406,6 @@ pageEncoding="UTF-8"%>
 			<button id="product-preview" type="button" class="btn btn-primary btn-md btn-block btn-warning">取消发布</button>
 		</label>
 		<label class="col-sm-2 col-sm-offset-1">
-			<!-- <a id="product-submit" href="" role="button" class="btn btn-md btn-block btn-success">发布产品</a> -->
 			<button id="product-submit" type="button" class="btn btn-primary btn-md btn-block btn-success">发布产品</button>
 		</label>
 	</div>
@@ -535,26 +534,16 @@ pageEncoding="UTF-8"%>
 			});
 
 			if(req.stocks.length == 1 && (req.stocks[0][0] == "" && req.stocks[0][1] == "")){
-
 				$('#product-inventory-input').val(req.stocks[0][2]);
-
 				$('#product-code-input').val(req.stocks[0][3]);
-
 			}
 			else{
-
 				var stocks = req.stocks;
-
 				$.each(stocks, function(i, stock){
-
 					$('#inventory-table >tbody >tr:nth-child('+ (i+1) +')').find('td:nth-child(3) >input').val(stock[2]);
-
 					$('#inventory-table >tbody >tr:nth-child('+ (i+1) +')').find('td:nth-child(4) >input').val(stock[3]);
-
 				})
-
 			}
-
 
 			$('#product-weight-input').val(product.weight);
 
@@ -620,7 +609,6 @@ pageEncoding="UTF-8"%>
 
 					init_inventory_table();
 
-					// $('#inventory-unit-div').addClass("hidden");
 					$('#code-div').addClass("hidden");
 				}
 				else{
@@ -630,13 +618,13 @@ pageEncoding="UTF-8"%>
 					if($('input:checkbox[name="color"]:checked').length == 0){
 						$('#inventory-table').parent().parent().addClass("hidden");
 
-						// $('#inventory-unit-div').removeClass("hidden");
 						$('#code-div').removeClass("hidden");
 					}
 				}
 			});
 
 			$('input:checkbox[name="color"]').on('change', function(){
+
 				if($('input:checkbox[name="color"]:checked').length > 0){
 					$('#color-table').parent().parent().removeClass("hidden");
 					$('#inventory-table').parent().parent().removeClass("hidden");
@@ -645,7 +633,6 @@ pageEncoding="UTF-8"%>
 
 					init_inventory_table();
 
-					// $('#inventory-unit-div').addClass("hidden");
 					$('#code-div').addClass("hidden");
 				}
 				else{
@@ -655,7 +642,6 @@ pageEncoding="UTF-8"%>
 					if($('input:checkbox[name="sale-style"]:checked').length == 0){
 						$('#inventory-table').parent().parent().addClass("hidden");
 
-						// $('#inventory-unit-div').removeClass("hidden");
 						$('#code-div').removeClass("hidden");
 					}
 				}
@@ -664,6 +650,7 @@ pageEncoding="UTF-8"%>
 		}
 
 		function init_inventory_table(){
+
 			var table_body = "";
 
 			if($('input:checkbox[name="sale-style"]:checked').length > 0 && $('input:checkbox[name="color"]:checked').length > 0){
@@ -841,6 +828,36 @@ function validate(){
 	});
 
 	return checknull;
+}
+
+function validate_stock(ostks, stks){
+	var los = [];
+	$.each(ostks, function(i, ostk){
+		los.push(ostk[0] + ostk[1]);
+	});
+
+	if(los.length==1 && los[0]==""){
+		return true;
+	}
+
+	var ls = [];
+	$.each(stks, function(i, stk){
+		ls.push(stk[0] + stk[1]);
+	});
+
+	var check = true;
+	$.each(los, function(i, os){
+		if(check && $.inArray(os, ls) == -1){
+			check = false;
+		}	
+	});
+
+	if(!check){
+		return confirm("检测到有产品条目被删除了，如果被删除的条目上还有库存，则库存数目会一起删除，是否继续？");
+	}
+	else{
+		return true;
+	}
 }
 
 function product_data(){
@@ -1035,6 +1052,10 @@ function product_data(){
 		stocks = inventories;
 	}else{
 		stocks.push(['', '', inventory, code]);		
+	}
+
+	if(!validate_stock(req.stocks, stocks)){
+		return false;
 	}
 
 	var product = {};
