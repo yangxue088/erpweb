@@ -1,5 +1,6 @@
 package com.erp.mvc.product;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,6 +19,10 @@ import org.springframework.web.servlet.ModelAndView;
 import com.erp.service.product.JsonTable;
 import com.erp.service.product.ProductService;
 import com.erp.service.publish.Product;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
 @SessionAttributes("userVo")
@@ -84,4 +88,20 @@ public class ProductController {
 		return productService.getStocks(productId);
 	}
 
+	@RequestMapping(value = "/setStocks")
+	public @ResponseBody
+	String setStocks(@RequestParam int productId, @RequestParam String stocks) {
+		try {
+			List<String> nstocks = new ObjectMapper().readValue(stocks, new TypeReference<List<String>>() {
+			});
+			List<String[]> sks = new ArrayList<String[]>();
+			for (int i = 0; i < nstocks.size(); i += 4) {
+				sks.add(new String[] { nstocks.get(i), nstocks.get(i + 1), nstocks.get(i + 2), nstocks.get(i + 3) });
+			}
+			productService.updateStocks(productId, sks);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "success";
+	}
 }

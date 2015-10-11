@@ -31,7 +31,11 @@ public class ProductService {
 	public void updateProduct(int id, Product product) {
 		productDao.updateProduct(id, product);
 
-		productDao.updateStocks(id, product.getStocks());
+		updateStocks(id, product.getStocks());
+	}
+	
+	public void updateStocks(int id, List<String[]> stocks) {
+		productDao.updateStocks(id, stocks);
 	}
 
 	public Product getProduct(int productId) {

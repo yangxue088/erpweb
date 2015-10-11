@@ -675,110 +675,114 @@ pageEncoding="UTF-8"%>
 				});
 			}
 
-			var inputs = $("#inventory-table").find("input");
-
 			$("#inventory-table >tbody").html(table_body);
 
-			$.each(inputs, function(i, input){
+			var trs = $("#inventory-table").find("tbody tr");
 
-				var nip = $("#inventory-table").find("input")[i];
-
-				$(nip).val($(input).val());				
-			});
-		};
-
-		$("#product-volume-div input").on("focusout", function(){
-			var length = $("#product-volume-div input:nth-child(1)").val();
-			var width = $("#product-volume-div input:nth-child(3)").val();
-			var hight = $("#product-volume-div input:nth-child(5)").val();
-			if(!length){
-				length = 0;
-			}
-			if(!width){
-				width = 0;
-			}
-			if(!hight){
-				hight = 0;
-			}
-			$("#product-volume").text(length * width * hight);
-		});
-
-		function init_group_select(){
-			$.ajax({
-				type: 'POST',
-				url: "select",
-				success: function(nodes){
-					var html = "<option value=''>---请选择---</option>";
-					$.each(nodes, function(i, firstnode){
-						html += "<optgroup label='" + firstnode.group + "'>";
-						$.each(firstnode.data, function(j, secondnode){
-							html += "<option value='"+ secondnode.groupid +"'>" + secondnode.group + "</option>";
-						});
-						html += "</optgroup>";
+			if(!(req.stocks.length == 1 && (req.stocks[0][0] == "" && req.stocks[0][1] == ""))){
+				$.each(req.stocks, function(i, stock){
+					$.each(trs, function(j, tr){
+						if(stock[0] == $($(tr).find("td")[0]).text() && stock[1] == $($(tr).find("td")[1]).text()){
+							$($(tr).find("input")[0]).val(stock[2]);
+							$($(tr).find("input")[1]).val(stock[3]);
+						}
 					});
+				});
+			}
+};
 
-					$("#product-group-selecter").html(html);
+$("#product-volume-div input").on("focusout", function(){
+	var length = $("#product-volume-div input:nth-child(1)").val();
+	var width = $("#product-volume-div input:nth-child(3)").val();
+	var hight = $("#product-volume-div input:nth-child(5)").val();
+	if(!length){
+		length = 0;
+	}
+	if(!width){
+		width = 0;
+	}
+	if(!hight){
+		hight = 0;
+	}
+	$("#product-volume").text(length * width * hight);
+});
 
-					$('#product-group-selecter').selectpicker('refresh');
-				},
-				async:false
+function init_group_select(){
+	$.ajax({
+		type: 'POST',
+		url: "select",
+		success: function(nodes){
+			var html = "<option value=''>---请选择---</option>";
+			$.each(nodes, function(i, firstnode){
+				html += "<optgroup label='" + firstnode.group + "'>";
+				$.each(firstnode.data, function(j, secondnode){
+					html += "<option value='"+ secondnode.groupid +"'>" + secondnode.group + "</option>";
+				});
+				html += "</optgroup>";
 			});
+
+			$("#product-group-selecter").html(html);
+
+			$('#product-group-selecter').selectpicker('refresh');
+		},
+		async:false
+	});
+}
+
+function init_image_fileinput(initialPreview, initialPreviewConfig){
+	$("#product-image-uploader").fileinput({
+		uploadUrl: "image/upload",
+		uploadAsync: false,
+		maxFileCount: 6,
+		overwriteInitial: false,
+		initialPreviewCount: 6,
+		validateInitialCount: true,
+		showPreview: true,
+		previewFileType: "image",
+		allowedFileTypes: ['image'],
+		allowedFileExtensions: ['jpeg', 'jpg', 'jpe'],
+		defaultPreviewContent: "<label class='origin'><img data-src='holder.js/160x160?text=No Photo'></label><label class='origin'><img data-src='holder.js/160x160?text=No Photo'></label><label class='origin'><img data-src='holder.js/160x160?text=No Photo'></label><label class='origin'><img data-src='holder.js/160x160?text=No Photo'></label><label class='origin'><img data-src='holder.js/160x160?text=No Photo'></label><label class='origin'><img data-src='holder.js/160x160?text=No Photo'></label>",
+		initialPreview:initialPreview,
+		initialPreviewConfig: initialPreviewConfig,
+		layoutTemplates: {
+			main1: 
+			'{preview}\n' +
+			'<div class="input-group {class} hide">\n' +
+			'   {caption}\n' +
+			'   <div class="input-group-btn hide">\n' +
+			'       {remove}\n' +
+			'       {cancel}\n' +
+			'       {upload}\n' +
+			'       {browse}\n' +
+			'   </div>\n' +
+			'</div>\n',
+			preview: 	
+			'<div class="file-preview {class}">\n' +
+			'	<div class="picture">\n' + 
+			'		<a href="javascript:void(0)" name="browse">从我的电脑选取</a>\n'+
+			'		<a href="javascript:void(0)" name="delete">全部删除</a>\n'+
+			'	</div>\n'+
+			'   <div class="{dropClass}">\n' +
+			'   <div class="file-preview-thumbnails">\n' +
+			'   </div>\n' +
+			'   <div class="clearfix"></div>' +
+			'   <div class="file-preview-status text-center text-success"></div>\n' +
+			'   <div class="kv-fileinput-error"></div>\n' +
+			'   </div>\n' +
+			'</div>\n',
+			footer: 
+			'<div class="file-thumbnail-footer">\n' +
+			'    {actions}\n' +
+			'</div>\n',
+			actions: 
+			'<div class="file-actions">\n' +
+			'    <div class="file-footer-buttons">\n' +
+			'        {delete}' +
+			'    </div>\n' +
+			'    <div class="clearfix"></div>\n' +
+			'</div>\n',
 		}
-
-		function init_image_fileinput(initialPreview, initialPreviewConfig){
-			$("#product-image-uploader").fileinput({
-				uploadUrl: "image/upload",
-				uploadAsync: false,
-				maxFileCount: 6,
-				overwriteInitial: false,
-				initialPreviewCount: 6,
-				validateInitialCount: true,
-				showPreview: true,
-				previewFileType: "image",
-				allowedFileTypes: ['image'],
-				allowedFileExtensions: ['jpeg', 'jpg', 'jpe'],
-				defaultPreviewContent: "<label class='origin'><img data-src='holder.js/160x160?text=No Photo'></label><label class='origin'><img data-src='holder.js/160x160?text=No Photo'></label><label class='origin'><img data-src='holder.js/160x160?text=No Photo'></label><label class='origin'><img data-src='holder.js/160x160?text=No Photo'></label><label class='origin'><img data-src='holder.js/160x160?text=No Photo'></label><label class='origin'><img data-src='holder.js/160x160?text=No Photo'></label>",
-				initialPreview:initialPreview,
-				initialPreviewConfig: initialPreviewConfig,
-				layoutTemplates: {
-					main1: 
-					'{preview}\n' +
-					'<div class="input-group {class} hide">\n' +
-					'   {caption}\n' +
-					'   <div class="input-group-btn hide">\n' +
-					'       {remove}\n' +
-					'       {cancel}\n' +
-					'       {upload}\n' +
-					'       {browse}\n' +
-					'   </div>\n' +
-					'</div>\n',
-					preview: 	
-					'<div class="file-preview {class}">\n' +
-					'	<div class="picture">\n' + 
-					'		<a href="javascript:void(0)" name="browse">从我的电脑选取</a>\n'+
-					'		<a href="javascript:void(0)" name="delete">全部删除</a>\n'+
-					'	</div>\n'+
-					'   <div class="{dropClass}">\n' +
-					'   <div class="file-preview-thumbnails">\n' +
-					'   </div>\n' +
-					'   <div class="clearfix"></div>' +
-					'   <div class="file-preview-status text-center text-success"></div>\n' +
-					'   <div class="kv-fileinput-error"></div>\n' +
-					'   </div>\n' +
-					'</div>\n',
-					footer: 
-					'<div class="file-thumbnail-footer">\n' +
-					'    {actions}\n' +
-					'</div>\n',
-					actions: 
-					'<div class="file-actions">\n' +
-					'    <div class="file-footer-buttons">\n' +
-					'        {delete}' +
-					'    </div>\n' +
-					'    <div class="clearfix"></div>\n' +
-					'</div>\n',
-				}
-			});
+	});
 }
 
 $(".picture >a[name='browse']").click(function(){
@@ -1054,9 +1058,9 @@ function product_data(){
 		stocks.push(['', '', inventory, code]);		
 	}
 
-	if(!validate_stock(req.stocks, stocks)){
+	/*if(!validate_stock(req.stocks, stocks)){
 		return false;
-	}
+	}*/
 
 	var product = {};
 

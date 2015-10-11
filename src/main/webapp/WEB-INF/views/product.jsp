@@ -16,6 +16,11 @@ pageEncoding="UTF-8"%>
 	<script type="text/javascript" src="<c:url value="/resources/bootstrap-table/js/bootstrap-table.min.js" />"></script>
 	<script type="text/javascript" src="<c:url value="/resources/bootstrap-table/js/bootstrap-table-zh-CN.min.js" />"></script>
 
+	<link href="<c:url value="/resources/bootstrap-modal/css/bootstrap-modal-bs3patch.css" />" rel="stylesheet"  type="text/css" />
+	<link href="<c:url value="/resources/bootstrap-modal/css/bootstrap-modal.css" />" rel="stylesheet"  type="text/css" />
+	<script type="text/javascript" src="<c:url value="/resources/bootstrap-modal/js/bootstrap-modalmanager.js" />"></script>
+	<script type="text/javascript" src="<c:url value="/resources/bootstrap-modal/js/bootstrap-modal.js" />"></script>
+
 	<style type="text/css">
 
 	input[type="input"]{
@@ -26,6 +31,35 @@ pageEncoding="UTF-8"%>
 		line-height: 1.42857143;
 		white-space: nowrap;
 
+
+		border-bottom-color: #b3b3b3;
+		border-bottom-left-radius: 3px;
+		border-bottom-right-radius: 3px;
+		border-bottom-style: solid;
+		border-bottom-width: 1px;
+		border-left-color: #b3b3b3;
+		border-left-style: solid;
+		border-left-width: 1px;
+		border-right-color: #b3b3b3;
+		border-right-style: solid;
+		border-right-width: 1px;
+		border-top-color: #b3b3b3;
+		border-top-left-radius: 3px;
+		border-top-right-radius: 3px;
+		border-top-style: solid;
+		border-top-width: 1px;
+	}
+
+	input[type="number"]{
+
+		max-width: 100px;
+		padding: 4px 8px;
+		margin-bottom: -4px;
+		margin-top: -4px;
+		font-size: 14px;
+		font-weight: 400;
+		line-height: 1.42857143;
+		white-space: nowrap;
 
 		border-bottom-color: #b3b3b3;
 		border-bottom-left-radius: 3px;
@@ -81,10 +115,11 @@ pageEncoding="UTF-8"%>
 						<button class="btn btn-md btn-danger">删除</button>
 						<button class="btn btn-md btn-warning">调整产品组</button>
 					</div>
-					<table id="selling-table" data-toggle="table" data-pagination="true" data-side-pagination="server" data-page-size="20" data-page-list="[20, 50, 100, 200]" data-url="product/search" data-query-params="query_params">
+					<table id="selling-table" data-toggle="table" data-pagination="true" data-side-pagination="server" data-page-size="20" data-page-list="[20, 50, 100, 200]" data-url="product/search" data-query-params="query_params" data-id-field="id" data-unique-id="id">
 						<thead>
 							<tr>
 								<th data-checkbox="true"></th>
+								<th data-field="id" data-visible="false"></th>
 								<th data-field="title" data-formatter="title_format">产品信息</th>
 								<th data-field="group">产品组</th>
 								<th data-field="inventory">库存</th>
@@ -97,6 +132,32 @@ pageEncoding="UTF-8"%>
 			<div id="deleted" class="tab-pane fade">
 				<h3>Menu 3</h3>
 				<p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+			</div>
+		</div>
+
+		<!-- Modal -->
+		<div id="stock-modal" class="modal fade" tabindex="-1" style="display: none;">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title">库存设置</h4>
+			</div>
+			<div class="modal-body">
+				<table id="stock-table" data-toggle="table" style="">
+					<thead>
+						<tr>
+							<th data-field="sale-style" data-width="%40">套餐</th>
+							<th data-field="color" data-width="%40">颜色</th>
+							<th data-field="inventory" data-width="%20" data-formatter="inventory_format" data-events="set_stock">余量</th>
+							<th data-field="sale-style-name" data-visible="false"></th>
+							<th data-field="color-name" data-visible="false"></th>
+							<th data-field="code" data-visible="false"></th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+			<div class="modal-footer">
+				<button type="button" data-dismiss="modal" class="btn btn-default">取消</button>
+				<button type="button" data-dismiss="modal" class="btn btn-primary">设置</button>
 			</div>
 		</div>
 	</div>
@@ -115,6 +176,8 @@ pageEncoding="UTF-8"%>
 		$("div[name='toolbar'] button:contains('删除')").on("click", delete_btn_click);
 
 		$("div[name='toolbar'] button:contains('调整产品组')").on("click", group_btn_click);
+
+		$("#stock-modal").find("button:nth-child(2)").on("click", setStock);
 
 	});
 
@@ -182,7 +245,7 @@ pageEncoding="UTF-8"%>
 	}
 
 	function edit_format(value, row, index){
-		return '<a href="' + edit_url + row.id + '">编辑产品</a><a style="padding-left: 8px;" href="javascript:void(0)">管理库存</a>';
+		return '<a href="' + edit_url + row.id + '">编辑</a><a style="margin-left: 8px;" href="javascript:void(0)" data-toggle="modal" data-target="#stock-modal">库存</a>';
 	}
 
 	function title_format(value, row, index){
@@ -190,14 +253,90 @@ pageEncoding="UTF-8"%>
 	}
 
 	window.stock_manage = {
-        'click a:contains("管理库存")': function (e, value, row, index) {
-        	show_stock_modal(row.id);
-        }
-    };
+		'click a:nth-child(2)': function (e, value, row, index) {
+			show_stock_modal(row.id);
 
-    function show_stock_modal(id){
-    	alert('You click like icon, row: ' + id);
-    }
+			currentRow = row.id;
+
+			currentIndex = index;
+		}
+	};
+
+	window.set_stock = {
+		'input input': function (e, value, row, index) {
+			changed = true;
+		}
+	};
+
+	function show_stock_modal(id){
+
+		var rows = [];
+
+		$.post("product/getProduct", { productId: id }, function(product){
+
+			var pro = JSON.parse(product.json);
+
+			$.post("product/getStocks", { productId: id }, function(stocks){
+				$.each(stocks, function(i, stock){
+					rows.push({
+						"sale-style-name": stock[0],
+						"sale-style": pro.salestyles[stock[0]],
+						"color-name": stock[1],
+						"color": pro.colors[stock[1]],
+						"inventory": stock[2], 
+						"code": stock[3]
+					});
+				});
+
+				$("#stock-table").bootstrapTable('showColumn', 'sale-style');
+				$("#stock-table").bootstrapTable('showColumn', 'color');
+
+				if(pro.salestyles.length == 0 && pro.colors.length == 0){
+					$("#stock-table").bootstrapTable('hideColumn', 'sale-style');
+					$("#stock-table").bootstrapTable('hideColumn', 'color');
+				}
+
+				$("#stock-table").bootstrapTable('load', rows);
+
+				changed = false;
+			});
+		});
+	}
+
+	function inventory_format(value, row, index){
+		return "<input type='number' min='0' value='" + value + "'>";
+	}
+
+	function setStock(){
+		if(changed){
+			var inputs = $("#stock-table").find("input");
+
+			var stocks = [];
+
+			$.each($("#stock-table").bootstrapTable('getData'), function(i, row){
+				stocks.push(row["sale-style-name"]);
+				stocks.push(row["color-name"]);
+				stocks.push($(inputs[i]).val());
+				stocks.push(row["code"]);
+			});
+
+			$.post("product/setStocks", { productId: currentRow, stocks: JSON.stringify(stocks) }, function(result){
+
+				var row = $('#selling-table').bootstrapTable("getRowByUniqueId", currentRow);
+
+				var sum = 0;
+				$.each(inputs, function(i, input){
+					sum += parseInt($(input).val());
+				});
+
+				row.inventory = sum;
+
+				$('#selling-table').bootstrapTable("updateRow", { index: currentIndex, row: row});
+
+				$("#stock-table").bootstrapTable('refresh');
+			});
+		}
+	}
 
 	function getCheckedIds(){
 		var ids = [];
