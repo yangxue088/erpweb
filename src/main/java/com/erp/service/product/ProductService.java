@@ -33,7 +33,7 @@ public class ProductService {
 
 		updateStocks(id, product.getStocks());
 	}
-	
+
 	public void updateStocks(int id, List<String[]> stocks) {
 		productDao.updateStocks(id, stocks);
 	}
@@ -54,7 +54,7 @@ public class ProductService {
 		productDao.deletePicture(id);
 	}
 
-	public JsonTable getProductTable(String title, String code, String group, String inventory, int offset, int limit) {
+	public JsonTable getProductTable(int state, String title, String code, String group, String inventory, int offset, int limit) {
 		StringBuffer paramQuery1 = new StringBuffer();
 		StringBuffer paramQuery2 = new StringBuffer();
 
@@ -90,18 +90,23 @@ public class ProductService {
 		JsonTable table = new JsonTable();
 		table.setTotal(products.size());
 		for (final String[] product : products) {
-
-			table.getRows().add(new HashMap<String, String>() {
-				private static final long serialVersionUID = 1L;
-				{
-					put("id", product[0]);
-					put("title", product[1]);
-					put("group", product[2]);
-					put("inventory", product[3]);
-				}
-			});
+			if (state == Integer.parseInt(product[4])) {
+				table.getRows().add(new HashMap<String, String>() {
+					private static final long serialVersionUID = 1L;
+					{
+						put("id", product[0]);
+						put("title", product[1]);
+						put("group", product[2]);
+						put("inventory", product[3]);
+					}
+				});
+			}
 		}
 
 		return table;
+	}
+
+	public void setProductState(int id, int state) {
+		productDao.setProductState(id, state);
 	}
 }

@@ -21,9 +21,12 @@ pageEncoding="UTF-8"%>
 	<script type="text/javascript" src="<c:url value="/resources/bootstrap-modal/js/bootstrap-modalmanager.js" />"></script>
 	<script type="text/javascript" src="<c:url value="/resources/bootstrap-modal/js/bootstrap-modal.js" />"></script>
 
+	<link href="<c:url value="/resources/bootstrap-treeview/css/bootstrap-treeview.min.css" />" rel="stylesheet"  type="text/css" />
+	<script type="text/javascript" src="<c:url value="/resources/bootstrap-treeview/js/bootstrap-treeview.min.js" />"></script>
+
 	<style type="text/css">
 
-	input[type="input"]{
+	input[type="input"]{	
 		padding: 6px 12px;
 		margin-bottom: 0;
 		font-size: 14px;
@@ -112,10 +115,10 @@ pageEncoding="UTF-8"%>
 
 				<div>
 					<div name="toolbar">
-						<button class="btn btn-md btn-danger">删除</button>
-						<button class="btn btn-md btn-warning">调整产品组</button>
+						<button class="btn btn-md btn-danger">下架</button>
+						<button class="btn btn-md btn-warning" data-toggle="modal" data-target="#group-modal">调整产品组</button>
 					</div>
-					<table id="selling-table" data-toggle="table" data-pagination="true" data-side-pagination="server" data-page-size="20" data-page-list="[20, 50, 100, 200]" data-url="product/search" data-query-params="query_params" data-id-field="id" data-unique-id="id">
+					<table id="selling-table" data-toggle="table" data-pagination="true" data-side-pagination="server" data-page-size="20" data-page-list="[20, 50, 100, 200]" data-url="product/search" data-query-params="query_selling_params" data-id-field="id" data-unique-id="id">
 						<thead>
 							<tr>
 								<th data-checkbox="true"></th>
@@ -135,7 +138,6 @@ pageEncoding="UTF-8"%>
 			</div>
 		</div>
 
-		<!-- Modal -->
 		<div id="stock-modal" class="modal fade" tabindex="-1" style="display: none;">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -160,6 +162,20 @@ pageEncoding="UTF-8"%>
 				<button type="button" data-dismiss="modal" class="btn btn-primary">设置</button>
 			</div>
 		</div>
+
+		<div id="group-modal" class="modal fade" tabindex="-1" style="display: none;">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title">选择分组</h4>
+			</div>
+			<div class="modal-body">
+				<div id="group-tree"></div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" data-dismiss="modal" class="btn btn-default">取消</button>
+				<button type="button" data-dismiss="modal" class="btn btn-primary">确定</button>
+			</div>
+		</div>
 	</div>
 
 	<script type="text/javascript">
@@ -173,9 +189,9 @@ pageEncoding="UTF-8"%>
 
 		edit_url = '<c:url value="/publish/reedit?productid=" />';
 
-		$("div[name='toolbar'] button:contains('删除')").on("click", delete_btn_click);
+		$("div[name='toolbar'] button:nth-child(1)").on("click", offshe_btn_click);
 
-		$("div[name='toolbar'] button:contains('调整产品组')").on("click", group_btn_click);
+		$("div[name='toolbar'] button:nth-child(2)").on("click", group_btn_click);
 
 		$("#stock-modal").find("button:nth-child(2)").on("click", setStock);
 
@@ -203,7 +219,7 @@ pageEncoding="UTF-8"%>
 		});
 	}
 
-	function query_params(params){
+	function query_selling_params(params){
 		var title = $('#product-title').val();
 		var code = $('#product-code').val();
 		var group = $('#product-group').val();
@@ -222,6 +238,7 @@ pageEncoding="UTF-8"%>
 
 		params.group = group;
 		params.inventory = inventory;
+		params.state = 0;
 
 		return params;
 	}
@@ -346,12 +363,19 @@ pageEncoding="UTF-8"%>
 		return ids;
 	}
 
-	function delete_btn_click(){
+	function offshe_btn_click(){
 		var ids = getCheckedIds();
 
 		if(ids.length > 0){
-			$.post("product/delete", { ids: JSON.stringify(ids) }, function(result){
-				$('#selling-table').bootstrapTable('remove', {field: "id", values: ids});
+			$.ajax({
+				url: "product/offshe",
+				dataType: "json",
+				contentType: "application/json;charset=utf-8",
+				type: "POST",
+				data: JSON.stringify(ids),
+				success: function(result){
+					$('#selling-table').bootstrapTable('remove', {field: "id", values: ids});
+				}
 			});
 		}
 		else{
@@ -362,23 +386,14 @@ pageEncoding="UTF-8"%>
 			});
 		}
 	}
+
+	var checkNode;
 
 	function group_btn_click(){
-		var ids = getCheckedIds();
-
-		if(ids.length > 0){
-			alert(ids);
-		}
-		else{
-			webix.message({
-				type:"default", 
-				text:'至少选择一个',
-				expire:3000
-			});
-		}
+		
 	}
 
-	</script>
+</script>
 
 </body>
 </html>

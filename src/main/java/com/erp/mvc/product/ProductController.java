@@ -1,6 +1,5 @@
 package com.erp.mvc.product;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,9 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.erp.service.product.JsonTable;
 import com.erp.service.product.ProductService;
 import com.erp.service.publish.Product;
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
@@ -42,13 +40,16 @@ public class ProductController {
 
 	@RequestMapping(value = "/search")
 	public @ResponseBody
-	JsonTable search(@RequestParam String title, @RequestParam String code, @RequestParam String group, @RequestParam String inventory, @RequestParam int offset, @RequestParam int limit) {
-		return productService.getProductTable(title, code, group, inventory, offset, limit);
+	JsonTable search(@RequestParam int state, @RequestParam String title, @RequestParam String code, @RequestParam String group, @RequestParam String inventory, @RequestParam int offset, @RequestParam int limit) {
+		return productService.getProductTable(state, title, code, group, inventory, offset, limit);
 	}
 
-	@RequestMapping(value = "/delete")
+	@RequestMapping(value = "/offshe")
 	public @ResponseBody
-	String delete(@RequestParam List<String> ids) {
+	String offshe(@RequestBody List<String> ids) {
+		for (String id : ids) {
+			productService.setProductState(Integer.parseInt(id), 1);
+		}
 		return "success";
 	}
 

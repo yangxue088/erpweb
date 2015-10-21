@@ -164,19 +164,24 @@ public class ProductDao {
 	public List<String[]> getProductBrief(String paramQuery1, String paramQuery2, int offset, int limit) {
 		List<String[]> result = new ArrayList<String[]>();
 		
-		String sql = String.format("select bp.id as id, bp.title as title, bp.gname as cate, sum(bp.stock) as stock from (select p.id as id, p.title as title, p.gid as gid, c.name as gname, s.code as code, s.inventory as stock, p.create_time as crtime from product as p, stock as s, category as c where p.id = s.product_id and p.gid = c.id) as bp where (%s) group by bp.id having (%s) order by bp.crtime desc limit %d offset %d", paramQuery1, paramQuery2, limit, offset);
+		String sql = String.format("select bp.state as state, bp.id as id, bp.title as title, bp.gname as cate, sum(bp.stock) as stock from (select p.state as state, p.id as id, p.title as title, p.gid as gid, c.name as gname, s.code as code, s.inventory as stock, p.create_time as crtime from product as p, stock as s, category as c where p.id = s.product_id and p.gid = c.id) as bp where (%s) group by bp.id having (%s) order by bp.crtime desc limit %d offset %d", paramQuery1, paramQuery2, limit, offset);
 		SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql);
 		while (rowSet.next()) {
-			String[] res = new String[4];
+			String[] res = new String[5];
 
 			res[0] = rowSet.getString("id");
 			res[1] = rowSet.getString("title");
 			res[2] = rowSet.getString("cate");
 			res[3] = String.valueOf(rowSet.getInt("stock"));
+			res[4] = String.valueOf(rowSet.getInt("state"));
 
 			result.add(res);
 		}
 		return result;
+	}
+	
+	public void setProductState(int id, int state){
+		jdbcTemplate.update("update product set state=? where id=?", state, id);
 	}
 
 }
