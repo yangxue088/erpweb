@@ -89,9 +89,9 @@ pageEncoding="UTF-8"%>
 	</style>
 
 	<div class="container">
-		<ul class="nav nav-tabs">
+		<ul id="product-state-tab" class="nav nav-tabs">
 			<li class="active"><a data-toggle="tab" href="#selling">正在销售</a></li>
-			<li><a data-toggle="tab" href="#deleted">已删除</a></li>
+			<li><a data-toggle="tab" href="#selling">已删除</a></li>
 		</ul>
 
 		<div class="tab-content" style="padding-top: 10px;">
@@ -131,10 +131,6 @@ pageEncoding="UTF-8"%>
 						</thead>
 					</table>
 				</div>
-			</div>
-			<div id="deleted" class="tab-pane fade">
-				<h3>Menu 3</h3>
-				<p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
 			</div>
 		</div>
 
@@ -183,13 +179,15 @@ pageEncoding="UTF-8"%>
 	$(function() {
 		init_group_select();
 
+		$("#product-state-tab li").on("click", click_tab);
+
 		$("button[name='product-selling-search']").on("click", search_selling_product);
 
 		detail_url = '<c:url value="/product/detail?productid=" />';
 
 		edit_url = '<c:url value="/publish/reedit?productid=" />';
 
-		$("div[name='toolbar'] button:nth-child(1)").on("click", offshe_btn_click);
+		$("div[name='toolbar'] button:nth-child(1)").on("click", she_btn_click);
 
 		$("div[name='toolbar'] button:nth-child(2)").on("click", group_btn_click);
 
@@ -219,6 +217,28 @@ pageEncoding="UTF-8"%>
 		});
 	}
 
+	var curState = 0;
+
+	function click_tab(event){
+		if(event.target.innerText == '正在销售'){
+			curState = 0;
+
+			$("div[name='toolbar'] button:nth-child(1)").text('下架');
+			$("div[name='toolbar'] button:nth-child(2)").removeClass('hide');
+		}
+		else if(event.target.innerText == '已删除'){
+			curState = 1;
+
+			$("div[name='toolbar'] button:nth-child(1)").text('上架');
+			$("div[name='toolbar'] button:nth-child(2)").addClass('hide');
+		}
+
+		$('#selling').find('input').val('');
+		$('#selling').find('select').selectpicker('val', '');
+
+		$('#selling-table').bootstrapTable('refresh');
+	}
+
 	function query_selling_params(params){
 		var title = $('#product-title').val();
 		var code = $('#product-code').val();
@@ -238,7 +258,8 @@ pageEncoding="UTF-8"%>
 
 		params.group = group;
 		params.inventory = inventory;
-		params.state = 0;
+
+		params.state = curState;
 
 		return params;
 	}
@@ -363,12 +384,20 @@ pageEncoding="UTF-8"%>
 		return ids;
 	}
 
-	function offshe_btn_click(){
+	function she_btn_click(event){
+		var url;
+		if(event.target.innerText == "下架"){
+			url = "product/offshe";
+		}
+		else if(event.target.innerText == "上架"){
+			url = "product/onshe";
+		}
+
 		var ids = getCheckedIds();
 
 		if(ids.length > 0){
 			$.ajax({
-				url: "product/offshe",
+				url: url,
 				dataType: "json",
 				contentType: "application/json;charset=utf-8",
 				type: "POST",

@@ -52,6 +52,15 @@ public class ProductController {
 		}
 		return "success";
 	}
+	
+	@RequestMapping(value = "/onshe")
+	public @ResponseBody
+	String onshe(@RequestBody List<String> ids) {
+		for (String id : ids) {
+			productService.setProductState(Integer.parseInt(id), 0);
+		}
+		return "success";
+	}
 
 	@RequestMapping(value = "/detail")
 	public ModelAndView detail(ModelMap modelMap, @RequestParam int productid) {
