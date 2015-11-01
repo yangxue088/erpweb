@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ import com.erp.service.category.JsonNode;
 import com.erp.service.publish.Product;
 
 @Service
-public class ProductService extends AbstCateService{
+public class ProductService extends AbstCateService {
 
 	@Autowired
 	private ProductDao productDao;
@@ -114,11 +115,18 @@ public class ProductService extends AbstCateService{
 	}
 
 	@Override
-	public JsonNode<Cate> wrap(Cate cate) {
-		JsonNode<Cate> node = new JsonNode<Cate>(cate);
+	public JsonNode wrap(Cate cate) {
+		JsonNode node = new JsonNode("nodes");
 		if (cate != null) {
 			node.setAttribute("text", cate.getName());
+			if (cate.getDepth() == 0) {
+				node.setAttribute("selectable", false);
+			}
 		}
 		return node;
+	}
+
+	public void updateGroup(List<String> ids, String group) {
+		productDao.updateGroup(ids, group);
 	}
 }

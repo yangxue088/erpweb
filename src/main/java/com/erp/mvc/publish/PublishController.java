@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.erp.bean.category.Cate;
 import com.erp.service.category.JsonTree;
 import com.erp.service.product.ProductService;
 import com.erp.service.publish.JsonLi;
@@ -101,7 +100,7 @@ public class PublishController {
 
 	@RequestMapping(value = "/select")
 	public @ResponseBody
-	JsonTree<Cate> select() {
+	JsonTree select() {
 		return pubService.queryCates();
 	}
 

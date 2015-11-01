@@ -9,7 +9,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.support.AbstractLobCreatingPreparedStatementCallback;
 import org.springframework.jdbc.support.lob.DefaultLobHandler;
 import org.springframework.jdbc.support.lob.LobCreator;
@@ -96,6 +99,16 @@ public class ProductDao {
 		createStocks(productId, stocks);
 	}
 
+	public void updateGroup(List<String> ids, String group) {
+		NamedParameterJdbcTemplate namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(jdbcTemplate.getDataSource());
+
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("ids", ids);
+		parameters.put("group", group);
+
+		namedParameterJdbcTemplate.update("update product p, category c set p.gid = c.id where p.id in (:ids) and c.name=(:group)", parameters);
+	}
+
 	public Product getProduct(int id) {
 		SqlRowSet rowSet = jdbcTemplate.queryForRowSet("select type, title, json, gid from product where id=?", new Object[] { id });
 
@@ -163,7 +176,7 @@ public class ProductDao {
 
 	public List<String[]> getProductBrief(String paramQuery1, String paramQuery2, int offset, int limit) {
 		List<String[]> result = new ArrayList<String[]>();
-		
+
 		String sql = String.format("select bp.state as state, bp.id as id, bp.title as title, bp.gname as cate, sum(bp.stock) as stock from (select p.state as state, p.id as id, p.title as title, p.gid as gid, c.name as gname, s.code as code, s.inventory as stock, p.create_time as crtime from product as p, stock as s, category as c where p.id = s.product_id and p.gid = c.id) as bp where (%s) group by bp.id having (%s) order by bp.crtime desc limit %d offset %d", paramQuery1, paramQuery2, limit, offset);
 		SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql);
 		while (rowSet.next()) {
@@ -179,8 +192,8 @@ public class ProductDao {
 		}
 		return result;
 	}
-	
-	public void setProductState(int id, int state){
+
+	public void setProductState(int id, int state) {
 		jdbcTemplate.update("update product set state=? where id=?", state, id);
 	}
 

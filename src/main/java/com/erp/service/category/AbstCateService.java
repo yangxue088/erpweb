@@ -1,7 +1,9 @@
 package com.erp.service.category;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,25 +16,27 @@ public abstract class AbstCateService {
 	@Autowired
 	private CateDao cateDao;
 
-	public JsonTree<Cate> queryCates() {
-		JsonTree<Cate> jsonTree = new JsonTree<Cate>();
+	public  JsonTree queryCates() {
+		JsonTree jsonTree = new JsonTree();
 
+		Map<Cate, JsonNode> map = new HashMap<Cate, JsonNode>();
+		Stack<Cate> stack = new Stack<Cate>();
+		
 		List<Cate> cates = cateDao.getCates();
-
-		Stack<JsonNode<Cate>> stack = new Stack<JsonNode<Cate>>();
-
 		Collections.reverse(cates);
 		for (Cate cate : cates) {
-			JsonNode<Cate> node = wrap(cate);
+			JsonNode node = wrap(cate);
+			map.put(cate, node);
+			
 			while (!stack.isEmpty()
-					&& cate.getDepth() < stack.peek().getT().getDepth()) {
-				node.addChild(stack.pop());
+					&& cate.getDepth() < stack.peek().getDepth()) {
+				node.addChild(map.get(stack.pop()));
 			}
-			stack.push(node);
+			stack.push(cate);
 		}
 
 		while (!stack.isEmpty()) {
-			jsonTree.addRoot(stack.pop());
+			jsonTree.addRoot(map.get(stack.pop()));
 		}
 
 		return jsonTree;
@@ -52,10 +56,10 @@ public abstract class AbstCateService {
 		cateDao.delCate(name);
 	}
 
-	public JsonNode<Cate> add(String pname, String name, boolean child) {
+	public JsonNode add(String pname, String name, boolean child) {
 		return wrap(cateDao.addCate(pname, name, child));
 	}
 
-	public abstract JsonNode<Cate> wrap(Cate cate);
+	public abstract JsonNode wrap(Cate cate);
 
 }

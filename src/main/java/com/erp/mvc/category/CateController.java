@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.erp.bean.category.Cate;
 import com.erp.service.category.AbstCateService;
 import com.erp.service.category.JsonNode;
 import com.erp.service.category.JsonTree;
@@ -28,7 +27,7 @@ public class CateController {
 
 	@RequestMapping(value = "/tree")
 	public @ResponseBody
-	JsonTree<Cate> tree(ModelMap modelMap) {
+	JsonTree tree(ModelMap modelMap) {
 		return cateService.queryCates();
 	}
 
@@ -52,7 +51,7 @@ public class CateController {
 
 	@RequestMapping(value = "/add")
 	public @ResponseBody
-	JsonNode<Cate> add(@RequestParam String pname, @RequestParam String name,
+	JsonNode add(@RequestParam String pname, @RequestParam String name,
 			@RequestParam boolean child) {
 		return cateService.add(pname, name, child);
 	}

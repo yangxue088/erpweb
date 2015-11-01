@@ -70,8 +70,8 @@ public class PubService extends AbstCateService {
 	}
 
 	@Override
-	public JsonNode<Cate> wrap(Cate cate) {
-		JsonNode<Cate> node = new JsonNode<Cate>(cate);
+	public JsonNode wrap(Cate cate) {
+		JsonNode node = new JsonNode("data");
 		if (cate != null) {
 			node.setAttribute("groupid", cate.getId());
 			node.setAttribute("group", cate.getName());

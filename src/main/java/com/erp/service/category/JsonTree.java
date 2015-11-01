@@ -5,20 +5,20 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public class JsonTree<T> {
+public class JsonTree {
 
-	private List<JsonNode<T>> roots = new ArrayList<JsonNode<T>>();
+	private List<JsonNode> roots = new ArrayList<JsonNode>();
 
-	public void addRoot(JsonNode<T> root) {
+	public void addRoot(JsonNode root) {
 		this.roots.add(root);
 	}
 
 	@JsonValue
-	public List<JsonNode<T>> getRoots() {
+	public List<JsonNode> getRoots() {
 		return roots;
 	}
 
-	public void setRoots(List<JsonNode<T>> roots) {
+	public void setRoots(List<JsonNode> roots) {
 		this.roots = roots;
 	}
 

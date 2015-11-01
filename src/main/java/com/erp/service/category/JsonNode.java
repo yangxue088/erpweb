@@ -8,21 +8,20 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-public class JsonNode<T> {
+public class JsonNode {
 
 	@JsonIgnore
-	private T t;
+	private String childkey = "data";
 
 	private Map<String, Object> m = new HashMap<String, Object>();
-
-	private List<JsonNode<T>> data = new ArrayList<JsonNode<T>>();
 
 	public JsonNode() {
 		super();
 	}
 
-	public JsonNode(T t) {
-		this.t = t;
+	public JsonNode(String childkey) {
+		super();
+		this.childkey = childkey;
 	}
 
 	public JsonNode(String... strs) {
@@ -31,16 +30,8 @@ public class JsonNode<T> {
 		}
 	}
 
-	public void setObject(T t) {
-		this.t = t;
-	}
-
 	public void setAttribute(String name, Object value) {
 		this.m.put(name, value);
-	}
-
-	public void addChild(JsonNode<T> child) {
-		this.data.add(child);
 	}
 
 	@JsonAnyGetter
@@ -52,20 +43,22 @@ public class JsonNode<T> {
 		this.m = m;
 	}
 
-	public List<JsonNode<T>> getData() {
-		return data;
+	public String getChildkey() {
+		return childkey;
 	}
 
-	public void setData(List<JsonNode<T>> data) {
-		this.data = data;
+	public void setChildkey(String childkey) {
+		this.childkey = childkey;
 	}
 
-	public T getT() {
-		return t;
-	}
-
-	public void setT(T t) {
-		this.t = t;
+	@SuppressWarnings("unchecked")
+	public void addChild(JsonNode node) {
+		if (!m.containsKey(node.childkey)) {
+			m.put(node.childkey, new ArrayList<JsonNode>());
+		}
+		Object obj = m.get(node.childkey);
+		List<JsonNode> children = (List<JsonNode>) obj;
+		children.add(node);
 	}
 
 }

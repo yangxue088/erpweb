@@ -194,6 +194,8 @@ pageEncoding="UTF-8"%>
 
 		$("#stock-modal").find("button:nth-child(2)").on("click", setStock);
 
+		$("#group-modal").find("button:nth-child(2)").on("click", setGroup);
+
 	});
 
 	function init_group_select(){
@@ -427,8 +429,11 @@ pageEncoding="UTF-8"%>
 
 				$('#group-tree').treeview({
 					data: result,
-					showIcon: false,
-					highlightSelected: true
+					showIcon: true,
+					highlightSelected: true,
+					 expandIcon: 'glyphicon glyphicon-chevron-right',
+          collapseIcon: 'glyphicon glyphicon-chevron-down',
+          nodeIcon: 'glyphicon glyphicon-bookmark'
 				});
 
 				$('#group-modal').modal('show');
@@ -443,39 +448,25 @@ pageEncoding="UTF-8"%>
 		}
 	}
 
-	var defaultData = [
-	{
-		text: "Parent 1",
-		nodes: [
-		{
-			text: "Child 1",
-			nodes: [
-			{
-				text: "Grandchild 1"
-			},
-			{
-				text: "Grandchild 2"
-			}
-			]
-		},
-		{
-			text: "Child 2"
+	function setGroup(){
+		var nodes = $('#group-tree').treeview('getSelected');
+		if(nodes && nodes.length){
+			var group = nodes[0].text;
+			var ids = getCheckedIds();
+
+			$.post("product/setGroup", { group: group, ids: JSON.stringify(ids) }, function(result){
+				$("#selling-table").bootstrapTable('refresh');
+			});
 		}
-		]
-	},
-	{
-		text: "Parent 2"
-	},
-	{
-		text: "Parent 3"
-	},
-	{
-		text: "Parent 4"
-	},
-	{
-		text: "Parent 5"
+		else{
+			webix.message({
+				type:"default", 
+				text:'请选择分组',
+				expire:3000
+			});
+		}
 	}
-	];
+
 	</script>
 
 </body>

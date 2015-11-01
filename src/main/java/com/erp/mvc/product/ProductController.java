@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.erp.bean.category.Cate;
 import com.erp.service.category.JsonTree;
 import com.erp.service.product.JsonTable;
 import com.erp.service.product.ProductService;
@@ -66,8 +65,21 @@ public class ProductController {
 
 	@RequestMapping(value = "/group")
 	public @ResponseBody
-	JsonTree<Cate> group() {
+	JsonTree group() {
 		return productService.queryCates();
+	}
+	
+	@RequestMapping(value = "/setGroup")
+	public @ResponseBody
+	String setGroup(@RequestParam String group, @RequestParam String ids) {
+		try {
+			List<String> pids = new ObjectMapper().readValue(ids, new TypeReference<List<String>>() {
+			});
+			productService.updateGroup(pids, group);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "success";
 	}
 
 	@RequestMapping(value = "/detail")
