@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.erp.bean.category.Cate;
+import com.erp.service.category.JsonTree;
 import com.erp.service.product.JsonTable;
 import com.erp.service.product.ProductService;
 import com.erp.service.publish.Product;
@@ -32,7 +34,7 @@ public class ProductController {
 
 	@Autowired
 	private ServletContext servletContext;
-
+	
 	@RequestMapping
 	public String list(ModelMap modelMap) {
 		return "product";
@@ -52,7 +54,7 @@ public class ProductController {
 		}
 		return "success";
 	}
-	
+
 	@RequestMapping(value = "/onshe")
 	public @ResponseBody
 	String onshe(@RequestBody List<String> ids) {
@@ -60,6 +62,12 @@ public class ProductController {
 			productService.setProductState(Integer.parseInt(id), 0);
 		}
 		return "success";
+	}
+
+	@RequestMapping(value = "/group")
+	public @ResponseBody
+	JsonTree<Cate> group() {
+		return productService.queryCates();
 	}
 
 	@RequestMapping(value = "/detail")

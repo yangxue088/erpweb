@@ -116,7 +116,8 @@ pageEncoding="UTF-8"%>
 				<div>
 					<div name="toolbar">
 						<button class="btn btn-md btn-danger">下架</button>
-						<button class="btn btn-md btn-warning" data-toggle="modal" data-target="#group-modal">调整产品组</button>
+						<!-- <button class="btn btn-md btn-warning" data-toggle="modal" data-target="#group-modal">调整产品组</button> -->
+						<button class="btn btn-md btn-warning">调整产品组</button>
 					</div>
 					<table id="selling-table" data-toggle="table" data-pagination="true" data-side-pagination="server" data-page-size="20" data-page-list="[20, 50, 100, 200]" data-url="product/search" data-query-params="query_selling_params" data-id-field="id" data-unique-id="id">
 						<thead>
@@ -419,10 +420,63 @@ pageEncoding="UTF-8"%>
 	var checkNode;
 
 	function group_btn_click(){
-		
+		var ids = getCheckedIds();
+
+		if(ids.length > 0){
+			$.post("product/group", function(result){
+
+				$('#group-tree').treeview({
+					data: result,
+					showIcon: false,
+					highlightSelected: true
+				});
+
+				$('#group-modal').modal('show');
+			});
+		}
+		else{
+			webix.message({
+				type:"default", 
+				text:'至少选择一个',
+				expire:3000
+			});
+		}
 	}
 
-</script>
+	var defaultData = [
+	{
+		text: "Parent 1",
+		nodes: [
+		{
+			text: "Child 1",
+			nodes: [
+			{
+				text: "Grandchild 1"
+			},
+			{
+				text: "Grandchild 2"
+			}
+			]
+		},
+		{
+			text: "Child 2"
+		}
+		]
+	},
+	{
+		text: "Parent 2"
+	},
+	{
+		text: "Parent 3"
+	},
+	{
+		text: "Parent 4"
+	},
+	{
+		text: "Parent 5"
+	}
+	];
+	</script>
 
 </body>
 </html>

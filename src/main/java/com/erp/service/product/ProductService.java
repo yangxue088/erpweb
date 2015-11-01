@@ -9,11 +9,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.erp.bean.category.Cate;
 import com.erp.dao.product.ProductDao;
+import com.erp.service.category.AbstCateService;
+import com.erp.service.category.JsonNode;
 import com.erp.service.publish.Product;
 
 @Service
-public class ProductService {
+public class ProductService extends AbstCateService{
 
 	@Autowired
 	private ProductDao productDao;
@@ -108,5 +111,14 @@ public class ProductService {
 
 	public void setProductState(int id, int state) {
 		productDao.setProductState(id, state);
+	}
+
+	@Override
+	public JsonNode<Cate> wrap(Cate cate) {
+		JsonNode<Cate> node = new JsonNode<Cate>(cate);
+		if (cate != null) {
+			node.setAttribute("text", cate.getName());
+		}
+		return node;
 	}
 }
