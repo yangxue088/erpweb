@@ -26,6 +26,7 @@ pageEncoding="UTF-8"%>
             <li><a href="<c:url value="/cate" />">分组管理</a></li>
           </ul>
         </li> -->
+        <li><a href="<c:url value="/shop" />">店铺授权</a></li>
         <li><a href="<c:url value="/product" />">浏览产品</a></li>
         <li><a href="<c:url value="/publish" />">发布产品</a></li>
         <li><a href="<c:url value="/cate" />">管理分组</a></li>
