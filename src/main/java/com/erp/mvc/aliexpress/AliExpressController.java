@@ -1,4 +1,4 @@
-package com.erp.mvc.shop;
+package com.erp.mvc.aliexpress;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.erp.service.shop.AliExpressService;
+import com.erp.service.aliexpress.AliExpressService;
 
 @Controller
 @SessionAttributes("userVo")

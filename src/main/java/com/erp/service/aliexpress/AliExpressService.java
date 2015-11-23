@@ -1,10 +1,10 @@
-package com.erp.service.shop;
+package com.erp.service.aliexpress;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
@@ -14,6 +14,7 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -41,21 +42,26 @@ public class AliExpressService {
 	private ShopDao shopDao;
 
 	public String auth_url(String redirect_uri, String state) {
-		SortedMap<String, String> map = new TreeMap<String, String>();
-		map.put("client_id", aliexpress_client_id);
-		map.put("site", "aliexpress");
-		map.put("redirect_uri", redirect_uri);
-		map.put("state", state);
+		String data = sort_params(to_map("client_id", aliexpress_client_id, "site", "aliexpress", "redirect_uri", redirect_uri, "state", state));
+		String _aop_signature = auth_signature(data);
+		String url = String.format("http://authhz.alibaba.com/auth/authorize.htm?client_id=%s&site=aliexpress&redirect_uri=%s&state=%s&_aop_signature=%s", aliexpress_client_id, redirect_uri, state, _aop_signature);
+		return url;
+	}
 
+	private SortedMap<String, String> to_map(Object... params) {
+		SortedMap<String, String> map = new TreeMap<String, String>();
+		for (int i = 0; i < params.length; i += 2) {
+			map.put(String.valueOf(params[i]), String.valueOf(params[i + 1]));
+		}
+		return map;
+	}
+
+	private String sort_params(Map<String, String> map) {
 		String data = "";
 		for (Map.Entry<String, String> entry : map.entrySet()) {
 			data += entry.getKey() + entry.getValue();
 		}
-
-		String _aop_signature = auth_signature(data, aliexpress_client_secret);
-
-		String url = String.format("http://authhz.alibaba.com/auth/authorize.htm?client_id=%s&site=aliexpress&redirect_uri=%s&state=%s&_aop_signature=%s", aliexpress_client_id, redirect_uri, state, _aop_signature);
-		return url;
+		return data;
 	}
 
 	public boolean get_token(String shop, String code, Boolean need_refresh_token) {
@@ -66,7 +72,7 @@ public class AliExpressService {
 		nvps.add(new BasicNameValuePair("need_refresh_token", need_refresh_token.toString()));
 		nvps.add(new BasicNameValuePair("client_id", aliexpress_client_id));
 		nvps.add(new BasicNameValuePair("client_secret", aliexpress_client_secret));
-		nvps.add(new BasicNameValuePair("redirect_uri", "test"));
+		nvps.add(new BasicNameValuePair("redirect_uri", "default"));
 		nvps.add(new BasicNameValuePair("code", code));
 
 		CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -103,8 +109,8 @@ public class AliExpressService {
 		return false;
 	}
 
-	private String auth_signature(String data, String secret) {
-		return hex(hmacSha1(data, secret)).toUpperCase();
+	private String auth_signature(String data) {
+		return hex(hmacSha1(data, aliexpress_client_secret)).toUpperCase();
 	}
 
 	private String hex(byte[] rawHmac) {
@@ -130,4 +136,66 @@ public class AliExpressService {
 			throw new RuntimeException(e);
 		}
 	}
+
+	public String call_api(String access_token, String api_method, Object... params) {
+		String url_path = String.format("param2/1/aliexpress.open/%s/%s", api_method, aliexpress_client_id);
+
+		Map<String, String> map = to_map(params);
+		map.put("_aop_timestamp", String.valueOf(new Date().getTime()));
+		map.put("access_token", access_token);
+
+		String data = sort_params(map);
+		map.put("_aop_signature", api_signature(url_path, data));
+
+		String url = String.format("http://gw.api.alibaba.com/openapi/%s?%s", url_path, to_uri(map));
+
+		CloseableHttpClient httpClient = HttpClients.createDefault();
+
+		HttpPost httpPost = new HttpPost(url);
+		CloseableHttpResponse response = null;
+		try {
+			response = httpClient.execute(httpPost);
+			
+			System.out.println(response.getStatusLine());
+
+			// 授权过期或者授权失效
+			if (response.getStatusLine().getStatusCode() == 401) {
+				
+			}
+
+			System.out.println(Arrays.asList(response.getAllHeaders()));
+
+			HttpEntity entity = response.getEntity();
+			String json = EntityUtils.toString(entity);
+
+			System.out.println(json);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				response.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return "";
+	}
+
+	private String to_uri(Map<String, String> params) {
+		List<String> ps = new ArrayList<String>();
+		for (Map.Entry<String, String> entry : params.entrySet()) {
+			ps.add(entry.getKey() + "=" + entry.getValue());
+		}
+		return StringUtils.join(ps, "&");
+	}
+
+	private String api_signature(String url_path, String data) {
+		return hex(hmacSha1(url_path + data, aliexpress_client_secret)).toUpperCase();
+	}
+
+	public String getAccessToken(String account_id) {
+		return "";
+	}
+
 }

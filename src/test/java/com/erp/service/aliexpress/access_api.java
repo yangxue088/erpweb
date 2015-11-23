@@ -1,4 +1,4 @@
-package com.erp.oauth.aliexpress;
+package com.erp.service.aliexpress;
 
 
 public class access_api {

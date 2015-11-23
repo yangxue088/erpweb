@@ -21,21 +21,11 @@ public class ShopDao {
 	private JdbcTemplate jdbcTemplate;
 
 	public List<Shop> listShop() {
-		return jdbcTemplate.query("select * from shop", new RowMapper<Shop>() {
+		return jdbcTemplate.query("select * from shop", new ShopMapper());
+	}
 
-			public Shop mapRow(ResultSet rs, int rowNum) throws SQLException {
-				Shop shop = new Shop();
-				shop.setId(rs.getString("id"));
-				shop.setShop_type(rs.getString("type"));
-				shop.setShop_name(rs.getString("name"));
-				shop.setAccount_id(rs.getString("account_id"));
-
-				Timestamp timestamp = rs.getTimestamp("refresh_token_timeout");
-				shop.setValidity(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(timestamp));
-				return shop;
-			}
-
-		});
+	public Shop getShop(String id) {
+		return jdbcTemplate.queryForObject("select * from shop where id=?", new Object[] { id }, new ShopMapper());
 	}
 
 	public void createShop(String type, String name, String account_id, String access_token, String refresh_token, String refresh_token_timeout) {
@@ -53,6 +43,22 @@ public class ShopDao {
 
 	public void editShop(String id, String name) {
 		jdbcTemplate.update("update shop set name=? where id=?", name, id);
+	}
+
+	private class ShopMapper implements RowMapper<Shop> {
+
+		public Shop mapRow(ResultSet rs, int rowNum) throws SQLException {
+			Shop shop = new Shop();
+			shop.setId(rs.getString("id"));
+			shop.setShop_type(rs.getString("type"));
+			shop.setShop_name(rs.getString("name"));
+			shop.setAccount_id(rs.getString("account_id"));
+
+			Timestamp timestamp = rs.getTimestamp("refresh_token_timeout");
+			shop.setValidity(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(timestamp));
+			return shop;
+		}
+
 	}
 
 }

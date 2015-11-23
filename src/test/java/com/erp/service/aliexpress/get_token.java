@@ -1,4 +1,4 @@
-package com.erp.oauth.aliexpress;
+package com.erp.service.aliexpress;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ public class get_token {
 	}
 
 	public static void auth_request() {
-		String code = "c936229d-3f2f-44a5-984d-6611a3fd4f28";
+		String code = "67028447-7156-40ae-a41a-53bc10dbe58d";
 
 		String url = String.format("https://gw.api.alibaba.com/openapi/http/1/system.oauth2/getToken/%s", client_id);
 
@@ -39,6 +39,8 @@ public class get_token {
 		nvps.add(new BasicNameValuePair("client_secret", client_secret));
 		nvps.add(new BasicNameValuePair("redirect_uri", redirect_uri));
 		nvps.add(new BasicNameValuePair("code", code));
+		
+		System.out.println(nvps);
 
 		gettoken(url, nvps);
 	}
