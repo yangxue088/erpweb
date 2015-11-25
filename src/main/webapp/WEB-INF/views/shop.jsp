@@ -91,10 +91,10 @@ pageEncoding="UTF-8"%>
 			<thead>
 				<tr>
 					<th data-field="id" data-visible="false"></th>
-					<th data-field="shop_type">电商平台</th>
-					<th data-field="shop_name">店铺名称</th>
-					<th data-field="account_id">商户ID</th>
-					<th data-field="validity">密钥有效期</th>
+					<th data-field="type">电商平台</th>
+					<th data-field="name">店铺名称</th>
+					<th data-field="expireTime">密钥有效期</th>
+					<th data-field="authTime">密钥更新时间</th>
 					<th data-field="operation" data-formatter="operation_format" data-events="operation_shop">操作</th>
 				</tr>
 			</thead>
@@ -163,7 +163,7 @@ pageEncoding="UTF-8"%>
 	var auth_type;
 
 	function addAliExpressAuth(){
-		auth_type = "aliexpress";
+		auth_type = "速卖通";
 
 		$('#auth-modal').modal('show');
 	}
@@ -171,7 +171,7 @@ pageEncoding="UTF-8"%>
 	function authOnLine(){
 		var shop = $("#shop").val();
 
-		if(auth_type == "aliexpress"){
+		if(auth_type == "速卖通"){
 			$.post("aliexpress/auth", { shop: shop }, function(auth_url){
 				window.open(auth_url,'_blank');
 
@@ -187,17 +187,27 @@ pageEncoding="UTF-8"%>
 	}
 	
 	function operation_format(value, row, index){
-		return '<a href="javascript:void(0)">修改</a><a style="margin-left: 8px;" href="javascript:void(0)">删除</a>';
+		return '<a href="javascript:void(0)">重新授权</a><a style="margin-left: 8px;" href="javascript:void(0)">修改</a><a style="margin-left: 8px;" href="javascript:void(0)">删除</a>';
 	}
 
 	window.operation_shop = {
 		'click a:nth-child(1)': function (e, value, row, index) {
+			if(row.type == "速卖通"){
+				$.post("aliexpress/auth", { shop: row.name }, function(auth_url){
+					window.open(auth_url,'_blank');
+
+					$('#result-modal').modal('show');
+				});
+			}
+		},
+
+		'click a:nth-child(2)': function (e, value, row, index) {
 			$('#edit-modal').find("input").val(row.shop_name);
 			$('#edit-modal').modal('show');
 			edit_id = row.id;
 		},
 
-		'click a:nth-child(2)': function (e, value, row, index) {
+		'click a:nth-child(3)': function (e, value, row, index) {
 			$.post("shop/delete", { id: row.id }, function(){
 				$('#shop-table').bootstrapTable('refresh');
 			});

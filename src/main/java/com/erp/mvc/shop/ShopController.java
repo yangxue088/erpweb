@@ -33,14 +33,14 @@ public class ShopController {
 
 	@RequestMapping(value = "edit")
 	public @ResponseBody
-	String edit(ModelMap modelMap, String id, String name) {
+	String edit(ModelMap modelMap, int id, String name) {
 		shopService.editShop(id, name);
 		return "success";
 	}
 
 	@RequestMapping(value = "delete")
 	public @ResponseBody
-	String delete(ModelMap modelMap, String id) {
+	String delete(ModelMap modelMap, int id) {
 		shopService.deleteShop(id);
 		return "success";
 	}

@@ -17,11 +17,11 @@ public class ShopService {
 		return shopDao.listShop();
 	}
 
-	public void deleteShop(String id) {
+	public void deleteShop(int id) {
 		shopDao.deleteShop(id);
 	}
 
-	public void editShop(String id, String name) {
+	public void editShop(int id, String name) {
 		shopDao.editShop(id, name);
 	}
 

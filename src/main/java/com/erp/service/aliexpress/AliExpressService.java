@@ -1,201 +1,99 @@
 package com.erp.service.aliexpress;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
 import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
 
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
-
-import org.apache.commons.codec.binary.Hex;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpEntity;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.erp.dao.shop.ShopDao;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.erp.dao.shop.TokenDao;
+import com.erp.service.shop.Shop;
 
 @Service
 public class AliExpressService {
 
-	private String aliexpress_client_id = "2901405";
-
-	private String aliexpress_client_secret = "jVki3DaGtA";
+	@Autowired
+	private AliClient aliClient;
 
 	@Autowired
 	private ShopDao shopDao;
 
-	public String auth_url(String redirect_uri, String state) {
-		String data = sort_params(to_map("client_id", aliexpress_client_id, "site", "aliexpress", "redirect_uri", redirect_uri, "state", state));
-		String _aop_signature = auth_signature(data);
-		String url = String.format("http://authhz.alibaba.com/auth/authorize.htm?client_id=%s&site=aliexpress&redirect_uri=%s&state=%s&_aop_signature=%s", aliexpress_client_id, redirect_uri, state, _aop_signature);
-		return url;
+	@Autowired
+	private TokenDao tokenDao;
+
+	public String authUrl(String redirectUrl, String state) {
+		return aliClient.getAuthUrl(redirectUrl, state);
 	}
 
-	private SortedMap<String, String> to_map(Object... params) {
-		SortedMap<String, String> map = new TreeMap<String, String>();
-		for (int i = 0; i < params.length; i += 2) {
-			map.put(String.valueOf(params[i]), String.valueOf(params[i + 1]));
+	public boolean getToken(String name, String code) {
+		Map<String, String> map = aliClient.getToken(code);
+
+		if (map.size() == 0 || map.containsKey("error=invalid_request")) {
+			System.err.println("shop get token fail, return map:" + map);
+			return false;
 		}
-		return map;
-	}
 
-	private String sort_params(Map<String, String> map) {
-		String data = "";
-		for (Map.Entry<String, String> entry : map.entrySet()) {
-			data += entry.getKey() + entry.getValue();
+		String aliId = map.get("aliId");
+		String resource_owner = map.get("resource_owner");
+
+		String refresh_token = map.get("refresh_token");
+		String refresh_token_timeout = map.get("refresh_token_timeout");
+
+		String access_token = map.get("access_token");
+		String expires_in = map.get("expires_in");
+
+		Shop shop = shopDao.getShop(name);
+		if (shop == null) {
+
+			Integer token_id = tokenDao.createAliToken(aliId, resource_owner, access_token, expires_in, refresh_token, refresh_token_timeout);
+			shopDao.createShop(Shop.TYPE_ALIEXPRESS, name, token_id);
+		} else {
+
+			AliToken aliToken = new AliToken();
+			aliToken.setAliId(aliId);
+			aliToken.setResourceOwner(resource_owner);
+			aliToken.setRefreshToken(refresh_token);
+			aliToken.setRefreshTokenTimeout(refresh_token_timeout);
+			aliToken.setAccessToken(access_token);
+			aliToken.setExpiresIn(expires_in);
+
+			tokenDao.updateAliToken(shop.getTokenId(), aliToken);
 		}
-		return data;
+
+		return true;
 	}
 
-	public boolean get_token(String shop, String code, Boolean need_refresh_token) {
-		String url = String.format("https://gw.api.alibaba.com/openapi/http/1/system.oauth2/getToken/%s", aliexpress_client_id);
+	public void findOrderListQuery(String tokenId) {
+		String method = "";
+		Object[] params = new Object[] {};
 
-		List<NameValuePair> nvps = new ArrayList<NameValuePair>();
-		nvps.add(new BasicNameValuePair("grant_type", "authorization_code"));
-		nvps.add(new BasicNameValuePair("need_refresh_token", need_refresh_token.toString()));
-		nvps.add(new BasicNameValuePair("client_id", aliexpress_client_id));
-		nvps.add(new BasicNameValuePair("client_secret", aliexpress_client_secret));
-		nvps.add(new BasicNameValuePair("redirect_uri", "default"));
-		nvps.add(new BasicNameValuePair("code", code));
+	}
 
-		CloseableHttpClient httpClient = HttpClients.createDefault();
+	private String invokeApi(int tokenId, String method, Object... params) {
+		AliToken token = tokenDao.getAliToken(tokenId);
+		String accessToken = token.getAccessToken();
 
-		HttpPost httpPost = new HttpPost(url);
-		CloseableHttpResponse response = null;
-		try {
-			httpPost.setEntity(new UrlEncodedFormEntity(nvps));
-			response = httpClient.execute(httpPost);
+		String json = aliClient.invokeApi(accessToken, method, params);
+		if (json.contains("error_code")) {
+			Map<String, String> map = aliClient.refreshToken(token.getRefreshToken());
 
-			HttpEntity entity = response.getEntity();
-			String json = EntityUtils.toString(entity);
+			accessToken = map.get("access_token");
+			String expires_in = map.get("expires_in");
 
-			Map<String, String> map = new ObjectMapper().readValue(json.getBytes(), new TypeReference<Map<String, String>>() {
-			});
+			token.setAccessToken(accessToken);
+			token.setExpiresIn(expires_in);
 
-			String resource_owner = map.get("resource_owner");
-			String access_token = map.get("access_token");
-			String refresh_token = map.get("refresh_token");
-			String refresh_token_timeout = map.get("refresh_token_timeout");
+			tokenDao.updateAliToken(tokenId, token);
 
-			shopDao.createShop("速卖通", shop, resource_owner, access_token, refresh_token, refresh_token_timeout);
-			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				response.close();
-			} catch (IOException e) {
-				e.printStackTrace();
+			json = aliClient.invokeApi(accessToken, method, params);
+
+			if (json.contains("error_code")) {
+				json = "";
+				System.err.println("invoke api error, maybe need reauth, json:" + json);
 			}
 		}
 
-		return false;
-	}
-
-	private String auth_signature(String data) {
-		return hex(hmacSha1(data, aliexpress_client_secret)).toUpperCase();
-	}
-
-	private String hex(byte[] rawHmac) {
-		try {
-			byte[] hexBytes = new Hex().encode(rawHmac);
-			return new String(hexBytes, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	private byte[] hmacSha1(String value, String key) {
-		try {
-			byte[] keyBytes = key.getBytes();
-			SecretKeySpec signingKey = new SecretKeySpec(keyBytes, "HmacSHA1");
-
-			Mac mac = Mac.getInstance("HmacSHA1");
-			mac.init(signingKey);
-
-			byte[] rawHmac = mac.doFinal(value.getBytes());
-			return rawHmac;
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	public String call_api(String access_token, String api_method, Object... params) {
-		String url_path = String.format("param2/1/aliexpress.open/%s/%s", api_method, aliexpress_client_id);
-
-		Map<String, String> map = to_map(params);
-		map.put("_aop_timestamp", String.valueOf(new Date().getTime()));
-		map.put("access_token", access_token);
-
-		String data = sort_params(map);
-		map.put("_aop_signature", api_signature(url_path, data));
-
-		String url = String.format("http://gw.api.alibaba.com/openapi/%s?%s", url_path, to_uri(map));
-
-		CloseableHttpClient httpClient = HttpClients.createDefault();
-
-		HttpPost httpPost = new HttpPost(url);
-		CloseableHttpResponse response = null;
-		try {
-			response = httpClient.execute(httpPost);
-			
-			System.out.println(response.getStatusLine());
-
-			// 授权过期或者授权失效
-			if (response.getStatusLine().getStatusCode() == 401) {
-				
-			}
-
-			System.out.println(Arrays.asList(response.getAllHeaders()));
-
-			HttpEntity entity = response.getEntity();
-			String json = EntityUtils.toString(entity);
-
-			System.out.println(json);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}finally {
-			try {
-				response.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-
-		return "";
-	}
-
-	private String to_uri(Map<String, String> params) {
-		List<String> ps = new ArrayList<String>();
-		for (Map.Entry<String, String> entry : params.entrySet()) {
-			ps.add(entry.getKey() + "=" + entry.getValue());
-		}
-		return StringUtils.join(ps, "&");
-	}
-
-	private String api_signature(String url_path, String data) {
-		return hex(hmacSha1(url_path + data, aliexpress_client_secret)).toUpperCase();
-	}
-
-	public String getAccessToken(String account_id) {
-		return "";
+		return json;
 	}
 
 }

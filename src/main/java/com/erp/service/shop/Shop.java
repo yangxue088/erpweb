@@ -2,54 +2,67 @@ package com.erp.service.shop;
 
 public class Shop {
 
-	private String id;
+	public transient final static String TYPE_ALIEXPRESS = "速卖通";
 
-	private String shop_type;
+	private int id;
 
-	private String shop_name;
+	private String type;
 
-	private String account_id;
+	private String name;
 
-	private String validity;
+	private int tokenId;
 
-	public String getId() {
+	private String expireTime;
+	
+	private String authTime;
+
+	public int getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
-	public String getShop_type() {
-		return shop_type;
+	public String getType() {
+		return type;
 	}
 
-	public void setShop_type(String shop_type) {
-		this.shop_type = shop_type;
+	public void setType(String type) {
+		this.type = type;
 	}
 
-	public String getShop_name() {
-		return shop_name;
+	public String getName() {
+		return name;
 	}
 
-	public void setShop_name(String shop_name) {
-		this.shop_name = shop_name;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public String getAccount_id() {
-		return account_id;
+	public int getTokenId() {
+		return tokenId;
 	}
 
-	public void setAccount_id(String account_id) {
-		this.account_id = account_id;
+	public void setTokenId(int tokenId) {
+		this.tokenId = tokenId;
 	}
 
-	public String getValidity() {
-		return validity;
+	public String getAuthTime() {
+		return authTime;
 	}
 
-	public void setValidity(String validity) {
-		this.validity = validity;
+	public void setAuthTime(String authTime) {
+		this.authTime = authTime;
 	}
+
+	public String getExpireTime() {
+		return expireTime;
+	}
+
+	public void setExpireTime(String expireTime) {
+		this.expireTime = expireTime;
+	}
+
 
 }

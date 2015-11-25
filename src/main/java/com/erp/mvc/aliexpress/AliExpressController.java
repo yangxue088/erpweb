@@ -31,7 +31,7 @@ public class AliExpressController {
 		String redirect_uri = rooturl + "/aliexpress/token";
 		String state = shop;
 		
-		String auth_url = aliExpressService.auth_url(redirect_uri, state);
+		String auth_url = aliExpressService.authUrl(redirect_uri, state);
 		return auth_url;
 	}
 
@@ -39,7 +39,7 @@ public class AliExpressController {
 	public ModelAndView token(String state, String code) {
 		String shop = state;
 		
-		boolean result = aliExpressService.get_token(shop, code, true);
+		boolean result = aliExpressService.getToken(shop, code);
 		
 		ModelAndView modelAndView = new ModelAndView("/authresult");
 		modelAndView.addObject("result", result);
