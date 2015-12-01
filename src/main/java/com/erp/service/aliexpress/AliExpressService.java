@@ -63,10 +63,13 @@ public class AliExpressService {
 		return true;
 	}
 
-	public void findOrderListQuery(String tokenId) {
-		String method = "";
-		Object[] params = new Object[] {};
+	public void findOrderListQuery(int tokenId) {
+		String method = "api.findOrderListQuery";
+		Object[] params = new Object[] { "page", 1, "pageSize", 10 };
 
+		String json = invokeApi(tokenId, method, params);
+		
+		System.out.println(json);
 	}
 
 	private String invokeApi(int tokenId, String method, Object... params) {

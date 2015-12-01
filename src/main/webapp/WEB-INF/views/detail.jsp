@@ -25,59 +25,61 @@ pageEncoding="UTF-8"%>
 
 	</style>
 
-	<div>
-		<h4>浏览产品</h4>
-	</div>
+	<div class="container">
 
-	<hr class="soften"></hr>
-	
-	<div>
-		<div class="row">
-			<div class="col-sm-2">
-				行业及产品类目:
-			</div>
-			<div class="col-sm-10" id="product-type">
-			</div>
+		<div>
+			<h4>浏览产品</h4>
 		</div>
-		<div class="row">
-			<div class="col-sm-2">
-				产品属性:
-			</div>
-			<div class="col-sm-10">
-				<table id="product-attr-table">
-				</table>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-sm-2">
-				产品名称:
-			</div>
-			<div class="col-sm-10" id="product-title">
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-sm-2">
-				产品图片:
-			</div>
-			<div class="col-sm-10">
-				<!-- Jssor Slider Begin -->
-				<!-- To move inline styles to css file/block, please specify a class name for each element. --> 
-				<div id="slider1_container" style="position: relative; top: 0px; left: 0px; width: 240px;
-				height: 240px;">
 
-				<!-- Loading Screen -->
-				<div u="loading" style="position: absolute; top: 0px; left: 0px;">
-					<div style="filter: alpha(opacity=70); opacity:0.7; position: absolute; display: block;
-					background-color: #000000; top: 0px; left: 0px;width: 100%;height:100%;">
+		<hr class="soften"></hr>
+
+		<div>
+			<div class="row">
+				<div class="col-sm-2">
+					行业及产品类目:
 				</div>
-				<div style="position: absolute; display: block; background: url(<c:url value="/resources/jssor-slider/img/loading.gif" />) no-repeat center center;
-				top: 0px; left: 0px;width: 100%;height:100%;">
+				<div class="col-sm-10" id="product-type">
+				</div>
 			</div>
-		</div>
+			<div class="row">
+				<div class="col-sm-2">
+					产品属性:
+				</div>
+				<div class="col-sm-10">
+					<table id="product-attr-table">
+					</table>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-2">
+					产品名称:
+				</div>
+				<div class="col-sm-10" id="product-title">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-2">
+					产品图片:
+				</div>
+				<div class="col-sm-10">
+					<!-- Jssor Slider Begin -->
+					<!-- To move inline styles to css file/block, please specify a class name for each element. --> 
+					<div id="slider1_container" style="position: relative; top: 0px; left: 0px; width: 240px;
+					height: 240px;">
 
-		<!-- Slides Container -->
-		<div u="slides" style="cursor: move; position: absolute; left: 0px; top: 0px; width: 240px; height: 240px;
-		overflow: hidden;" id="product-pictures">
+					<!-- Loading Screen -->
+					<div u="loading" style="position: absolute; top: 0px; left: 0px;">
+						<div style="filter: alpha(opacity=70); opacity:0.7; position: absolute; display: block;
+						background-color: #000000; top: 0px; left: 0px;width: 100%;height:100%;">
+					</div>
+					<div style="position: absolute; display: block; background: url(<c:url value="/resources/jssor-slider/img/loading.gif" />) no-repeat center center;
+					top: 0px; left: 0px;width: 100%;height:100%;">
+				</div>
+			</div>
+
+			<!-- Slides Container -->
+			<div u="slides" style="cursor: move; position: absolute; left: 0px; top: 0px; width: 240px; height: 240px;
+			overflow: hidden;" id="product-pictures">
 					<!-- <div><img u="image" src="<c:url value="/resources/tmp/picture/1.jpg" />" /></div>
 					<div><img u="image" src="<c:url value="/resources/tmp/picture/2.jpg" />" /></div>
 					<div><img u="image" src="<c:url value="/resources/tmp/picture/3.jpg" />" /></div> -->
@@ -181,6 +183,8 @@ pageEncoding="UTF-8"%>
 
 <div style="position:fixed; bottom:50px; right:105px; float: right;">
 	<a href="<c:url value="/publish/reedit?productid=${productId}" />" class="btn btn-primary btn-md btn-block btn-success" role="button">编辑</a>
+</div>
+
 </div>
 
 <script type="text/javascript">

@@ -2,6 +2,8 @@ package com.erp.dao.shop;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,16 +22,24 @@ public class ShopDao {
 	
 	@Autowired
 	private TokenDao tokenDao;
+	
+	private SimpleDateFormat easysdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
+	private SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSSZ");
+	
 	public List<Shop> listShop() {
 		List<Shop> shops = jdbcTemplate.query("select * from shop", new ShopMapper());
 
-		for(Shop shop : shops){
-			if(Shop.TYPE_ALIEXPRESS.equals(shop.getType())){
-				AliToken aliToken = tokenDao.getAliToken(shop.getTokenId());
-				shop.setExpireTime(aliToken.getRefreshTokenTimeout());
-				shop.setAuthTime(aliToken.getUpdateTime());
+		try {
+			for(Shop shop : shops){
+				if(Shop.TYPE_ALIEXPRESS.equals(shop.getType())){
+					AliToken aliToken = tokenDao.getAliToken(shop.getTokenId());
+					shop.setExpireTime(easysdf.format(sdf.parse(aliToken.getRefreshTokenTimeout())));
+					shop.setAuthTime(aliToken.getUpdateTime());
+				}
 			}
+		} catch (ParseException e) {
+			e.printStackTrace();
 		}
 		
 		return shops;

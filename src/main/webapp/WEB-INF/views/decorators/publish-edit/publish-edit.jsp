@@ -129,285 +129,290 @@ pageEncoding="UTF-8"%>
 
 	</style>
 
-	<div id="choose-div" class="alert alert-info" role="alert">
-		您当前选择的类目：<span id="choose-text">${choosetext}</span>
-	</div>
+	<div class="container">
 
-	<div id="product-info-panel" class="panel panel-default">
-		<div class="panel-heading">
-			<h2 class="panel-title"><strong>1. 产品基本信息</strong></h2>
+
+		<div id="choose-div" class="alert alert-info" role="alert">
+			您当前选择的类目：<span id="choose-text">${choosetext}</span>
 		</div>
-		<div class="panel-body">
 
-			<div id="base-attr-div">
-				<decorator:body />
+		<div id="product-info-panel" class="panel panel-default">
+			<div class="panel-heading">
+				<h2 class="panel-title"><strong>1. 产品基本信息</strong></h2>
 			</div>
+			<div class="panel-body">
 
-			<div class="row">
-				<div class="col-sm-2">
-					<label data-required>产品标题:</label>
+				<div id="base-attr-div">
+					<decorator:body />
 				</div>
-				<div class="col-sm-10">
-					<input id="product-title-input" name="product-title" type="text" maxlength="128" size="70" data-alert="产品标题不能为空">
+
+				<div class="row">
+					<div class="col-sm-2">
+						<label data-required>产品标题:</label>
+					</div>
+					<div class="col-sm-10">
+						<input id="product-title-input" name="product-title" type="text" maxlength="128" size="70" data-alert="产品标题不能为空">
+					</div>
 				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-2">
-					<label>产品关键词:</label>
+				<div class="row">
+					<div class="col-sm-2">
+						<label>产品关键词:</label>
+					</div>
+					<div class="col-sm-10">
+						<input id="product-keyword-input" name="product-keyword" type="text">
+						<label><a href="#more-key-words" data-toggle="collapse" role="button">添加更多关键字</a></label>
+					</div>
 				</div>
-				<div class="col-sm-10">
-					<input id="product-keyword-input" name="product-keyword" type="text">
-					<label><a href="#more-key-words" data-toggle="collapse" role="button">添加更多关键字</a></label>
+				<div id="more-key-words" class="row collapse">
+					<div class="col-sm-2">
+						<label>更多关键词:</label>
+					</div>
+					<div class="col-sm-10">
+						<span>
+							<input id="product-more-keyword-input-1" name="product-more-keyword-1" type="text">
+						</span>
+						<span>
+							<input id="product-more-keyword-input-2" name="product-more-keyword-2" type="text">
+						</span>
+					</div>
 				</div>
-			</div>
-			<div id="more-key-words" class="row collapse">
-				<div class="col-sm-2">
-					<label>更多关键词:</label>
+				<div class="row">
+					<div class="col-sm-2">
+						<label>产品图片:</label>
+					</div>
+					<div class="col-sm-10">
+						<div>
+							<input id="product-image-uploader" name="images" type="file" multiple class="file-loading" accept="image/*">
+						</div>
+					</div>
 				</div>
-				<div class="col-sm-10">
-					<span>
-						<input id="product-more-keyword-input-1" name="product-more-keyword-1" type="text">
-					</span>
-					<span>
-						<input id="product-more-keyword-input-2" name="product-more-keyword-2" type="text">
-					</span>
+
+				<div class="row">
+					<div class="col-sm-2">
+						<label data-required>最小计量单位:</label>
+					</div>
+					<div class="col-sm-10">
+						<select id="product-measure-unit-select" name="product-measure-unit">
+							<option>袋 (bag/bags)</option>
+							<option>桶 (barrel/barrels)</option>
+							<option>蒲式耳 (bushel/bushels)</option>
+							<option>箱 (carton)</option>
+							<option>厘米 (centimeter)</option>
+							<option>组合 (combo)</option>
+							<option>立方米 (cubic meter)</option>
+							<option>打 (dozen)</option>
+							<option>英尺 (feet)</option>
+							<option>加仑 (gallon)</option>
+							<option>克 (gram)</option>
+							<option>英寸 (inch)</option>
+							<option>千克 (kilogram)</option>
+							<option>千升 (kiloliter)</option>
+							<option>千米 (kilometer)</option>
+							<option>升 (liter/liters)</option>
+							<option>英吨 (long ton)</option>
+							<option>米 (meter)</option>
+							<option>公吨 (metric ton)</option>
+							<option>毫克 (milligram)</option>
+							<option>毫升 (milliliter)</option>
+							<option>毫米 (millimeter)</option>
+							<option>盎司 (ounce)</option>
+							<option>包 (pack/packs)</option>
+							<option>双 (pair)</option>
+							<option selected="selected">件/个 (piece/pieces)</option>
+							<option>磅 (pound)</option>
+							<option>夸脱 (quart)</option>
+							<option>套 (set/sets)</option>
+							<option>美吨 (short ton)</option>
+							<option>平方英尺 (square feet)</option>
+							<option>平方英寸 (square inch)</option>
+							<option>平方米 (square meter)</option>
+							<option>平方码 (square yard)</option>
+							<option>吨 (ton)</option>
+							<option>码 (yard/yards)</option>
+						</select>
+						<span class="hidden" name="product-measure-unit">件/个</span>
+					</div>
 				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-2">
-					<label>产品图片:</label>
+				<div class="row">
+					<div class="col-sm-2">
+						<label>销售方式:</label>
+					</div>
+					<div class="col-sm-10">
+						<label>
+							<input type="radio" name="sale-type" id="product-sale-type-per-unit" checked>
+							<span>按<span name="product-measure-unit">件/个</span>出售</span>
+						</label>
+						<label>
+							<input type="radio" name="sale-type" id="product-sale-type-package">
+							<span>打包出售</span>
+						</label>
+						<label id="num-per-package" class="hidden">
+							<span>每包</span>
+							<input type="text" size="10" id="product-sale-type-num-per-package" data-alert="产品每包数不能为空">
+							<span name="product-measure-unit">件/个</span>
+						</label>
+					</div>
 				</div>
-				<div class="col-sm-10">
-					<div>
-						<input id="product-image-uploader" name="images" type="file" multiple class="file-loading" accept="image/*">
+				<div class="row">
+					<div class="col-sm-2">
+						<label>套餐:</label>
+					</div>
+					<div class="col-sm-10" id="sale-style-div">
+					</div>
+				</div>
+				<div class="row hidden">
+					<div class="col-sm-4 col-sm-offset-2">
+						<table id="sale-style-table" class="table table-condensed table-bordered">
+							<thead>
+								<tr>
+									<td>套餐</td>
+									<td>自定义名称</td>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-2">
+						<label>颜色:</label>
+					</div>
+					<div class="col-sm-10" id="color-div">
+					</div>
+				</div>
+				<div class="row hidden">
+					<div class="col-sm-4 col-sm-offset-2">
+						<table id="color-table" class="table table-condensed table-bordered">
+							<thead>
+								<tr>
+									<td>颜色</td>
+									<td>自定义名称</td>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="row hidden">
+					<div class="col-sm-8 col-sm-offset-2">
+						<table id="inventory-table" class="table table-condensed table-bordered">
+							<thead>
+								<tr>
+									<td class="hidden">套餐</td>
+									<td class="hidden">颜色</td>
+									<td class="hidden">库存</td>
+									<td>商品编码</td>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="row hidden" id="inventory-unit-div">
+					<div class="col-sm-2">
+						<label>库存:</label>
+					</div>
+					<div class="col-sm-10">
+						<label>
+							<input id="product-inventory-input" name="product-inventory" type="text" size="5">
+							<span name="inventory-unit">件/个</span>
+						</label>
+					</div>
+				</div>
+				<div class="row" id="code-div">
+					<div class="col-sm-2">
+						<label>商品编码:</label>
+					</div>
+					<div class="col-sm-10">
+						<label>
+							<input id="product-code-input" name="product-code" type="text" size="20">
+						</label>
 					</div>
 				</div>
 			</div>
-
-			<div class="row">
-				<div class="col-sm-2">
-					<label data-required>最小计量单位:</label>
-				</div>
-				<div class="col-sm-10">
-					<select id="product-measure-unit-select" name="product-measure-unit">
-						<option>袋 (bag/bags)</option>
-						<option>桶 (barrel/barrels)</option>
-						<option>蒲式耳 (bushel/bushels)</option>
-						<option>箱 (carton)</option>
-						<option>厘米 (centimeter)</option>
-						<option>组合 (combo)</option>
-						<option>立方米 (cubic meter)</option>
-						<option>打 (dozen)</option>
-						<option>英尺 (feet)</option>
-						<option>加仑 (gallon)</option>
-						<option>克 (gram)</option>
-						<option>英寸 (inch)</option>
-						<option>千克 (kilogram)</option>
-						<option>千升 (kiloliter)</option>
-						<option>千米 (kilometer)</option>
-						<option>升 (liter/liters)</option>
-						<option>英吨 (long ton)</option>
-						<option>米 (meter)</option>
-						<option>公吨 (metric ton)</option>
-						<option>毫克 (milligram)</option>
-						<option>毫升 (milliliter)</option>
-						<option>毫米 (millimeter)</option>
-						<option>盎司 (ounce)</option>
-						<option>包 (pack/packs)</option>
-						<option>双 (pair)</option>
-						<option selected="selected">件/个 (piece/pieces)</option>
-						<option>磅 (pound)</option>
-						<option>夸脱 (quart)</option>
-						<option>套 (set/sets)</option>
-						<option>美吨 (short ton)</option>
-						<option>平方英尺 (square feet)</option>
-						<option>平方英寸 (square inch)</option>
-						<option>平方米 (square meter)</option>
-						<option>平方码 (square yard)</option>
-						<option>吨 (ton)</option>
-						<option>码 (yard/yards)</option>
-					</select>
-					<span class="hidden" name="product-measure-unit">件/个</span>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-2">
-					<label>销售方式:</label>
-				</div>
-				<div class="col-sm-10">
-					<label>
-						<input type="radio" name="sale-type" id="product-sale-type-per-unit" checked>
-						<span>按<span name="product-measure-unit">件/个</span>出售</span>
-					</label>
-					<label>
-						<input type="radio" name="sale-type" id="product-sale-type-package">
-						<span>打包出售</span>
-					</label>
-					<label id="num-per-package" class="hidden">
-						<span>每包</span>
-						<input type="text" size="10" id="product-sale-type-num-per-package" data-alert="产品每包数不能为空">
-						<span name="product-measure-unit">件/个</span>
-					</label>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-2">
-					<label>套餐:</label>
-				</div>
-				<div class="col-sm-10" id="sale-style-div">
-				</div>
-			</div>
-			<div class="row hidden">
-				<div class="col-sm-4 col-sm-offset-2">
-					<table id="sale-style-table" class="table table-condensed table-bordered">
-						<thead>
-							<tr>
-								<td>套餐</td>
-								<td>自定义名称</td>
-							</tr>
-						</thead>
-						<tbody>
-						</tbody>
-					</table>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-2">
-					<label>颜色:</label>
-				</div>
-				<div class="col-sm-10" id="color-div">
-				</div>
-			</div>
-			<div class="row hidden">
-				<div class="col-sm-4 col-sm-offset-2">
-					<table id="color-table" class="table table-condensed table-bordered">
-						<thead>
-							<tr>
-								<td>颜色</td>
-								<td>自定义名称</td>
-							</tr>
-						</thead>
-						<tbody>
-						</tbody>
-					</table>
-				</div>
-			</div>
-			<div class="row hidden">
-				<div class="col-sm-8 col-sm-offset-2">
-					<table id="inventory-table" class="table table-condensed table-bordered">
-						<thead>
-							<tr>
-								<td class="hidden">套餐</td>
-								<td class="hidden">颜色</td>
-								<td class="hidden">库存</td>
-								<td>商品编码</td>
-							</tr>
-						</thead>
-						<tbody>
-						</tbody>
-					</table>
-				</div>
-			</div>
-			<div class="row hidden" id="inventory-unit-div">
-				<div class="col-sm-2">
-					<label>库存:</label>
-				</div>
-				<div class="col-sm-10">
-					<label>
-						<input id="product-inventory-input" name="product-inventory" type="text" size="5">
-						<span name="inventory-unit">件/个</span>
-					</label>
-				</div>
-			</div>
-			<div class="row" id="code-div">
-				<div class="col-sm-2">
-					<label>商品编码:</label>
-				</div>
-				<div class="col-sm-10">
-					<label>
-						<input id="product-code-input" name="product-code" type="text" size="20">
-					</label>
-				</div>
-			</div>
 		</div>
-	</div>
 
-	<div id="package-info-panel" class="panel panel-default">
-		<div class="panel-heading">
-			<h2 class="panel-title"><strong>2. 包装信息</strong></h2>
-		</div>
-		<div class="panel-body">
-			<div class="row">
-				<div class="col-sm-2">
-					<label data-required>产品包装后的重量:</label>
-				</div>
-				<div class="col-sm-10">
-					<label>
-						<input id="product-weight-input" name="product-weight" type="text" size="5" data-alert='产品重量不能为空'>
-						<span>公斤/<span name="inventory-unit">件/个</span></span>
-					</label>
-				</div>
-				<div class="col-sm-10 col-sm-offset-2">
-					<label>
-						<input id="custom-weight-check" type='checkbox' data-target="#custom-weight-div" data-toggle="collapse">
-						<span>自定义计重</span>
-					</label>
-				</div>
-				<div class="col-sm-10 col-sm-offset-2">
-					<div id="custom-weight-div" class="well collapse">
-						<span>买家购买</span>
-						<input id="product-custom-weight-input-1" name="product-custom-weight-1" type='text' size="5" data-alert='自定义计重不能为空'>
-						<span name="inventory-unit">件/个</span>
-						<span>以内，按单件产品重量计算运费。</span><br/>
-						<span>在此基础上，买家每多买</span>
-						<input id="product-custom-weight-input-2" name="product-custom-weight-2" type='text' size="5" data-alert='自定义计重不能为空'>
-						<span name="inventory-unit">件/个</span>
-						<span>，重量增加</span>
-						<input id="product-custom-weight-input-3" name="product-custom-weight-3" type='text' size="5" data-alert='自定义计重不能为空'>
-						<span>kg。</span>
+		<div id="package-info-panel" class="panel panel-default">
+			<div class="panel-heading">
+				<h2 class="panel-title"><strong>2. 包装信息</strong></h2>
+			</div>
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-sm-2">
+						<label data-required>产品包装后的重量:</label>
+					</div>
+					<div class="col-sm-10">
+						<label>
+							<input id="product-weight-input" name="product-weight" type="text" size="5" data-alert='产品重量不能为空'>
+							<span>公斤/<span name="inventory-unit">件/个</span></span>
+						</label>
+					</div>
+					<div class="col-sm-10 col-sm-offset-2">
+						<label>
+							<input id="custom-weight-check" type='checkbox' data-target="#custom-weight-div" data-toggle="collapse">
+							<span>自定义计重</span>
+						</label>
+					</div>
+					<div class="col-sm-10 col-sm-offset-2">
+						<div id="custom-weight-div" class="well collapse">
+							<span>买家购买</span>
+							<input id="product-custom-weight-input-1" name="product-custom-weight-1" type='text' size="5" data-alert='自定义计重不能为空'>
+							<span name="inventory-unit">件/个</span>
+							<span>以内，按单件产品重量计算运费。</span><br/>
+							<span>在此基础上，买家每多买</span>
+							<input id="product-custom-weight-input-2" name="product-custom-weight-2" type='text' size="5" data-alert='自定义计重不能为空'>
+							<span name="inventory-unit">件/个</span>
+							<span>，重量增加</span>
+							<input id="product-custom-weight-input-3" name="product-custom-weight-3" type='text' size="5" data-alert='自定义计重不能为空'>
+							<span>kg。</span>
+						</div>
+					</div>
+					<div class="col-sm-2">
+						<label data-required>产品包装后的尺寸:</label>
+					</div>
+					<div class="col-sm-10">
+						<label id="product-volume-div">
+							<input id="product-package-length-input" name="product-package-length" type="text" size="5" placeholder="长" data-alert='产品尺寸不能为空'>
+							<span>  x  </span>
+							<input id="product-package-width-input" name="product-package-width" type="text" size="5" placeholder="宽" data-alert='产品尺寸不能为空'>
+							<span>  x  </span>
+							<input id="product-package-height-input" name="product-package-height" type="text" size="5" placeholder="高" data-alert='产品尺寸不能为空'>
+							<span>(单位：厘米,每<span name="inventory-unit">件/个</span> <span id="product-volume">0</span> cm3)</span>
+						</label>
 					</div>
 				</div>
-				<div class="col-sm-2">
-					<label data-required>产品包装后的尺寸:</label>
-				</div>
-				<div class="col-sm-10">
-					<label id="product-volume-div">
-						<input id="product-package-length-input" name="product-package-length" type="text" size="5" placeholder="长" data-alert='产品尺寸不能为空'>
-						<span>  x  </span>
-						<input id="product-package-width-input" name="product-package-width" type="text" size="5" placeholder="宽" data-alert='产品尺寸不能为空'>
-						<span>  x  </span>
-						<input id="product-package-height-input" name="product-package-height" type="text" size="5" placeholder="高" data-alert='产品尺寸不能为空'>
-						<span>(单位：厘米,每<span name="inventory-unit">件/个</span> <span id="product-volume">0</span> cm3)</span>
-					</label>
+			</div>
+		</div>
+
+		<div id="other-info-panel" class="panel panel-default">
+			<div class="panel-heading">
+				<h2 class="panel-title"><strong>3. 其他信息</strong></h2>
+			</div>
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-sm-2">
+						<label data-required>产品分组:</label>
+					</div>
+					<div class="col-sm-10">
+						<select id="product-group-selecter" name="product-group" class="selectpicker" data-live-search="true" data-alert='产品分组不能为空'>
+						</select>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 
-	<div id="other-info-panel" class="panel panel-default">
-		<div class="panel-heading">
-			<h2 class="panel-title"><strong>3. 其他信息</strong></h2>
+		<div class="row">
+			<label class="col-sm-2 col-sm-offset-3">
+				<button id="product-preview" type="button" class="btn btn-primary btn-md btn-block btn-warning">取消发布</button>
+			</label>
+			<label class="col-sm-2 col-sm-offset-1">
+				<button id="product-submit" type="button" class="btn btn-primary btn-md btn-block btn-success">发布产品</button>
+			</label>
 		</div>
-		<div class="panel-body">
-			<div class="row">
-				<div class="col-sm-2">
-					<label data-required>产品分组:</label>
-				</div>
-				<div class="col-sm-10">
-					<select id="product-group-selecter" name="product-group" class="selectpicker" data-live-search="true" data-alert='产品分组不能为空'>
-					</select>
-				</div>
-			</div>
-		</div>
-	</div>
 
-	<div class="row">
-		<label class="col-sm-2 col-sm-offset-3">
-			<button id="product-preview" type="button" class="btn btn-primary btn-md btn-block btn-warning">取消发布</button>
-		</label>
-		<label class="col-sm-2 col-sm-offset-1">
-			<button id="product-submit" type="button" class="btn btn-primary btn-md btn-block btn-success">发布产品</button>
-		</label>
 	</div>
 
 	<script type="text/javascript">

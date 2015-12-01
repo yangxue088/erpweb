@@ -77,73 +77,76 @@ pageEncoding="UTF-8"%>
 
 	</style>
 
-	<div id="categoryNav" class="col-xs-12 bgColor5 border3 p10 pLeft10">
-		<span class="f14 fW600">当前位置：</span>
-		<span class="fColor5 f14 fW600">平台授权 <span style="font-family:simsun" class="fColor4">&gt;</span>速卖通授权</span>
-	</div>
+	<div class="container">
 
-	<div>
-		<div name="toolbar">
-			<button class="btn btn-md btn-primary">添加速卖通授权</button>
+		<div id="categoryNav" class="col-xs-12 bgColor5 border3 p10 pLeft10">
+			<span class="f14 fW600">当前位置：</span>
+			<span class="fColor5 f14 fW600">平台授权 <span style="font-family:simsun" class="fColor4">&gt;</span>速卖通授权</span>
 		</div>
 
-		<table id="shop-table" data-toggle="table" data-url="shop/list" data-id-field="id">
-			<thead>
-				<tr>
-					<th data-field="id" data-visible="false"></th>
-					<th data-field="type">电商平台</th>
-					<th data-field="name">店铺名称</th>
-					<th data-field="expireTime">密钥有效期</th>
-					<th data-field="authTime">密钥更新时间</th>
-					<th data-field="operation" data-formatter="operation_format" data-events="operation_shop">操作</th>
-				</tr>
-			</thead>
-		</table>
-	</div>
+		<div>
+			<div name="toolbar">
+				<button class="btn btn-md btn-primary">添加速卖通授权</button>
+			</div>
 
-	<div id="auth-modal" class="modal fade" tabindex="-1" style="display: none;">
-		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			<h4 class="modal-title">添加速卖通授权</h4>
+			<table id="shop-table" data-toggle="table" data-url="shop/list" data-id-field="id">
+				<thead>
+					<tr>
+						<th data-field="id" data-visible="false"></th>
+						<th data-field="type">电商平台</th>
+						<th data-field="name">店铺名称</th>
+						<th data-field="expireTime">密钥有效期</th>
+						<th data-field="authTime">密钥更新时间</th>
+						<th data-field="operation" data-formatter="operation_format" data-events="operation_shop">操作</th>
+					</tr>
+				</thead>
+			</table>
 		</div>
-		<div class="modal-body">
-			<span>店铺名称：<input type="input" placeholder="店铺名称" id="shop" autocomplete="off"></span>
-		</div>
-		<div class="modal-footer">
-			<button type="button" data-dismiss="modal" class="btn btn-default">关闭</button>
-			<button type="button" data-dismiss="modal" class="btn btn-primary">授权</button>
-		</div>
-	</div>
 
-	<div id="result-modal" class="modal fade" tabindex="-1" style="display: none;">
-		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			<h4 class="modal-title">授权结果</h4>
+		<div id="auth-modal" class="modal fade" tabindex="-1" style="display: none;">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title">添加速卖通授权</h4>
+			</div>
+			<div class="modal-body">
+				<span>店铺名称：<input type="input" placeholder="店铺名称" id="shop" autocomplete="off"></span>
+			</div>
+			<div class="modal-footer">
+				<button type="button" data-dismiss="modal" class="btn btn-default">关闭</button>
+				<button type="button" data-dismiss="modal" class="btn btn-primary">授权</button>
+			</div>
 		</div>
-		<div class="modal-body">
-			<div class="col-xs-12 text-center">
-				<div class="alert alert-warning" style="width: 399px;margin: 0 auto;padding: 5px 10px;">如果没有看到授权页，可能是浏览器拦截了弹窗
-				</div>
-				<div class="col-xs-12" style="padding-top:10px; padding-bottom:10px;">
-					<div class="col-xs-3 col-xs-offset-4">
-						<button type="button" class="btn btn-primary">授权成功</button>
+
+		<div id="result-modal" class="modal fade" tabindex="-1" style="display: none;">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title">授权结果</h4>
+			</div>
+			<div class="modal-body">
+				<div class="col-xs-12 text-center">
+					<div class="alert alert-warning" style="width: 399px;margin: 0 auto;padding: 5px 10px;">如果没有看到授权页，可能是浏览器拦截了弹窗
+					</div>
+					<div class="col-xs-12" style="padding-top:10px; padding-bottom:10px;">
+						<div class="col-xs-3 col-xs-offset-4">
+							<button type="button" class="btn btn-primary">授权成功</button>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 
-	<div id="edit-modal" class="modal fade" tabindex="-1" style="display: none;">
-		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			<h4 class="modal-title">修改店铺名称</h4>
-		</div>
-		<div class="modal-body">
-			<span>店铺名称：<input type="input" placeholder="店铺名称" autocomplete="off"></span>
-		</div>
-		<div class="modal-footer">
-			<button type="button" data-dismiss="modal" class="btn btn-default">取消</button>
-			<button type="button" data-dismiss="modal" class="btn btn-primary">确定</button>
+		<div id="edit-modal" class="modal fade" tabindex="-1" style="display: none;">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title">修改店铺名称</h4>
+			</div>
+			<div class="modal-body">
+				<span>店铺名称：<input type="input" placeholder="店铺名称" autocomplete="off"></span>
+			</div>
+			<div class="modal-footer">
+				<button type="button" data-dismiss="modal" class="btn btn-default">取消</button>
+				<button type="button" data-dismiss="modal" class="btn btn-primary">确定</button>
+			</div>
 		</div>
 	</div>
 

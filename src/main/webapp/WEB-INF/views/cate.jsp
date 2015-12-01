@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
 <html>
 <body>
 
-	<div>
+	<div class="container">
 		<div>
 			<h4>管理分组</h4>
 		</div>
@@ -15,6 +15,7 @@ pageEncoding="UTF-8"%>
 
 		<div id="treeview" class="treeview"></div>
 	</div>
+
 
 	<link href="<c:url value="/resources/webix/webix.css" />"
 	rel="stylesheet"  type="text/css" />
@@ -186,13 +187,13 @@ pageEncoding="UTF-8"%>
 			}
 		});
 
-		webix.UIManager.addHotKey("enter", function(view){
-			var pos = view.getSelectedId();
-			view.edit(pos);
-		}, grid);
+webix.UIManager.addHotKey("enter", function(view){
+	var pos = view.getSelectedId();
+	view.edit(pos);
+}, grid);
 
-	});
-	
-	</script>
+});
+
+</script>
 </body>
 </html>

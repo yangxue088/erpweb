@@ -20,9 +20,10 @@ pageEncoding="UTF-8"%>
   <script type="text/javascript" src="<c:url value="/resources/bootstrap/js/bootstrap.min.js" />"></script>
 
   <style type="text/css">
-      .webix_message_area{
-        padding-top: 50px;
-      }
+  .webix_message_area{
+    padding-top: 50px;
+  }
+
   </style>
 </head>
 
@@ -33,9 +34,7 @@ pageEncoding="UTF-8"%>
   <div class="wrapper">
     <div class="top_placeholder"></div>
 
-    <div class="container">
      <decorator:body />
-   </div>
 
    <div class="footer_placeholder"></div>
  </div>
