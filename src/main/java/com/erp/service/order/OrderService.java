@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.erp.dao.shop.TokenDao;
 import com.erp.service.aliexpress.AliExpressService;
+import com.erp.service.aliexpress.SimpleOrderItemVO;
+import com.erp.service.aliexpress.SimpleOrderListVO;
 import com.erp.service.shop.Shop;
 import com.erp.service.shop.ShopService;
 
@@ -15,22 +17,25 @@ public class OrderService {
 
 	@Autowired
 	private ShopService shopService;
-	
+
 	@Autowired
 	private AliExpressService aliExpressService;
-	
+
 	@Autowired
 	private TokenDao tokenDao;
-	
-	public String sync(){
+
+	public String sync() {
 		List<Shop> shops = shopService.listShop();
-		for(Shop shop : shops){
+		for (Shop shop : shops) {
 			int tokenId = shop.getTokenId();
-			if(Shop.TYPE_ALIEXPRESS.equals(shop.getType())){
-				aliExpressService.findOrderListSimpleQuery(tokenId);
+			if (Shop.TYPE_ALIEXPRESS.equals(shop.getType())) {
+				SimpleOrderListVO simpleOrderListVO = aliExpressService.findOrderListSimpleQuery(tokenId);
+				for (SimpleOrderItemVO simpleOrderItemVO : simpleOrderListVO.getOrderList()) {
+					System.out.println(simpleOrderItemVO);
+				}
 			}
 		}
-		
+
 		return "";
 	}
 }

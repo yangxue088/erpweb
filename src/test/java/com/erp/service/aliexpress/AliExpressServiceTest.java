@@ -18,9 +18,24 @@ public class AliExpressServiceTest {
 	@Autowired
 	private AliExpressService aliExpressService;
 
+	private int tokenId = 3;
+
 	@Test
 	public void testFindOrderListSimpleQuery() {
-		aliExpressService.findOrderListSimpleQuery(1);
+		SimpleOrderListVO simpleOrderListVO = aliExpressService.findOrderListSimpleQuery(tokenId);
+		for (SimpleOrderItemVO simpleOrderItemVO : simpleOrderListVO.getOrderList()) {
+			long orderId = simpleOrderItemVO.getOrderId();
+			
+			OrderTradeInfo orderTradeInfo = aliExpressService.findOrderTradeInfo(tokenId, orderId);
+			System.out.println(orderTradeInfo);
+			
+			TpOpenAddressDTO tpOpenAddressDTO = aliExpressService.findOrderReceiptInfo(tokenId, orderId);
+			System.out.println(tpOpenAddressDTO);
+			
+			OrderBaseInfo orderBaseInfo = aliExpressService.findOrderBaseInfo(tokenId, orderId);
+			System.out.println(orderBaseInfo);
+		}
+
 	}
 
 }

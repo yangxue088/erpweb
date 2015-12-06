@@ -22,17 +22,17 @@ public class TokenDao {
 	private SimpleDateFormat easysdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	public Integer createAliToken(String aliId, String resource_owner, String access_token, String expires_in, String refresh_token, String refresh_token_timeout) {
-		jdbcTemplate.update("insert into token_alibaba(ali_id, resource_owner, refresh_token, refresh_token_timeout, access_token, expires_in, create_time, update_time) values(?,?,?,?,?,?,null,null)", aliId, resource_owner, refresh_token, refresh_token_timeout, access_token, expires_in);
+		jdbcTemplate.update("insert into alibaba_token(ali_id, resource_owner, refresh_token, refresh_token_timeout, access_token, expires_in, create_time, update_time) values(?,?,?,?,?,?,null,null)", aliId, resource_owner, refresh_token, refresh_token_timeout, access_token, expires_in);
 
-		return jdbcTemplate.queryForObject("select id from token_alibaba where ali_id=?", new Object[] { aliId }, Integer.class);
+		return jdbcTemplate.queryForObject("select id from alibaba_token where ali_id=?", new Object[] { aliId }, Integer.class);
 	}
 
 	public void updateAliToken(int tokenId, AliToken aliToken) {
-		jdbcTemplate.update("update token_alibaba set ali_id=?, resource_owner=?, refresh_token=?, refresh_token_timeout=?, access_token=?, expires_in=? where id=?", new AliTokenSetter(aliToken));
+		jdbcTemplate.update("update alibaba_token set ali_id=?, resource_owner=?, refresh_token=?, refresh_token_timeout=?, access_token=?, expires_in=? where id=?", new AliTokenSetter(aliToken));
 	}
 
 	public AliToken getAliToken(int id) {
-		return jdbcTemplate.queryForObject("select * from token_alibaba where id=?", new Object[] { id }, new AliTokenMapper());
+		return jdbcTemplate.queryForObject("select * from alibaba_token where id=?", new Object[] { id }, new AliTokenMapper());
 	}
 
 	private class AliTokenSetter implements PreparedStatementSetter {

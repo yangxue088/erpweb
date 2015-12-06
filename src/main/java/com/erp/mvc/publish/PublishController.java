@@ -30,7 +30,7 @@ import com.erp.service.publish.JsonMenu;
 import com.erp.service.publish.Product;
 import com.erp.service.publish.PubService;
 import com.erp.util.FileUtil;
-import com.erp.util.JSONUtil;
+import com.erp.util.JsonUtil;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -187,9 +187,9 @@ public class PublishController {
 
 		modelAndView.addObject("productId", productid);
 		modelAndView.addObject("product", product.getJson());
-		modelAndView.addObject("imgids", JSONUtil.tojson(imgids));
-		modelAndView.addObject("imgsrcs", JSONUtil.tojson(imgsrcs));
-		modelAndView.addObject("stocks", JSONUtil.tojson(stocks));
+		modelAndView.addObject("imgids", JsonUtil.toJson(imgids));
+		modelAndView.addObject("imgsrcs", JsonUtil.toJson(imgsrcs));
+		modelAndView.addObject("stocks", JsonUtil.toJson(stocks));
 
 		return modelAndView;
 	}

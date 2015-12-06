@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.erp.dao.shop.ShopDao;
 import com.erp.dao.shop.TokenDao;
 import com.erp.service.shop.Shop;
+import com.erp.util.JsonUtil;
 
 @Service
 public class AliExpressService {
@@ -63,22 +64,6 @@ public class AliExpressService {
 		return true;
 	}
 
-	public void findOrderListQuery(int tokenId) {
-		String method = "api.findOrderListQuery";
-		Object[] params = new Object[] { "page", 1, "pageSize", 10 };
-
-		String json = invokeApi(tokenId, method, params);
-		System.out.println(json);
-	}
-	
-	public void findOrderListSimpleQuery(int tokenId) {
-		String method = "api.findOrderListSimpleQuery";
-		Object[] params = new Object[] { "page", 1, "pageSize", 10 };
-
-		String json = invokeApi(tokenId, method, params);
-		System.out.println(json);
-	}
-
 	private String invokeApi(int tokenId, String method, Object... params) {
 		AliToken token = tokenDao.getAliToken(tokenId);
 		String accessToken = token.getAccessToken();
@@ -104,6 +89,46 @@ public class AliExpressService {
 		}
 
 		return json;
+	}
+
+	public SimpleOrderListVO findOrderListSimpleQuery(int tokenId) {
+		String method = "api.findOrderListSimpleQuery";
+		Object[] params = new Object[] { "page", 1, "pageSize", 10 };
+
+		String json = invokeApi(tokenId, method, params);
+
+		SimpleOrderListVO simpleOrderListVO = JsonUtil.readJson(json, SimpleOrderListVO.class);
+		return simpleOrderListVO;
+	}
+
+	public OrderTradeInfo findOrderTradeInfo(int tokenId, long orderId) {
+		String method = "api.findOrderTradeInfo";
+		Object[] params = new Object[] { "orderId", orderId };
+
+		String json = invokeApi(tokenId, method, params);
+
+		OrderTradeInfo orderTradeInfo = JsonUtil.readJson(json, OrderTradeInfo.class);
+		return orderTradeInfo;
+	}
+
+	public TpOpenAddressDTO findOrderReceiptInfo(int tokenId, long orderId) {
+		String method = "api.findOrderReceiptInfo";
+		Object[] params = new Object[] { "orderId", orderId };
+
+		String json = invokeApi(tokenId, method, params);
+
+		TpOpenAddressDTO tpOpenAddressDTO = JsonUtil.readJson(json, TpOpenAddressDTO.class);
+		return tpOpenAddressDTO;
+	}
+
+	public OrderBaseInfo findOrderBaseInfo(int tokenId, long orderId) {
+		String method = "api.findOrderBaseInfo";
+		Object[] params = new Object[] { "orderId", orderId };
+
+		String json = invokeApi(tokenId, method, params);
+
+		OrderBaseInfo orderBaseInfo = JsonUtil.readJson(json, OrderBaseInfo.class);
+		return orderBaseInfo;
 	}
 
 }
