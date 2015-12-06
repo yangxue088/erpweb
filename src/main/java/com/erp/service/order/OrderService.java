@@ -27,7 +27,7 @@ public class OrderService {
 		for(Shop shop : shops){
 			int tokenId = shop.getTokenId();
 			if(Shop.TYPE_ALIEXPRESS.equals(shop.getType())){
-				aliExpressService.findOrderListQuery(tokenId);
+				aliExpressService.findOrderListSimpleQuery(tokenId);
 			}
 		}
 		

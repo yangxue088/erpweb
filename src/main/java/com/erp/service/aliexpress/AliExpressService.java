@@ -68,7 +68,14 @@ public class AliExpressService {
 		Object[] params = new Object[] { "page", 1, "pageSize", 10 };
 
 		String json = invokeApi(tokenId, method, params);
-		
+		System.out.println(json);
+	}
+	
+	public void findOrderListSimpleQuery(int tokenId) {
+		String method = "api.findOrderListSimpleQuery";
+		Object[] params = new Object[] { "page", 1, "pageSize", 10 };
+
+		String json = invokeApi(tokenId, method, params);
 		System.out.println(json);
 	}
 

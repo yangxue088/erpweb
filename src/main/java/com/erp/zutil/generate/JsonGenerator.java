@@ -1,4 +1,4 @@
-package com.erp.service.publish.json.generate;
+package com.erp.zutil.generate;
 
 import java.io.File;
 import java.io.FileOutputStream;
