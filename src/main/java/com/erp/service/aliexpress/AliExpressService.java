@@ -91,12 +91,11 @@ public class AliExpressService {
 		return json;
 	}
 
-	public SimpleOrderListVO findOrderListSimpleQuery(int tokenId) {
+	public SimpleOrderListVO findOrderListSimpleQuery(int tokenId, int page, int pageSize, String createDateStart, String createDateEnd) {
 		String method = "api.findOrderListSimpleQuery";
-		Object[] params = new Object[] { "page", 1, "pageSize", 10 };
+		Object[] params = new Object[] { "page", page, "pageSize", pageSize, "createDateStart", createDateStart, "createDateStart", createDateStart };
 
 		String json = invokeApi(tokenId, method, params);
-
 		SimpleOrderListVO simpleOrderListVO = JsonUtil.readJson(json, SimpleOrderListVO.class);
 		return simpleOrderListVO;
 	}
