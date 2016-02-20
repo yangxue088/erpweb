@@ -4,6 +4,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,7 +46,7 @@ public class OrderService {
 			if (Shop.TYPE_ALIEXPRESS.equals(shop.getType())) {
 				String lastGmtCreate = orderDao.getAliLastGmtCreate(tokenId);
 
-				String createDateStart = lastGmtCreate;
+				String createDateStart = getCreateDateStart(lastGmtCreate);
 				String createDateEnd = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(new Date());
 
 				int page = 1;
@@ -51,6 +55,11 @@ public class OrderService {
 				int lenth = 0;
 				do {
 					SimpleOrderListVO simpleOrderListVO = aliExpressService.findOrderListSimpleQuery(tokenId, page, pageSize, createDateStart, createDateEnd);
+
+					if (simpleOrderListVO.getOrderList() == null) {
+						break;
+					}
+
 					for (SimpleOrderItemVO simpleOrderItemVO : simpleOrderListVO.getOrderList()) {
 						orderDao.createAliOrder(tokenId, simpleOrderItemVO);
 
@@ -81,5 +90,15 @@ public class OrderService {
 		}
 
 		return "";
+	}
+
+	private String getCreateDateStart(String lastGmtCreate) {
+		if (StringUtils.isEmpty(lastGmtCreate)) {
+			return "";
+		}
+		
+		DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss");
+		DateTime dateTime = DateTime.parse(lastGmtCreate, dateTimeFormatter);
+		return dateTime.plusSeconds(1).toString(dateTimeFormatter);
 	}
 }

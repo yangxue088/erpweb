@@ -37,7 +37,7 @@ public class AliClient {
 	private String secret = "jVki3DaGtA";
 
 	public String getAuthUrl(String redirectUrl, String state) {
-		String data = sort(map("client_id", key, "site", "aliexpress", "redirect_uri", redirectUrl, "state", state));
+		String data = sort(map("client_id", key, "site", "aliexpress", "redirect_uri", redirectUrl, "state", state.replaceAll(" ", "%20")));
 		String _aop_signature = signature(data);
 		return String.format("http://authhz.alibaba.com/auth/authorize.htm?client_id=%s&site=aliexpress&redirect_uri=%s&state=%s&_aop_signature=%s", key, redirectUrl, state, _aop_signature);
 	}
@@ -119,11 +119,11 @@ public class AliClient {
 		String data = sort(map);
 		map.put("_aop_signature", signature(url_path + data));
 
-		String url = String.format("http://gw.api.alibaba.com/openapi/%s?%s", url_path, join(map));
-
-		HttpPost httpPost = new HttpPost(url);
 		CloseableHttpResponse response = null;
 		try {
+			String url = String.format("http://gw.api.alibaba.com/openapi/%s?%s", url_path, join(map).replaceAll(" ", "%20"));
+
+			HttpPost httpPost = new HttpPost(url);
 			response = httpClient.execute(httpPost);
 
 			HttpEntity entity = response.getEntity();

@@ -93,7 +93,7 @@ public class AliExpressService {
 
 	public SimpleOrderListVO findOrderListSimpleQuery(int tokenId, int page, int pageSize, String createDateStart, String createDateEnd) {
 		String method = "api.findOrderListSimpleQuery";
-		Object[] params = new Object[] { "page", page, "pageSize", pageSize, "createDateStart", createDateStart, "createDateStart", createDateStart };
+		Object[] params = new Object[] { "page", page, "pageSize", pageSize, "createDateStart", createDateStart, "createDateEnd", createDateEnd };
 
 		String json = invokeApi(tokenId, method, params);
 		SimpleOrderListVO simpleOrderListVO = JsonUtil.readJson(json, SimpleOrderListVO.class);
