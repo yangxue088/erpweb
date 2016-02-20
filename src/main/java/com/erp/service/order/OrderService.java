@@ -1,6 +1,7 @@
 package com.erp.service.order;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -100,5 +101,9 @@ public class OrderService {
 		DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss");
 		DateTime dateTime = DateTime.parse(lastGmtCreate, dateTimeFormatter);
 		return dateTime.plusSeconds(1).toString(dateTimeFormatter);
+	}
+	
+	public List<OrderVo> listOrders(){
+		return orderDao.listOrders();
 	}
 }

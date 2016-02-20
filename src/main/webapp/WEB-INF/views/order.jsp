@@ -81,14 +81,14 @@ pageEncoding="UTF-8"%>
 					<button class="btn btn-md btn-primary pull-right">同步订单</button>
 				</div>
 
-				<table id="shop-table" data-toggle="table" data-url="shop/list" data-id-field="id">
+				<table id="order-table" data-toggle="table" data-url="order/list" data-id-field="id">
 					<thead>
 						<tr>
-							<th data-field="id" data-visible="false"></th>
-							<th data-field="type">电商平台</th>
-							<th data-field="name">店铺名称</th>
-							<th data-field="expireTime">密钥有效期</th>
-							<th data-field="authTime">密钥更新时间</th>
+							<th data-field="skuVos" data-formatter="product_format">商品信息</th>
+							<th data-field="totalPrice" data-formatter="price_format">订单金额</th>
+							<th data-field="receipt" data-formatter="receipt_format">收件人「国家」</th>
+							<th data-field="orderNO">订单号</th>
+							<th data-field="time" data-formatter="time_format">时间</th>
 							<th data-field="operation" data-formatter="operation_format" data-events="operation_shop">操作</th>
 						</tr>
 					</thead>
@@ -107,6 +107,27 @@ pageEncoding="UTF-8"%>
 		$.post("order/sync", {}, function(result){
 			alert(result);
 		});
+	}
+	
+	function product_format(value, row, index){
+		var str = '<table><tbody>';
+		$.each(row['skuVos'], function(i, skuVo){
+			str += '<tr>' + '<td>' + skuVo['productSku'] + ' ' +skuVo['productNum'] + '*' + skuVo['unitPrice'] + ' ' + skuVo['unitPriceCur'] + '</td>' +'</tr>';
+		});
+		str += '</tbody></table>';
+		return str;
+	}
+	
+	function price_format(value, row, index){
+		return value + ' ' + row['priceCur'];
+	}
+	
+	function receipt_format(value, row, index){
+		return row['receipt'] + '「' + row['country']+ '」';
+	}
+	
+	function time_format(value, row, index){
+		return '下单：' + row['orderTime'].substring(0, 16);
 	}
 
 	</script>

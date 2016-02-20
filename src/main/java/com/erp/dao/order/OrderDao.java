@@ -1,14 +1,21 @@
 package com.erp.dao.order;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementSetter;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
@@ -18,6 +25,8 @@ import com.erp.service.aliexpress.OrderTradeInfo;
 import com.erp.service.aliexpress.SimpleOrderItemVO;
 import com.erp.service.aliexpress.SimpleOrderProductVO;
 import com.erp.service.aliexpress.TpOpenAddressDTO;
+import com.erp.service.order.OrderVo;
+import com.erp.service.order.SkuVo;
 
 @Repository
 public class OrderDao {
@@ -233,7 +242,31 @@ public class OrderDao {
 				e.printStackTrace();
 			}
 		}
+	}
 
+	public List<OrderVo> listOrders() {
+		final Map<String, OrderVo> map = new LinkedHashMap<String, OrderVo>();
+
+		String orderId = "70092327486331";
+		SqlRowSet rs = jdbcTemplate.queryForRowSet("select * from (select orderId, gmtCreate, orderStatus from alibaba_order where orderId = ?) a, (select orderAmount, orderAmountCur from alibaba_order_trade where orderId = ?) b, (select contactPerson, c.cnname as country from alibaba_order_receipt aor join country c on aor.country = c.code where orderId = ?) c, (select skuCode, productCount, productUnitPrice, productUnitPriceCur from alibaba_order_product where orderId = ?) d", new Object[] { orderId, orderId, orderId, orderId });
+		while (rs.next()) {
+			if (!map.containsKey(orderId)) {
+				OrderVo orderVo = new OrderVo();
+				orderVo.setOrderNO(orderId);
+				orderVo.setOrderTime(rs.getString("gmtCreate"));
+				orderVo.setOrderStatus(rs.getString("orderStatus"));
+				orderVo.setTotalPrice(rs.getString("orderAmount"));
+				orderVo.setPriceCur(rs.getString("orderAmountCur"));
+				orderVo.setReceipt(rs.getString("contactPerson"));
+				orderVo.setCountry(rs.getString("country"));
+				map.put(orderId, orderVo);
+			}
+
+			OrderVo orderVo = map.get(orderId);
+			orderVo.addSkuVo(new SkuVo(rs.getString("skuCode"), rs.getString("productCount"), rs.getString("productUnitPrice"), rs.getString("productUnitPriceCur")));
+		}
+
+		return new ArrayList<OrderVo>(map.values());
 	}
 
 }
